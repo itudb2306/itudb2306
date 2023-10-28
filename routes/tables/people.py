@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from database import db
+from database import db, Query
 
 """
 ATTENTION:
@@ -10,10 +10,10 @@ table_people_blueprint = Blueprint('people', __name__)
 
 @table_people_blueprint.route('/people')
 def view_table():
-    query = "SELECT * FROM people LIMIT 10" #TODO: Pagination
-    cursor = db.cursor
-    cursor.execute(query)
-    result = cursor.fetchall()
+    query = Query().SELECT('*').FROM('people').LIMIT(10, 10).BUILD()
+    print(query)
+    result = db.fetchall(query)
+
     data_recordings = []
     for row in result:
         data_recordings.append({'name_first': row[13],
