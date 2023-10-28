@@ -15,4 +15,6 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_NAME = os.getenv("DB_NAME")
 
 
+# Tables
 TABLES_PREFIX = "/tables"
+RECORDS_PER_PAGE = 20
