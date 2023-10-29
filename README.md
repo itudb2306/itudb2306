@@ -1,5 +1,14 @@
 # database_project
 
+## Python Virtual Environment Packages
+```
+flask
+mysql-connector-python
+mysql-connector-python-rf
+python-dotenv
+```
+
+
 ## Environment Variables
 Create a .env file in the root directory and add the following variables:
 
