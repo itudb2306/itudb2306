@@ -12,7 +12,6 @@ class Database:
         )
         self.cursor = self.db.cursor()
 
-    
     def fetchone(self, query):
         self.cursor.execute(query)
         return self.cursor.fetchone()
@@ -31,23 +30,25 @@ class Query:
         self._FROM = ''
         self._WHERE = ''
         self._LIKE = ''
+        self._ORDER_BY = ''
         self._LIMIT = ''
-        
+
     def _create_statements(self):
-        self.statements = [self._SELECT, self._FROM, self._WHERE, self._LIKE, self._LIMIT]
+        self.statements = [self._SELECT, self._FROM,
+                           self._WHERE, self._LIKE, self._ORDER_BY, self._LIMIT]
 
     def SELECT(self, selection):
         if selection == '':
             return self
-        
+
         self._SELECT += ', ' if self._SELECT != '' else 'SELECT '
         self._SELECT += selection
         return self
-    
+
     def FROM(self, table_name):
         if table_name == '':
             return self
-        
+
         self._FROM += ', ' if self._FROM != '' else 'FROM '
         self._FROM += table_name
         return self
@@ -55,26 +56,34 @@ class Query:
     def WHERE(self, statement):
         if statement == '':
             return self
-        
+
         self._WHERE += 'AND ' if self._WHERE != '' else 'WHERE '
         self._WHERE += statement
         return self
-    
+
     def LIKE(self, statement):
         if statement == '':
             return self
-        
+
         self._LIKE += 'AND ' if self._LIKE != '' else 'LIKE '
         self._LIKE += statement
         return self
-    
+
+    def ORDER_BY(self, statement):
+        if statement == '':
+            return self
+
+        self._ORDER_BY += 'AND ' if self._ORDER_BY != '' else 'ORDER BY '
+        self._ORDER_BY += statement
+        return self
+
     def LIMIT(self, start, total):
         if start == '':
             return self
-        
+
         self._LIMIT += 'LIMIT %s, %s' % (start, total)
         return self
-    
+
     def BUILD(self):
         self._create_statements()
         query = ' '.join(self.statements)
