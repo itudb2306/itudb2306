@@ -43,8 +43,8 @@ def view_table():
         city,
         parkname;
     """
-    state_m = 'case when isnull(state) then \"\" else state end as state_m,'
-    aka = 'case when isnull(parkalias) then \"\" else parkalias end as aka '
+    state_m = 'case when isnull(state) then \"\" else state end as state_m'
+    aka = 'case when isnull(parkalias) then \"\" else parkalias end as aka'
     query = Query().SELECT('parkname, city, %s, country, %s' % (state_m, aka)).FROM(
         'parks').ORDER_BY('country desc, state, city, parkname').LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
     print(query)
@@ -52,29 +52,10 @@ def view_table():
 
     # Query building for total pages
     """
-    select count(*) from (
-        select 
-            parkname, 
-            city, 
-            case 
-                when isnull(state) then "" 
-                else state 
-                end as state_m, 
-            country, 
-            case 
-                when isnull(parkalias) then "" 
-                else parkalias 
-                end as aka 
-        from parks 
-        order by 
-            country desc, 
-            state, 
-            city,
-            parkname
-        ) as table_1;
+    select count(*) 
+    from parks;
     """
-    total_pages_query = Query().SELECT('COUNT(*)').FROM('(%s) as table1' %
-                                                        query.removesuffix(';')).BUILD()
+    total_pages_query = Query().SELECT('COUNT(*)').FROM('parks').BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     print(total_pages_query)
@@ -87,4 +68,4 @@ def view_table():
                                 'country': row[3],
                                 'alias': row[4]})
 
-    return render_template('table_divisions.html', data_list=data_recordings, current_page=page, total_pages=total_pages)
+    return render_template('table_parks.html', data_list=data_recordings, current_page=page, total_pages=total_pages)

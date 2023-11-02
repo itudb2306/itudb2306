@@ -35,7 +35,7 @@ class Query:
 
     def _create_statements(self):
         self.statements = [self._SELECT, self._FROM,
-                           self._WHERE, self._LIKE, self._LIMIT]
+                           self._WHERE, self._LIKE, self._ORDER_BY, self._LIMIT]
 
     def SELECT(self, selection):
         if selection == '':

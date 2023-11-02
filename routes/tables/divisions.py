@@ -40,19 +40,12 @@ def view_table():
 
     # Query building for total pages
     """
-    select count(*) from (
-        select 
-            l.league,
-            l.active as lgActive,
-            d.division, 
-            d.active as divActive 
-        from divisions d, leagues l
-        where
-            d.lgID=l.lgID
-        ) as table_1;
+    select count(*) 
+    from divisions d, leagues l
+    where d.lgID=l.lgID;
     """
-    total_pages_query = Query().SELECT('COUNT(*)').FROM('(%s) as table1' %
-                                                        query.removesuffix(';')).BUILD()
+    total_pages_query = Query().SELECT('COUNT(*)').FROM(
+        'divisions d, leagues l').WHERE('d.lgID=l.lgID').BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     print(total_pages_query)

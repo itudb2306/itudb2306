@@ -5,6 +5,7 @@ from routes.index import index_blueprint
 from routes.tables.people import table_people_blueprint
 from routes.tables.fielding import table_fielding_blueprint
 from routes.tables.divisions import table_divisions_blueprint
+from routes.tables.parks import table_parks_blueprint
 
 app = Flask(__name__)
 
@@ -12,6 +13,7 @@ app.register_blueprint(index_blueprint, url_prefix='/')
 app.register_blueprint(table_people_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_fielding_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_divisions_blueprint, url_prefix=TABLES_PREFIX)
+app.register_blueprint(table_parks_blueprint, url_prefix=TABLES_PREFIX)
 
 """
 @app.route("/")
