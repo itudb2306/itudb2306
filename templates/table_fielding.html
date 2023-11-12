@@ -14,17 +14,16 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Player ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Team Name</th>
                 <th scope="col">Year ID</th>
                 <th scope="col">Stint</th>
-                <th scope="col">Team ID</th>
-                <th scope="col">Team ID</th>
                 <th scope="col">League ID</th>
                 <th scope="col">Position</th>
                 <th scope="col">Games</th>
                 <th scope="col">Games Started</th>
-                <th scope="col">InnOuts</th>
+                <th scope="col">Innings/Outs</th>
                 <th scope="col">Putouts (PO)</th>
                 <th scope="col">Assists (A)</th>
                 <th scope="col">Errors (E)</th>
@@ -34,17 +33,18 @@
                 <th scope="col">Stolen Bases (SB)</th>
                 <th scope="col">Caught Stealing (CS)</th>
                 <th scope="col">Zone Rating (ZR)</th>
+
+
             </tr>
         </thead>
         <tbody>
             {% for data in data_list %}
             <tr>
-                <td>{{ data['ID'] }}</td>
-                <td>{{ data['playerID'] }}</td>
+                <td>{{ data['FirstName'] }}</td>
+                <td>{{ data['LastName'] }}</td>
+                <td>{{ data['TeamName'] }}</td>
                 <td>{{ data['yearID'] }}</td>
                 <td>{{ data['stint'] }}</td>
-                <td>{{ data['teamID'] }}</td>
-                <td>{{ data['team_ID'] }}</td>
                 <td>{{ data['lgID'] }}</td>
                 <td>{{ data['POS'] }}</td>
                 <td>{{ data['G'] }}</td>
@@ -59,6 +59,7 @@
                 <td>{{ data['SB'] }}</td>
                 <td>{{ data['CS'] }}</td>
                 <td>{{ data['ZR'] }}</td>
+
             </tr>
             {% endfor %}
         </tbody>
@@ -74,12 +75,12 @@
                 </li>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=1) }}" aria-label="First">
+                    <a class="page-link" href="{{ url_for('fielding.view_table', p=1) }}" aria-label="First">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">First</span>
                     </a>
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=current_page-1) }}" aria-label="Previous">
+                    <a class="page-link" href="{{ url_for('fielding.view_table', p=current_page-1) }}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                     </a>
@@ -87,7 +88,7 @@
             {% endif %}
             {% for page_num in range(current_page-5, current_page) %}
                 {% if page_num > 0 %}
-                    <li class="page-item"><a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=page_num) }}">{{ page_num }}</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ url_for('fielding.view_table', p=page_num) }}">{{ page_num }}</a></li>
                 {% endif %}
             {% endfor %}
             <li class="page-item active">
@@ -97,7 +98,7 @@
             </li>
             {% for page_num in range(current_page+1, current_page+6) %}
                 {% if page_num <= total_pages %}
-                    <li class="page-item"><a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=page_num) }}">{{ page_num }}</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ url_for('fielding.view_table', p=page_num) }}">{{ page_num }}</a></li>
                 {% endif %}
             {% endfor %}
             {% if current_page == total_pages %}
@@ -108,13 +109,13 @@
                     <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Last</a>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=current_page+1) }}" aria-label="Next">
+                    <a class="page-link" href="{{ url_for('fielding.view_table', p=current_page+1) }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('fielding.view_fielding_table', p=total_pages) }}" aria-label="Last">
+                    <a class="page-link" href="{{ url_for('fielding.view_table', p=total_pages) }}" aria-label="Last">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Last</span>
                     </a>
