@@ -110,6 +110,13 @@ class Query:
         self._LIMIT += 'LIMIT %s, %s' % (start, total)
         return self
 
+    def JOIN(self, table_name, condition):
+        if table_name == '' or condition == '':
+            return self
+
+        self._FROM += 'JOIN %s ON %s ' % (table_name, condition)
+        return self
+
     def BUILD(self):
         self._create_statements()
         query = ' '.join(self.statements)
