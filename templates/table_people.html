@@ -9,6 +9,8 @@
     
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
+
     <h1>People Table</h1>
     <p><a href="{{ url_for('index.index') }}">Homepage</a></p>
     <table class="table table-hover">
@@ -23,6 +25,7 @@
                 <th scope="col">Height</th>
                 <th scope="col">Bats</th>
                 <th scope="col">Throws</th>
+                <th scope="col">Admin Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -37,7 +40,68 @@
                 <td>{{ data['height'] }}</td>
                 <td>{{ data['bats'] }}</td>
                 <td>{{ data['throws'] }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data['player_id']}}">Update</button>
+                </td>
             </tr>
+
+            <!-- Update Modal -->
+            <div class="modal fade" id="updateModal{{data['player_id']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="{{ url_for('people.update_record', player_id=data['player_id']) }}" method="POST">
+
+                        <input type="hidden" name="player_id" value="{{data['player_id']}}">
+                        <div class="mb-3">
+                          <label for="name_first" class="form-label">First Name</label>
+                          <input type="text" class="form-control" id="name_first" name="name_first" value="{{ data['name_first'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="name_last" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" id="name_last" name="name_last" value="{{ data['name_last'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="name_given" class="form-label">Given Name</label>
+                          <input type="text" class="form-control" id="name_given" name="name_given" value="{{ data['name_given'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="birth_date" class="form-label">Birth Date</label>
+                          <input type="text" class="form-control" id="birth_date" name="birth_date" value="{{ data['birth_date'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="birth_country" class="form-label">Birth Country</label>
+                          <input type="text" class="form-control" id="birth_country" name="birth_country" value="{{ data['birth_country'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="weight" class="form-label">Weight</label>
+                          <input type="text" class="form-control" id="weight" name="weight" value="{{ data['weight'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="height" class="form-label">Height</label>
+                          <input type="text" class="form-control" id="height" name="height" value="{{ data['height'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="bats" class="form-label">Bats</label>
+                          <input type="text" class="form-control" id="bats" name="bats" value="{{ data['bats'] }}">
+                        </div>
+                        <div class="mb-3">
+                          <label for="throws" class="form-label">Throws</label>
+                          <input type="text" class="form-control" id="throws" name="throws" value="{{ data['throws'] }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {% endfor %}
         </tbody>
     </table>
