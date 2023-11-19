@@ -43,7 +43,7 @@ def view_table():
                                 'bats': row[18],
                                 'throws': row[19]})
         
-    return render_template('table_people.html', data_list=data_recordings, current_page = page, total_pages = total_pages)
+    return render_template('table_people.html', data_list=data_recordings, current_page = page, total_pages = total_pages, search_val = "")
 
 
 @table_people_blueprint.route('/people/update/<string:player_id>', methods=['GET', 'POST'])
@@ -73,5 +73,41 @@ def update_record(player_id = None):
         db.execute(query)
 
         print('Record updated: ', player_id)
+
+    return redirect(url_for('people.view_table'))
+
+
+@table_people_blueprint.route('/people/search', methods=['GET', 'POST'])
+def search_records():
+    """
+    URL: /tables/people/search
+    """
+    
+    col = request.form.get('col', None)
+    val = request.form.get('val', None)
+
+    if request.method == 'POST' and col is not None and val is not None and col != '' and val != '':
+        # Query building
+        query = Query().SELECT('*').FROM('people').WHERE('%s LIKE \'%s\'' % (col, val)).LIMIT(0, RECORDS_PER_PAGE*2).BUILD()
+        print(query)
+        result = db.fetchall(query)
+
+
+        data_recordings = []
+        for row in result:
+            data_recordings.append({'player_id': row[0],
+                                    'name_first': row[13],
+                                    'name_last': row[14],
+                                    'name_given': row[15],
+                                    'birth_date': row[25],
+                                    'birth_country' : row[4],
+                                    'weight': row[16],
+                                    'height': row[17],
+                                    'bats': row[18],
+                                    'throws': row[19]})
+            
+        # TODO: Pagination for search results
+        return render_template('table_people.html', data_list=data_recordings, current_page = 1, total_pages = 1, search_val = val)
+        
 
     return redirect(url_for('people.view_table'))
