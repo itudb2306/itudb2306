@@ -1,19 +1,17 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
-
-TBLNM = 'parks'
 
 """
 ATTENTION:
     This route is not finished yet. It is just an initial template for the team to create the routes for the tables.
 """
 
-table_parks_blueprint = Blueprint(TBLNM, __name__)
+table_parks_blueprint = Blueprint('parks', __name__)
 
 
-@table_parks_blueprint.route('/%s' % TBLNM)
+@table_parks_blueprint.route('/parks')
 def view_table():
     """
     URL: /tables/parks?p=
@@ -35,7 +33,8 @@ def view_table():
         case 
             when isnull(parkalias) then "" 
             else parkalias 
-            end as aka 
+            end as aka, 
+        ID
     from parks 
     order by 
         country desc, 
@@ -45,7 +44,7 @@ def view_table():
     """
     state_m = 'case when isnull(state) then \"\" else state end as state_m'
     aka = 'case when isnull(parkalias) then \"\" else parkalias end as aka'
-    query = Query().SELECT('parkname, city, %s, country, %s' % (state_m, aka)).FROM(
+    query = Query().SELECT('parkname, city, %s, country, %s, ID' % (state_m, aka)).FROM(
         'parks').ORDER_BY('country desc, state, city, parkname').LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
     print(query)
     result = db.fetchall(query)
@@ -66,6 +65,34 @@ def view_table():
                                 'city': row[1],
                                 'state': row[2],
                                 'country': row[3],
-                                'alias': row[4]})
+                                'alias': row[4],
+                                'park_id': row[5]})
 
     return render_template('table_parks.html', data_list=data_recordings, current_page=page, total_pages=total_pages)
+
+
+@table_parks_blueprint.route('/%s/update/<string:park_id>', methods=['GET', 'POST'])
+def update_record(park_id=None):
+    """
+    URL: /tables/parks/update/<string:park_id>
+    """
+
+    if request.method == 'POST' and park_id is not None:
+        # Get form data
+        col_val_pairs = {
+            'parkname': request.form['parkname'],
+            'city': request.form['city'],
+            'state': request.form['state'],
+            'country': request.form['country'],
+            'parkalias': request.form['alias'],
+        }
+
+        # Query building
+        query = Query().UPDATE('parks').SET(col_val_pairs).WHERE(
+            'ID = \'%s\'' % park_id).BUILD()
+        print(query)
+        db.execute(query)
+
+        print('Record updated of park with id: ', park_id)
+
+    return redirect(url_for('parks.view_table'))
