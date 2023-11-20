@@ -19,6 +19,10 @@ class Database:
     def fetchall(self, query):
         self.cursor.execute(query)
         return self.cursor.fetchall()
+    
+    def execute(self, query):
+        self.cursor.execute(query)
+        self.db.commit()
 
 
 db = Database()
@@ -27,6 +31,8 @@ db = Database()
 class Query:
     def __init__(self):
         self._SELECT = ''
+        self._UPDATE = ''
+        self._SET = ''
         self._FROM = ''
         self._WHERE = ''
         self._LIKE = ''
@@ -34,7 +40,7 @@ class Query:
         self._LIMIT = ''
 
     def _create_statements(self):
-        self.statements = [self._SELECT, self._FROM,
+        self.statements = [self._SELECT, self._UPDATE, self._SET, self._FROM,
                            self._WHERE, self._LIKE, self._ORDER_BY, self._LIMIT]
 
     def SELECT(self, selection):
@@ -43,6 +49,26 @@ class Query:
 
         self._SELECT += ', ' if self._SELECT != '' else 'SELECT '
         self._SELECT += selection
+        return self
+    
+    def UPDATE(self, table_name = ''):
+        if table_name == '' or type(table_name) != str or self._UPDATE != '':
+            return self
+        
+        self._UPDATE += 'UPDATE '
+        self._UPDATE += table_name
+        return self
+
+    def SET(self, col_val_pairs = {}):
+        if col_val_pairs == {} or type(col_val_pairs) != dict:
+            return self
+        
+        self._SET += ', ' if self._SET != '' else 'SET '
+
+        set_query = '%s = \'%s\' , '
+        for col, val in col_val_pairs.items():
+            self._SET += set_query % (col, val)
+        self._SET = self._SET[:-2]
         return self
 
     def FROM(self, table_name):
@@ -82,6 +108,13 @@ class Query:
             return self
 
         self._LIMIT += 'LIMIT %s, %s' % (start, total)
+        return self
+
+    def JOIN(self, table_name, condition):
+        if table_name == '' or condition == '':
+            return self
+
+        self._FROM += 'JOIN %s ON %s ' % (table_name, condition)
         return self
 
     def BUILD(self):
