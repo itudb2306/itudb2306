@@ -28,7 +28,7 @@ def view_table():
     t.name AS TeamName,
     f.yearID,
     f.stint,
-    f.lgID,
+    l.league AS LeagueName,
     f.POS,
     f.G,
     f.GS,
@@ -47,15 +47,18 @@ def view_table():
     JOIN
         people p ON f.playerID = p.playerID
     JOIN
-        teams t ON f.team_id = t.id;
+        teams t ON f.team_id = t.id
+    JOIN
+        leagues l ON f.lgID = l.lgID;
     """
 
     # self._FROM += 'JOIN %s ON %s' % (table_name, condition)
 
-    query = Query().SELECT('p.nameFirst AS FirstName, p.nameLast AS LastName, t.name AS TeamName, f.playerID, f.yearID, f.stint, f.teamID, f.team_ID, f.lgID, f.POS, f.G, f.GS, f.InnOuts, f.PO, f.A, f.E, f.DP, f.PB, f.WP, f.SB, f.CS, f.ZR'
+    query = Query().SELECT('p.nameFirst AS FirstName, p.nameLast AS LastName, t.name AS TeamName, f.yearID, f.stint, l.league AS LeagueName, f.POS, f.G, f.GS, f.InnOuts, f.PO, f.A, f.E, f.DP, f.PB, f.WP, f.SB, f.CS, f.ZR'
     ).FROM('fielding f ' 
     ).JOIN('people p', 'f.playerID = p.playerID'
     ).JOIN('teams t', 'f.team_id = t.id'
+    ).JOIN('leagues l', 'f.lgID = l.lgID'
     ).LIMIT(first_record, RECORDS_PER_PAGE
     ).BUILD()
     
@@ -76,7 +79,7 @@ def view_table():
             'TeamName': row[2],
             'yearID': row[3],
             'stint': row[4],
-            'lgID': row[5],
+            'LeagueName': row[5],
             'POS': row[6],
             'G': row[7],
             'GS': row[8],
