@@ -1,0 +1,14 @@
+Progress of Emre Yiğit
+Student Number: 150210715
+
+- Week 5: Added a new route for the test page
+Test page is added as a new route into the app.py
+
+- Week 6: Add a new page for fielding table
+A seperate page for fielding table is created. The table in the database is shown in the table_fielding.html page which is reachable from the homepage using the corresponding link.
+
+- Week 7: Join added for the query constructor
+Join query is added to query constructor. Using the query constructor fielding table is joined with people and teams tables.
+
+- Week 8: Css added and fieldings table arranged. 
+Static folder created and applied some css features on fielding page.
