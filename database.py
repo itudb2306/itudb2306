@@ -19,10 +19,21 @@ class Database:
     def fetchall(self, query):
         self.cursor.execute(query)
         return self.cursor.fetchall()
-    
+
     def execute(self, query):
         self.cursor.execute(query)
         self.db.commit()
+
+    def checkTableExists(self, table_name: str) -> bool:
+        # placeholder is used for injection attacks
+        exists_query = """
+        select count(*) = 1 
+        from information_schema.tables 
+        where table_name = %s;
+        """
+        self.cursor.execute(exists_query, (table_name, ))
+        return_value = self.cursor.fetchone()[0]
+        return bool(return_value)
 
 
 db = Database()
@@ -50,19 +61,19 @@ class Query:
         self._SELECT += ', ' if self._SELECT != '' else 'SELECT '
         self._SELECT += selection
         return self
-    
-    def UPDATE(self, table_name = ''):
+
+    def UPDATE(self, table_name=''):
         if table_name == '' or type(table_name) != str or self._UPDATE != '':
             return self
-        
+
         self._UPDATE += 'UPDATE '
         self._UPDATE += table_name
         return self
 
-    def SET(self, col_val_pairs = {}):
+    def SET(self, col_val_pairs={}):
         if col_val_pairs == {} or type(col_val_pairs) != dict:
             return self
-        
+
         self._SET += ', ' if self._SET != '' else 'SET '
 
         set_query = '%s = \'%s\' , '
