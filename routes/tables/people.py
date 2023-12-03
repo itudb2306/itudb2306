@@ -3,7 +3,7 @@ from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.people.records import Records
-from models.tables.people.forms import UpdateForm, SearchForm
+from models.tables.people.forms import UpdateForm, SearchForm, FilterForm
 
 """
 ATTENTION:
@@ -36,7 +36,7 @@ def view_table():
     data.from_list(result)
     print("Records length: ", len(data.records))
         
-    return render_template('table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, search_val = "")
+    return render_template('table_people/table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, search_val = "")
 
 
 @table_people_blueprint.route('/people/update/<string:player_id>', methods=['GET', 'POST'])
@@ -86,6 +86,38 @@ def search_records():
         print("Records length: ", len(data.records))
             
         # TODO: Pagination for search results
-        return render_template('table_people.html', data_list=data.records, current_page = 1, total_pages = 1, search_val = col_val_pair['val'])
+        return render_template('table_people/table_people.html', data_list=data.records, current_page = 1, total_pages = 1, search_val = col_val_pair['val'])
 
+    return redirect(url_for('people.view_table'))
+
+
+@table_people_blueprint.route('/people/filter', methods=['GET', 'POST'])
+def filter_records():
+    """
+    URL: /tables/people/filter
+    """
+
+    """
+    Filtering(Advanced Search): Search by multiple columns
+    """
+    # Get form data
+    form = FilterForm().from_dict(request.form)
+
+    # Get column-value pairs to use in WHERE clause
+    col_val_string = form.to_and_string()
+
+    print("Filtering WHERE clause: ", col_val_string)
+
+    if request.method == 'POST' and col_val_string != '':
+        # Query building
+        query = Query().SELECT('*').FROM('people').WHERE(col_val_string).BUILD()
+        print(query)
+        result = db.fetchall(query)
+
+        data = Records()
+        data.from_list(result)
+        print("Records length: ", len(data.records))
+
+        return render_template('table_people/table_people.html', data_list=data.records, current_page = 1, total_pages = 1, search_val = "")
+    
     return redirect(url_for('people.view_table'))
