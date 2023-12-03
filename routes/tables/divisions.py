@@ -132,12 +132,6 @@ def search_records():
 
         leagues_list = getLeaguesList()
 
-        total_pages_query = Query().SELECT('COUNT(*)').FROM(
-            'divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
-        total_pages = db.fetchone(total_pages_query)[0]
-        total_pages = total_pages // RECORDS_PER_PAGE + 1
-        print(total_pages_query)
-
         data_recordings = []
         for row in result:
             data_recordings.append({'lgID': row[0],
@@ -148,6 +142,6 @@ def search_records():
                                     'divActive': row[5],
                                     'ID': row[6]})
 
-        return render_template('table_divisions.html', data_list=data_recordings, current_page=1, total_pages=total_pages, leagues_list=leagues_list)
+        return render_template('table_divisions.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list)
 
     return redirect(url_for('divisions.view_table'))
