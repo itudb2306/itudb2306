@@ -71,16 +71,23 @@ class Query:
         return self
 
     def SET(self, col_val_pairs={}):
-        if col_val_pairs == {} or type(col_val_pairs) != dict:
+        if not col_val_pairs or not isinstance(col_val_pairs, dict):
             return self
 
         self._SET += ', ' if self._SET != '' else 'SET '
 
-        set_query = '%s = \'%s\' , '
+        set_query = '%s = %s, '
+
         for col, val in col_val_pairs.items():
-            self._SET += set_query % (col, val)
+            if val is None or val == 'None' or val == '':
+                set_query_with_none = '%s = NULL, '
+                self._SET += set_query_with_none % col
+            else:
+                self._SET += set_query % (col, f"'{val}'")
+
         self._SET = self._SET[:-2]
         return self
+
 
     def FROM(self, table_name):
         if table_name == '':
