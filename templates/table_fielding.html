@@ -9,6 +9,8 @@
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
+
     <h1>Fielding Table</h1>
     <p><a href="{{ url_for('index.index') }}">Homepage</a></p>
     <table class="table table-hover">
@@ -33,8 +35,7 @@
                 <th scope="col">Stolen Bases (SB)</th>
                 <th scope="col">Caught Stealing (CS)</th>
                 <th scope="col">Zone Rating (ZR)</th>
-
-
+                <th scope="col">Admin Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -59,11 +60,97 @@
                 <td>{{ data['SB'] }}</td>
                 <td>{{ data['CS'] }}</td>
                 <td>{{ data['ZR'] }}</td>
-
+                <td>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}">Update</button>
+                </td>
             </tr>
+    
+            <!-- Update Modal -->
+            <div class="modal fade" id="updateModal{{data['ID']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('fielding.update_record', ID=data['ID']) }}" method="POST">
+    
+                                <input type="hidden" name="ID" value="{{data['ID']}}">
+                                <div class="mb-3">
+                                    <label for="yearID" class="form-label">Year ID</label>
+                                    <input type="text" class="form-control" id="yearID" name="yearID" value="{{ data['yearID'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stint" class="form-label">Stint</label>
+                                    <input type="text" class="form-control" id="stint" name="stint" value="{{ data['stint'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="POS" class="form-label">Position</label>
+                                    <input type="text" class="form-control" id="POS" name="POS" value="{{ data['POS'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="G" class="form-label">Games</label>
+                                    <input type="text" class="form-control" id="G" name="G" value="{{ data['G'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="GS" class="form-label">Games Started</label>
+                                    <input type="text" class="form-control" id="GS" name="GS" value="{{ data['GS'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="InnOuts" class="form-label">Innings/Outs</label>
+                                    <input type="text" class="form-control" id="InnOuts" name="InnOuts" value="{{ data['InnOuts'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PO" class="form-label">Putouts (PO)</label>
+                                    <input type="text" class="form-control" id="PO" name="PO" value="{{ data['PO'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="A" class="form-label">Assists (A)</label>
+                                    <input type="text" class="form-control" id="A" name="A" value="{{ data['A'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="E" class="form-label">Errors (E)</label>
+                                    <input type="text" class="form-control" id="E" name="E" value="{{ data['E'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="DP" class="form-label">Double Plays (DP)</label>
+                                    <input type="text" class="form-control" id="DP" name="DP" value="{{ data['DP'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PB" class="form-label">Passed Balls (PB)</label>
+                                    <input type="text" class="form-control" id="PB" name="PB" value="{{ data['PB'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="WP" class="form-label">Wild Pitches (WP)</label>
+                                    <input type="text" class="form-control" id="WP" name="WP" value="{{ data['WP'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="SB" class="form-label">Stolen Bases (SB)</label>
+                                    <input type="text" class="form-control" id="SB" name="SB" value="{{ data['SB'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="CS" class="form-label">Caught Stealing (CS)</label>
+                                    <input type="text" class="form-control" id="CS" name="CS" value="{{ data['CS'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ZR" class="form-label">Zone Rating (ZR)</label>
+                                    <input type="text" class="form-control" id="ZR" name="ZR" value="{{ data['ZR'] }}">
+                                </div>
+                            
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </tbody>
     </table>
+    
 
     <nav aria-label="Pagination">
         <ul class="pagination justify-content-center">
