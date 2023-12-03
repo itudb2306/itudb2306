@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
@@ -42,6 +42,7 @@ def view_table():
     f.SB,
     f.CS,
     f.ZR
+    f.ID
     FROM
         fielding f
     JOIN
@@ -54,7 +55,7 @@ def view_table():
 
     # self._FROM += 'JOIN %s ON %s' % (table_name, condition)
 
-    query = Query().SELECT('p.nameFirst AS FirstName, p.nameLast AS LastName, t.name AS TeamName, f.yearID, f.stint, l.league AS LeagueName, f.POS, f.G, f.GS, f.InnOuts, f.PO, f.A, f.E, f.DP, f.PB, f.WP, f.SB, f.CS, f.ZR'
+    query = Query().SELECT('p.nameFirst AS FirstName, p.nameLast AS LastName, t.name AS TeamName, f.yearID, f.stint, l.league AS LeagueName, f.POS, f.G, f.GS, f.InnOuts, f.PO, f.A, f.E, f.DP, f.PB, f.WP, f.SB, f.CS, f.ZR, f.ID'
     ).FROM('fielding f ' 
     ).JOIN('people p', 'f.playerID = p.playerID'
     ).JOIN('teams t', 'f.team_id = t.id'
@@ -92,7 +93,49 @@ def view_table():
             'WP': row[15],
             'SB': row[16],
             'CS': row[17],
-            'ZR': row[18]
+            'ZR': row[18],
+            'ID': row[19]
         })
 
     return render_template('table_fielding.html', data_list=data_recordings, current_page=page, total_pages=total_pages)
+
+
+@table_fielding_blueprint.route('/fielding/update/<string:ID>', methods=['GET', 'POST'])
+def update_record(ID=None):
+    """
+    URL: /tables/fielding/update/<string:ID>
+    """
+
+    if request.method == 'POST' and ID is not None:
+        try:
+             # Get form data
+            col_val_pairs = {
+            #'playerID': request.form['playerID'],
+            'yearID': request.form['yearID'],
+            'stint': request.form['stint'],
+            #'team_id': request.form['team_id'],
+            #'lgID': request.form['lgID'],
+            'POS': request.form['POS'],
+            'G': request.form['G'],
+            'GS': request.form['GS'],
+            'InnOuts': request.form['InnOuts'],
+            'PO': request.form['PO'],
+            'A': request.form['A'],
+            'E': request.form['E'],
+            'DP': request.form['DP'],
+            'PB': request.form['PB'],
+            'WP': request.form['WP'],
+            'SB': request.form['SB'],
+            'CS': request.form['CS'],
+            'ZR': request.form['ZR']
+        }
+            # Query building for table
+            query = Query().UPDATE('fielding').SET(col_val_pairs).WHERE('ID = %s' % ID).BUILD()
+            print(query)
+            db.execute(query)
+            print('Record updated successfully')
+        
+        except:    
+            print('Record update failed')
+            
+    return redirect(url_for('fielding.view_table'))
