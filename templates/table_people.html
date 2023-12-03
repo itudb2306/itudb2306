@@ -55,15 +55,15 @@
         <tbody>
             {% for data in data_list %}
             <tr>
-                <td>{{ data['name_first'] }}</td>
-                <td>{{ data['name_last'] }}</td>
-                <td>{{ data['name_given'] }}</td>
-                <td>{{ data['birth_date'] }}</td>
-                <td>{{ data['birth_country'] }}</td>
-                <td>{{ data['weight'] }}</td>
-                <td>{{ data['height'] }}</td>
-                <td>{{ data['bats'] }}</td>
-                <td>{{ data['throws'] }}</td>
+                <td>{{ data.name_first }}</td>
+                <td>{{ data.name_last }}</td>
+                <td>{{ data.name_given }}</td>
+                <td>{{ data.birth_date }}</td>
+                <td>{{ data.birth_country }}</td>
+                <td>{{ data.weight }}</td>
+                <td>{{ data.height }}</td>
+                <td>{{ data.bats }}</td>
+                <td>{{ data.throws }}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data['player_id']}}">Update</button>
                 </td>
