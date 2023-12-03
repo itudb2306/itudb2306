@@ -120,10 +120,9 @@ def search_records():
 
     checkDivisionsViewExists()
 
-    # Get the values from the form sent from webpage
+    # No sarch was done, searching from strach
     column = request.form.get('col', None)
     value = request.form.get('val', None)
-
     if request.method == 'POST' and column is not None and value is not None and column != '' and value != '':
         search_query = Query().SELECT(
             '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
@@ -142,6 +141,10 @@ def search_records():
                                     'divActive': row[5],
                                     'ID': row[6]})
 
-        return render_template('table_divisions.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list)
+        return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list, col=column, val=value)
+
+    if request.method == 'GET' and column is not None and value is not None and column != '' and value != '':
+        # TODO Pagination for search
+        1 == 1
 
     return redirect(url_for('divisions.view_table'))
