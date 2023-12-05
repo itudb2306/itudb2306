@@ -1,5 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
+import utility as utils
 
 
 class Database:
@@ -13,14 +14,17 @@ class Database:
         self.cursor = self.db.cursor()
 
     def fetchone(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
     def fetchall(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
     def execute(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         self.db.commit()
 

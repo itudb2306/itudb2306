@@ -98,7 +98,7 @@ def update_record(ID=None):
 
         # Query building
         query = Query().UPDATE('divisions').SET(col_val_pairs).WHERE(
-            'ID = %d' % ID).BUILD()
+            'ID = %d' % ID).LIMIT().BUILD()
         # UPDATE divisions SET lgID = 'AB', division = 'ABC', active = 'N' ... WHERE ID = 5
         print(query)
         try:
@@ -119,31 +119,35 @@ def search_records():
     """
 
     checkDivisionsViewExists()
+    
+    if request.method == 'POST':
+        # No sarch was done, searching from strach
+        column = request.form.get('col', None)
+        value = request.form.get('val', None)   
+        if column is not None and value is not None and column != '' and value != '':
+            search_query = Query().SELECT(
+                '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
+            print(search_query)
+            result = db.fetchall(search_query)
 
-    # No sarch was done, searching from strach
-    column = request.form.get('col', None)
-    value = request.form.get('val', None)
-    if request.method == 'POST' and column is not None and value is not None and column != '' and value != '':
-        search_query = Query().SELECT(
-            '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
-        print(search_query)
-        result = db.fetchall(search_query)
+            leagues_list = getLeaguesList()
 
-        leagues_list = getLeaguesList()
+            data_recordings = []
+            for row in result:
+                data_recordings.append({'lgID': row[0],
+                                        'league': row[1],
+                                        'lgActive': row[2],
+                                        'divID': row[3],
+                                        'division': row[4],
+                                        'divActive': row[5],
+                                        'ID': row[6]})
 
-        data_recordings = []
-        for row in result:
-            data_recordings.append({'lgID': row[0],
-                                    'league': row[1],
-                                    'lgActive': row[2],
-                                    'divID': row[3],
-                                    'division': row[4],
-                                    'divActive': row[5],
-                                    'ID': row[6]})
-
-        return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list, col=column, val=value)
+            return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list, col=column, val=value)
 
     if request.method == 'GET' and column is not None and value is not None and column != '' and value != '':
+        # Search was done, 
+        column = request.args.get('col', None)
+        value = request.args.get('val', None)
         # TODO Pagination for search
         1 == 1
 
