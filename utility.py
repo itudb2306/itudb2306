@@ -4,5 +4,5 @@ from datetime import datetime
 def logQuery(query:str):
     date_time = datetime.now().strftime("%d-%m-%Y, %H:%M:%S")
     with open("query_log.txt", "a") as log_file:
-        log_file.write("[%s] %s", (date_time, query))
+        log_file.write("[%s] %s\n" % (date_time, query))
 
