@@ -52,7 +52,6 @@ def view_table():
     # Divisions and leagues query
     query = Query().SELECT('*').FROM('divisions_leagues').LIMIT(first_record,
                                                                 RECORDS_PER_PAGE).BUILD()
-    print(query)
     result = db.fetchall(query)
 
     # Query building for total pages
@@ -64,7 +63,6 @@ def view_table():
         'divisions_leagues').BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
-    print(total_pages_query)
 
     leagues_list = getLeaguesList()
 
@@ -120,35 +118,42 @@ def search_records():
 
     checkDivisionsViewExists()
     
+    # Pagination
+    page = request.args.get('p', 1, type=int)
+    first_record = (page - 1) * RECORDS_PER_PAGE
+
     if request.method == 'POST':
         # No sarch was done, searching from strach
         column = request.form.get('col', None)
-        value = request.form.get('val', None)   
-        if column is not None and value is not None and column != '' and value != '':
-            search_query = Query().SELECT(
-                '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
-            print(search_query)
-            result = db.fetchall(search_query)
-
-            leagues_list = getLeaguesList()
-
-            data_recordings = []
-            for row in result:
-                data_recordings.append({'lgID': row[0],
-                                        'league': row[1],
-                                        'lgActive': row[2],
-                                        'divID': row[3],
-                                        'division': row[4],
-                                        'divActive': row[5],
-                                        'ID': row[6]})
-
-            return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=1, leagues_list=leagues_list, col=column, val=value)
-
-    if request.method == 'GET' and column is not None and value is not None and column != '' and value != '':
-        # Search was done, 
+        value = request.form.get('val', None)
+    elif request.method == 'GET':
+        # Search is done, sending the parameters as arguments
         column = request.args.get('col', None)
         value = request.args.get('val', None)
-        # TODO Pagination for search
-        1 == 1
+
+    if column is not None and value is not None and column != '' and value != '':
+        total_pages_query = Query().SELECT('COUNT(*)').FROM(
+        'divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
+        total_pages = db.fetchone(total_pages_query)[0]
+        total_pages = total_pages // RECORDS_PER_PAGE + 1
+
+        search_query = Query().SELECT(
+            '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).LIMIT(first_record,
+                                                                RECORDS_PER_PAGE).BUILD()
+        result = db.fetchall(search_query)
+
+        leagues_list = getLeaguesList()
+
+        data_recordings = []
+        for row in result:
+            data_recordings.append({'lgID': row[0],
+                                    'league': row[1],
+                                    'lgActive': row[2],
+                                    'divID': row[3],
+                                    'division': row[4],
+                                    'divActive': row[5],
+                                    'ID': row[6]})
+
+        return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=total_pages, leagues_list=leagues_list, col=column, val=value)
 
     return redirect(url_for('divisions.view_table'))
