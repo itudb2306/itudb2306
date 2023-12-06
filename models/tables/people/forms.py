@@ -74,26 +74,26 @@ class FilterForm:
     
     def to_and_string(self):
         and_string = ""
-        
+
         if self.nameFirst is not None and self.nameFirst != "":
-            and_string += " AND nameFirst = '%s'" % self.nameFirst
+            and_string += " AND nameFirst LIKE '%{}%'".format(self.nameFirst)
         if self.nameLast is not None and self.nameLast != "":
-            and_string += " AND nameLast = '%s'" % self.nameLast
+            and_string += " AND nameLast LIKE '%{}%'".format(self.nameLast)
         if self.nameGiven is not None and self.nameGiven != "":
-            and_string += " AND nameGiven = '%s'" % self.nameGiven
+            and_string += " AND nameGiven LIKE '%{}%'".format(self.nameGiven)
         if self.birth_date is not None and self.birth_date != "":
-            and_string += " AND birth_date = '%s'" % self.birth_date
+            and_string += " AND birth_date LIKE '%{}%'".format(self.birth_date)
         if self.birthCountry is not None and self.birthCountry != "":
-            and_string += " AND birthCountry = '%s'" % self.birthCountry
+            and_string += " AND birthCountry LIKE '%{}%'".format(self.birthCountry)
         if self.weight is not None and self.weight != "":
-            and_string += " AND weight = '%s'" % self.weight
+            and_string += " AND weight LIKE '%{}%'".format(self.weight)
         if self.height is not None and self.height != "":
-            and_string += " AND height = '%s'" % self.height
+            and_string += " AND height LIKE '%{}%'".format(self.height)
         if self.bats is not None and self.bats != "":
-            and_string += " AND bats = '%s'" % self.bats
+            and_string += " AND bats LIKE '%{}%'".format(self.bats)
         if self.throws is not None and self.throws != "":
-            and_string += " AND throws = '%s'" % self.throws
-        
+            and_string += " AND throws LIKE '%{}%'".format(self.throws)
+
         if and_string != "":
             and_string = and_string[5:]
 
