@@ -23,11 +23,11 @@
                 <div class="input-group">
                   <div class="dropdown-center">
                     <select class="form-select shadow-none" aria-label="col-dropdown" name="col">
-                      <option value="nameFirst">First Name</option>
-                      <option value="nameLast">Last Name</option>
-                      <option value="nameGiven">Given Name</option>
+                      <option value="name_first">First Name</option>
+                      <option value="name_last">Last Name</option>
+                      <option value="name_given">Given Name</option>
                       <option value="birth_date">Birth Date</option>
-                      <option value="birthCountry">Birth Country</option>
+                      <option value="birth_country">Birth Country</option>
                       <option value="weight">Weight</option>
                       <option value="height">Height</option>
                       <option value="bats">Bats</option>
@@ -88,7 +88,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form action="{{ url_for('people.update_record', player_id=data['player_id']) }}" method="POST">
+                      <form action="{{ url_for('people.update_record', player_id=data['player_id'], p=current_page, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}" method="POST">
 
                         <input type="hidden" name="player_id" value="{{data['player_id']}}">
                         <div class="mb-3">
@@ -150,12 +150,12 @@
                 </li>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('people.view_table', p=1) }}" aria-label="First">
+                    <a class="page-link" href="{{ url_for('people.view_table', p=1, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}" aria-label="First">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">First</span>
                     </a>
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('people.view_table', p=current_page-1) }}" aria-label="Previous">
+                    <a class="page-link" href="{{ url_for('people.view_table', p=current_page-1, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                     <span class="sr-only">Previous</span>
                     </a>
@@ -163,7 +163,7 @@
             {% endif %}
             {% for page_num in range(current_page-5, current_page) %}
                 {% if page_num > 0 %}
-                    <li class="page-item"><a class="page-link" href="{{ url_for('people.view_table', p=page_num) }}">{{ page_num }}</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ url_for('people.view_table', p=page_num, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}">{{ page_num }}</a></li>
                 {% endif %}
             {% endfor %}
             <li class="page-item active">
@@ -173,7 +173,7 @@
             </li>
             {% for page_num in range(current_page+1, current_page+6) %}
                 {% if page_num <= total_pages %}
-                    <li class="page-item"><a class="page-link" href="{{ url_for('people.view_table', p=page_num) }}">{{ page_num }}</a></li>
+                    <li class="page-item"><a class="page-link" href="{{ url_for('people.view_table', p=page_num, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}">{{ page_num }}</a></li>
                 {% endif %}
             {% endfor %}
             {% if current_page == total_pages %}
@@ -184,13 +184,13 @@
                     <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Last</a>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('people.view_table', p=current_page+1) }}" aria-label="Next">
+                    <a class="page-link" href="{{ url_for('people.view_table', p=current_page+1, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Next</span>
                     </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('people.view_table', p=total_pages) }}" aria-label="Last">
+                    <a class="page-link" href="{{ url_for('people.view_table', p=total_pages, name_first=name_first, name_last=name_last, name_given=name_given, birth_date=birth_date, birth_country=birth_country, weight=weight, height=height, bats=bats, throws=throws) }}" aria-label="Last">
                     <span aria-hidden="true">&raquo;</span>
                     <span class="sr-only">Last</span>
                     </a>

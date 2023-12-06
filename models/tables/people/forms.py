@@ -33,24 +33,8 @@ class UpdateForm:
     def to_dict(self):
         return self.__dict__
 
-class SearchForm:
-    def __init__(self, col : str = None, val : str = None):
-        self.col = col
-        self.val = val
-    
-    def from_dict(self, dict):
-        self.col = dict.get('col', None)
-        self.val = dict.get('val', None)
-
-        return self
-    
-    def to_dict(self):
-        return self.__dict__
-    
-
 class FilterForm:
-    def __init__(self, playerId : str = None, nameFirst : str = None, nameLast : str = None, nameGiven : str = None, birth_date : str = None, birthCountry : str = None, weight : str = None, height : str = None, bats : str = None, throws : str = None):
-        self.playerId = playerId
+    def __init__(self, nameFirst : str = None, nameLast : str = None, nameGiven : str = None, birth_date : str = None, birthCountry : str = None, weight : str = None, height : str = None, bats : str = None, throws : str = None):
         self.nameFirst = nameFirst
         self.nameLast = nameLast
         self.nameGiven = nameGiven
@@ -62,10 +46,6 @@ class FilterForm:
         self.throws = throws
 
     def from_dict(self, dict):
-        self.playerId = dict.get('player_id', None)
-
-        if self.playerId is None:
-            raise Exception("player_id is required(Primary Key column)")
         
         self.nameFirst = dict.get('name_first', None)
         self.nameLast = dict.get('name_last', None)
@@ -80,12 +60,21 @@ class FilterForm:
         return self
     
     def to_dict(self):
-        return self.__dict__
+        return {
+            'name_first': self.nameFirst,
+            'name_last': self.nameLast,
+            'name_given': self.nameGiven,
+            'birth_date': self.birth_date,
+            'birth_country': self.birthCountry,
+            'weight': self.weight,
+            'height': self.height,
+            'bats': self.bats,
+            'throws': self.throws
+        }
     
     def to_and_string(self):
         and_string = ""
-        if self.playerId is not None and self.playerId != "":
-            and_string += " AND playerId = '%s'" % self.playerId
+        
         if self.nameFirst is not None and self.nameFirst != "":
             and_string += " AND nameFirst = '%s'" % self.nameFirst
         if self.nameLast is not None and self.nameLast != "":

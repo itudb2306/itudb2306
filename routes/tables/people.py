@@ -3,7 +3,7 @@ from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.people.records import Records
-from models.tables.people.forms import UpdateForm, SearchForm, FilterForm
+from models.tables.people.forms import UpdateForm, FilterForm
 
 """
 ATTENTION:
@@ -12,7 +12,7 @@ ATTENTION:
 
 table_people_blueprint = Blueprint('people', __name__)
 
-@table_people_blueprint.route('/people')
+@table_people_blueprint.route('/people', methods=['GET', 'POST'])
 def view_table():
     """
     URL: /tables/people?p=
@@ -21,13 +21,31 @@ def view_table():
     page = request.args.get('p', 1, type=int)
     first_record = (page - 1) * RECORDS_PER_PAGE
 
+    # Searching / Filtering
+
+    # Get parameter arguments from previous request
+    arg_dict = request.args.to_dict()
+    filter = FilterForm().from_dict(arg_dict)
+    filter_string = filter.to_and_string()
+    filter_dict = filter.to_dict()
+    print("Filter request from previous page: ", filter.to_dict())
+    
+    # Get form data
+    filter = FilterForm().from_dict(request.form)
+
+    if filter.to_and_string() != '':
+        print("Filter request from filter form: ", filter.to_dict())
+        # Get column-value pairs to use in WHERE clause
+        filter_string = filter.to_and_string()
+        filter_dict = filter.to_dict()
+
     # Query building for table
-    query = Query().SELECT('*').FROM('people').LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
+    query = Query().SELECT('*').FROM('people').WHERE(filter_string).LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
     print(query)
     result = db.fetchall(query)
 
     # Query building for total pages
-    total_pages_query = Query().SELECT('COUNT(*)').FROM('people').BUILD()
+    total_pages_query = Query().SELECT('COUNT(*)').WHERE(filter_string).FROM('people').BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     print(total_pages_query)
@@ -36,7 +54,7 @@ def view_table():
     data.from_list(result)
     print("Records length: ", len(data.records))
         
-    return render_template('table_people/table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, search_val = "")
+    return render_template('table_people/table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, search_val = "", **filter_dict)
 
 
 @table_people_blueprint.route('/people/update/<string:player_id>', methods=['GET', 'POST'])
@@ -44,6 +62,7 @@ def update_record(player_id = None):
     """
     URL: /tables/people/update/<string:player_id>
     """
+    other_args = request.args.to_dict()
 
     if request.method == 'POST' and player_id is not None:
         # Get form data
@@ -61,7 +80,7 @@ def update_record(player_id = None):
 
         print('Record updated: ', player_id)
 
-    return redirect(url_for('people.view_table'))
+    return redirect(url_for('people.view_table', **other_args))
 
 
 @table_people_blueprint.route('/people/search', methods=['GET', 'POST'])
@@ -70,54 +89,15 @@ def search_records():
     URL: /tables/people/search
     """
     # Get form data
-    form = SearchForm().from_dict(request.form)
+    col = request.form.get('col', None)
+    val = request.form.get('val', None)
 
-    # Get column-value pairs to use in WHERE clause
-    col_val_pair = form.to_dict()
-
-    if request.method == 'POST' and col_val_pair['col'] is not None and col_val_pair['val'] is not None and col_val_pair['val'] != '' and col_val_pair['col'] != '':
-        # Query building
-        query = Query().SELECT('*').FROM('people').WHERE('%s = \'%s\'' % (col_val_pair['col'], col_val_pair['val'])).BUILD()
-        print(query)
-        result = db.fetchall(query)
-
-        data = Records()
-        data.from_list(result)
-        print("Records length: ", len(data.records))
-            
-        # TODO: Pagination for search results
-        return render_template('table_people/table_people.html', data_list=data.records, current_page = 1, total_pages = 1, search_val = col_val_pair['val'])
-
-    return redirect(url_for('people.view_table'))
-
-
-@table_people_blueprint.route('/people/filter', methods=['GET', 'POST'])
-def filter_records():
-    """
-    URL: /tables/people/filter
-    """
-
-    """
-    Filtering(Advanced Search): Search by multiple columns
-    """
-    # Get form data
-    form = FilterForm().from_dict(request.form)
-
-    # Get column-value pairs to use in WHERE clause
-    col_val_string = form.to_and_string()
-
-    print("Filtering WHERE clause: ", col_val_string)
-
-    if request.method == 'POST' and col_val_string != '':
-        # Query building
-        query = Query().SELECT('*').FROM('people').WHERE(col_val_string).BUILD()
-        print(query)
-        result = db.fetchall(query)
-
-        data = Records()
-        data.from_list(result)
-        print("Records length: ", len(data.records))
-
-        return render_template('table_people/table_people.html', data_list=data.records, current_page = 1, total_pages = 1, search_val = "")
+    filter_dict = {}
+    if request.method == 'POST' and col is not None and val is not None and val != '':
+        print({col:val})
+        filter = FilterForm().from_dict({col: val})
+        filter_dict = filter.to_dict()
     
-    return redirect(url_for('people.view_table'))
+    print("Filter request from search form: ", filter_dict)
+
+    return redirect(url_for('people.view_table', **filter_dict))
