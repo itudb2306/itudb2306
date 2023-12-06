@@ -1,5 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
+import utility as utils
 
 
 class Database:
@@ -13,16 +14,27 @@ class Database:
         self.cursor = self.db.cursor()
 
     def fetchone(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
     def fetchall(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchall()
-    
+
     def execute(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         self.db.commit()
+
+    def checkTableExists(self, table_name: str) -> bool:
+        # placeholder is used for injection attacks
+        exists_query = Query().SELECT("count(*)").FROM("information_schema.tables").WHERE("table_name = \'%s\'" % table_name).BUILD()
+        utils.logQuery(exists_query)
+        self.cursor.execute(exists_query)
+        return_value = self.cursor.fetchone()[0]
+        return bool(return_value)
 
 
 db = Database()
@@ -50,26 +62,33 @@ class Query:
         self._SELECT += ', ' if self._SELECT != '' else 'SELECT '
         self._SELECT += selection
         return self
-    
-    def UPDATE(self, table_name = ''):
+
+    def UPDATE(self, table_name=''):
         if table_name == '' or type(table_name) != str or self._UPDATE != '':
             return self
-        
+
         self._UPDATE += 'UPDATE '
         self._UPDATE += table_name
         return self
 
-    def SET(self, col_val_pairs = {}):
-        if col_val_pairs == {} or type(col_val_pairs) != dict:
+    def SET(self, col_val_pairs={}):
+        if not col_val_pairs or not isinstance(col_val_pairs, dict):
             return self
-        
+
         self._SET += ', ' if self._SET != '' else 'SET '
 
-        set_query = '%s = \'%s\' , '
+        set_query = '%s = %s, '
+
         for col, val in col_val_pairs.items():
-            self._SET += set_query % (col, val)
+            if val is None or val == 'None' or val == '':
+                set_query_with_none = '%s = NULL, '
+                self._SET += set_query_with_none % col
+            else:
+                self._SET += set_query % (col, f"'{val}'")
+
         self._SET = self._SET[:-2]
         return self
+
 
     def FROM(self, table_name):
         if table_name == '':

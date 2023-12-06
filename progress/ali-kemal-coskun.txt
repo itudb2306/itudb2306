@@ -1,0 +1,20 @@
+Progress of Ali Kemal Coşkun
+Student Number: 150200047
+
+----------------- Preliminary works -----------------
+
+- Week 3: Update Flask app template (folder structure, configuration)
+
+- Week 4: Add pagination to the people table, Add SQL Query Builder
+
+----------------- After project starts -----------------
+
+- Week 5: Add update record route to people table, Add UPDATE and SET methods to query generator
+
+- Week 6: Add Update Record Modal to People table
+
+- Week 7: Add search record route to People table
+
+- Week 9(8): Create data classes for records and request forms (delayed, completed in Week 9)
+
+- Week 9: Add filtering to the people table
