@@ -108,31 +108,34 @@ def update_record(ID=None):
 
     if request.method == 'POST' and ID is not None:
         try:
-             # Get form data
+             # Get form data in parametrized format
             col_val_pairs = {
-            #'playerID': request.form['playerID'],
-            'yearID': request.form['yearID'],
-            'stint': request.form['stint'],
-            #'team_id': request.form['team_id'],
-            #'lgID': request.form['lgID'],
-            'POS': request.form['POS'],
-            'G': request.form['G'],
-            'GS': request.form['GS'],
-            'InnOuts': request.form['InnOuts'],
-            'PO': request.form['PO'],
-            'A': request.form['A'],
-            'E': request.form['E'],
-            'DP': request.form['DP'],
-            'PB': request.form['PB'],
-            'WP': request.form['WP'],
-            'SB': request.form['SB'],
-            'CS': request.form['CS'],
-            'ZR': request.form['ZR']
-        }
+                #'playerID': request.form['playerID'],
+                'yearID': request.form['yearID'],
+                'stint': request.form['stint'],
+                #'team_id': request.form['team_id'],
+                #'lgID': request.form['lgID'],
+                'POS': request.form['POS'],
+                'G': request.form['G'],
+                'GS': request.form['GS'],
+                'InnOuts': request.form['InnOuts'],
+                'PO': request.form['PO'],
+                'A': request.form['A'],
+                'E': request.form['E'],
+                'DP': request.form['DP'],
+                'PB': request.form['PB'],
+                'WP': request.form['WP'],
+                'SB': request.form['SB'],
+                'CS': request.form['CS'],
+                'ZR': request.form['ZR']
+            }
+            
             # Query building for table
-            query = Query().UPDATE('fielding').SET(col_val_pairs).WHERE('ID = %s' % ID).BUILD()
-            print(query)
-            db.execute(query)
+            query = Query().UPDATE('fielding').SET(col_val_pairs).WHERE('ID = %s' % ID)
+            queryString = query.BUILD()
+            print(query._PARAMS)
+            print(queryString)
+            db.execute(queryString, tuple(query._PARAMS))
             print('Record updated successfully')
         
         except:    
