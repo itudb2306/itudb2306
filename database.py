@@ -1,5 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
+import utility as utils
 
 
 class Database:
@@ -13,25 +14,25 @@ class Database:
         self.cursor = self.db.cursor()
 
     def fetchone(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
     def fetchall(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
     def execute(self, query):
+        utils.logQuery(query)
         self.cursor.execute(query)
         self.db.commit()
 
     def checkTableExists(self, table_name: str) -> bool:
         # placeholder is used for injection attacks
-        exists_query = """
-        select count(*) = 1 
-        from information_schema.tables 
-        where table_name = %s;
-        """
-        self.cursor.execute(exists_query, (table_name, ))
+        exists_query = Query().SELECT("count(*)").FROM("information_schema.tables").WHERE("table_name = \'%s\'" % table_name).BUILD()
+        utils.logQuery(exists_query)
+        self.cursor.execute(exists_query)
         return_value = self.cursor.fetchone()[0]
         return bool(return_value)
 
