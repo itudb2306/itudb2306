@@ -10,6 +10,16 @@ ATTENTION:
 
 table_fielding_blueprint = Blueprint('fielding', __name__)
 
+def getLeaguesList():
+    # Query for division league selection
+    leagues_list = []
+    leagues_query = Query().SELECT('lgID, league').FROM('leagues').BUILD()
+    leagues_result = db.fetchall(leagues_query)
+    for row in leagues_result:
+        leagues_list.append({'lgID': row[0],
+                             'league': row[1], })
+    return leagues_list
+
 @table_fielding_blueprint.route('/fielding')
 def view_table():
     """
@@ -20,6 +30,7 @@ def view_table():
     first_record = (page - 1) * RECORDS_PER_PAGE
     
     # Query building for table
+    leagues_list = getLeaguesList()
 
     """
     SELECT
@@ -97,7 +108,7 @@ def view_table():
             'ID': row[19]
         })
 
-    return render_template('table_fielding.html', data_list=data_recordings, current_page=page, total_pages=total_pages)
+    return render_template('table_fielding.html', data_list=data_recordings, current_page=page, total_pages=total_pages, leagues_list = leagues_list)
 
 
 @table_fielding_blueprint.route('/fielding/update/<string:ID>', methods=['GET', 'POST'])
@@ -114,7 +125,7 @@ def update_record(ID=None):
                 'yearID': request.form['yearID'],
                 'stint': request.form['stint'],
                 #'team_id': request.form['team_id'],
-                #'lgID': request.form['lgID'],
+                'lgID': request.form['lgID'],
                 'POS': request.form['POS'],
                 'G': request.form['G'],
                 'GS': request.form['GS'],
