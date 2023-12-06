@@ -81,23 +81,3 @@ def update_record(player_id = None):
         print('Record updated: ', player_id)
 
     return redirect(url_for('people.view_table', **other_args))
-
-
-@table_people_blueprint.route('/people/search', methods=['GET', 'POST'])
-def search_records():
-    """
-    URL: /tables/people/search
-    """
-    # Get form data
-    col = request.form.get('col', None)
-    val = request.form.get('val', None)
-
-    filter_dict = {}
-    if request.method == 'POST' and col is not None and val is not None and val != '':
-        print({col:val})
-        filter = FilterForm().from_dict({col: val})
-        filter_dict = filter.to_dict()
-    
-    print("Filter request from search form: ", filter_dict)
-
-    return redirect(url_for('people.view_table', **filter_dict))

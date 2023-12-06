@@ -14,37 +14,9 @@
     <h1>People Table</h1>
     <p><a href="{{ url_for('index.index') }}">Homepage</a></p>
 
-    <!-- Search Bar -->
     <div class="container-fluid mb-3 justify-content-start">
-      <div class="row">
-
-          <div class="col-4">
-            <form action="{{ url_for('people.search_records') }}" method="POST">
-                <div class="input-group">
-                  <div class="dropdown-center">
-                    <select class="form-select shadow-none" aria-label="col-dropdown" name="col">
-                      <option value="name_first">First Name</option>
-                      <option value="name_last">Last Name</option>
-                      <option value="name_given">Given Name</option>
-                      <option value="birth_date">Birth Date</option>
-                      <option value="birth_country">Birth Country</option>
-                      <option value="weight">Weight</option>
-                      <option value="height">Height</option>
-                      <option value="bats">Bats</option>
-                      <option value="throws">Throws</option>
-                    </select>
-                  </div>
-                    <input type="text" class="form-control shadow-none" placeholder="Search" aria-label="Search" aria-describedby="search-button" name="val" value="{{search_val}}">
-                    <button class="btn btn-secondary shadow-none" type="submit" id="search-button">Search</button>
-                </div>
-            </form>
-          </div>
-          <div class="col">
             <!-- Filter Button -->
-            {% include 'table_people/filter_modal.html' %}
-          </div>
-
-      </div>
+      {% include 'table_people/filter_modal.html' %}
     </div>
     
     <table class="table table-hover">
