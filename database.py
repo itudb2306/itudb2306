@@ -1,6 +1,5 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
-import utility as utils
 
 
 class Database:
@@ -14,25 +13,28 @@ class Database:
         self.cursor = self.db.cursor()
 
     def fetchone(self, query):
-        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchone()
 
     def fetchall(self, query):
-        utils.logQuery(query)
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
-    def execute(self, query):
-        utils.logQuery(query)
-        self.cursor.execute(query)
+    def execute(self, query, params=None):
+        if params is not None:
+            self.cursor.execute(query, params)
+        else:
+            self.cursor.execute(query)
         self.db.commit()
 
     def checkTableExists(self, table_name: str) -> bool:
         # placeholder is used for injection attacks
-        exists_query = Query().SELECT("count(*)").FROM("information_schema.tables").WHERE("table_name = \'%s\'" % table_name).BUILD()
-        utils.logQuery(exists_query)
-        self.cursor.execute(exists_query)
+        exists_query = """
+        select count(*) = 1 
+        from information_schema.tables 
+        where table_name = %s;
+        """
+        self.cursor.execute(exists_query, (table_name, ))
         return_value = self.cursor.fetchone()[0]
         return bool(return_value)
 
@@ -50,6 +52,7 @@ class Query:
         self._LIKE = ''
         self._ORDER_BY = ''
         self._LIMIT = ''
+        self._PARAMS = []
 
     def _create_statements(self):
         self.statements = [self._SELECT, self._UPDATE, self._SET, self._FROM,
@@ -84,9 +87,13 @@ class Query:
                 set_query_with_none = '%s = NULL, '
                 self._SET += set_query_with_none % col
             else:
-                self._SET += set_query % (col, f"'{val}'")
+                # Use parameterized queries to prevent SQL injection
+                set_query_param = '%s = %s, '
+                self._SET += set_query_param % (col, '%s')
+                self._PARAMS.append(val)
 
         self._SET = self._SET[:-2]
+        print(self._PARAMS)
         return self
 
 
