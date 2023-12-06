@@ -86,6 +86,19 @@
                                     <input type="text" class="form-control" id="stint" name="stint" value="{{ data['stint'] }}">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="lgID" class="form-label">League</label>
+                                    <select class="form-control" id="lgID" name="lgID">
+                                        {% for league in leagues_list %}
+                                        {% if league['league']==data['LeagueName'] %}
+                                        <option selected="selected" value={{ league['lgID'] }}>{{ league['league'] }}
+                                        </option>
+                                        {% else %}
+                                        <option value={{ league['lgID'] }}>{{ league['league'] }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="POS" class="form-label">Position</label>
                                     <input type="text" class="form-control" id="POS" name="POS" value="{{ data['POS'] }}">
                                 </div>
