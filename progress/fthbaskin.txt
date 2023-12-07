@@ -8,3 +8,5 @@ Divisions join with leagues to show which division and which league those divisi
 Teams table stores team name and year in row, so each team has an entry for each year they were active. It groups them by their team names.
 
 - Week 7: Update for the table parks is done.
+
+- Week 10: Updated datasets
