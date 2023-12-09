@@ -4,29 +4,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    {% block header %}{% endblock %}
 </head>
 
 <body>
     <!--Maybe photos here-->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
-            </ul>
-        </div>
-    </nav>
+
+    <ul class="navbar">
+        <li class="navbar_item"><a href="{{ url_for('index.index') }}">Homepage</a></li>
+        <li class="navbar_item"><a href="{{ url_for('people.view_table') }}">People</a></li>
+        <li class="navbar_item"><a href="{{ url_for('fielding.view_table') }}">Fielding</a></li>
+        <li class="navbar_item"><a href="{{ url_for('divisions.view_table') }}">Divisions</a></li>
+        <li class="navbar_item"><a href="{{ url_for('parks.view_table') }}">Parks</a></li>
+        <li class="navbar_item"><a href="{{ url_for('teams_name.view_table') }}">Teams</a></li>
+    </ul>
+
 
     {% block table %}{% endblock %}
-    {% block pagination %}{% endblock %}
+
 </body>
-
-
 
 </html>

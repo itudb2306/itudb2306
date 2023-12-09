@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
+from models.tables.parks.records import Records
+from models.tables.parks.forms import UpdateForm, FilterForm
+from utility import logQuery
 
 """
 ATTENTION:
@@ -11,7 +14,7 @@ ATTENTION:
 table_parks_blueprint = Blueprint('parks', __name__)
 
 
-@table_parks_blueprint.route('/parks')
+@table_parks_blueprint.route('/parks', methods=['GET', 'POST'])
 def view_table():
     """
     URL: /tables/parks?p=
@@ -20,79 +23,64 @@ def view_table():
     page = request.args.get('p', 1, type=int)
     first_record = (page - 1) * RECORDS_PER_PAGE
 
-    # Query building for table
-    """
-    select 
-        parkname, 
-        city, 
-        case 
-            when isnull(state) then "" 
-            else state 
-            end as state_m, 
-        country, 
-        case 
-            when isnull(parkalias) then "" 
-            else parkalias 
-            end as aka, 
-        ID
-    from parks 
-    order by 
-        country desc, 
-        state, 
-        city,
-        parkname;
-    """
-    state_m = 'case when isnull(state) then \"\" else state end as state_m'
-    aka = 'case when isnull(parkalias) then \"\" else parkalias end as aka'
-    query = Query().SELECT('parkname, city, %s, country, %s, ID' % (state_m, aka)).FROM(
-        'parks').ORDER_BY('country desc, state, city, parkname').LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
-    print(query)
+    # Filter arguments from the previous request:
+    arg_dict = request.args.to_dict()
+    filter = FilterForm().from_dict(arg_dict)
+    filter_string = filter.to_and_string()
+    filter_dict = filter.to_dict()
+    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+
+    # Filter arguments from the new request:
+    filter = FilterForm().from_dict(request.form)
+    if filter.to_and_string() != '':
+        print(f"Filter request from filter form: {filter.to_dict()}")
+        filter_string = filter.to_and_string()
+        filter_dict = filter.to_dict()
+
+    # Query for table
+    query = Query().SELECT('*').FROM('parks').WHERE(filter_string).LIMIT(first_record,
+                                                                         RECORDS_PER_PAGE).BUILD()
+    logQuery(Query)
     result = db.fetchall(query)
 
-    # Query building for total pages
-    """
-    select count(*) 
-    from parks;
-    """
-    total_pages_query = Query().SELECT('COUNT(*)').FROM('parks').BUILD()
+    total_pages_query = Query().SELECT(
+        'COUNT(*)').FROM('parks').WHERE(filter_string).BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
-    print(total_pages_query)
+    logQuery(total_pages_query)
 
-    data_recordings = []
-    for row in result:
-        data_recordings.append({'parkname': row[0],
-                                'city': row[1],
-                                'state': row[2],
-                                'country': row[3],
-                                'alias': row[4],
-                                'park_id': row[5]})
+    data = Records()
+    data.from_list(result)
+    logQuery(f"Records length: {len(data.records)}")
 
-    return render_template('table_parks.html', data_list=data_recordings, current_page=page, total_pages=total_pages)
+    return render_template('table_parks/table_parks.html', data_list=data.records, current_page=page, total_pages=total_pages, **filter_dict)
 
 
-@table_parks_blueprint.route('/%s/update/<string:park_id>', methods=['GET', 'POST'])
-def update_record(park_id=None):
+@table_parks_blueprint.route('/%s/update/<string:ID>', methods=['GET', 'POST'])
+def update_record(ID=None):
     """
-    URL: /tables/parks/update/<string:park_id>
+    URL: /tables/parks/update/<string:ID>
     """
+    other_args = request.args.to_dict()
 
-    if request.method == 'POST' and park_id is not None:
+    if request.method == 'POST' and ID is not None:
         # Get form data
-        col_val_pairs = {
-            'parkname': request.form['parkname'],
-            'city': request.form['city'],
-            'state': request.form['state'],
-            'country': request.form['country'],
-            'parkalias': request.form['alias'],
-        }
+        form = UpdateForm().from_dict(request.form)
+        logQuery(form.to_dict())
+
+        # Get column-value pairs to use in SET clause
+        col_val_pairs = form.to_dict()
 
         # Query building
         query = Query().UPDATE('parks').SET(col_val_pairs).WHERE(
-            'ID = \'%s\'' % park_id).BUILD()
-        print(query)
-        db.execute(query)
+            'ID = \'%s\'' % ID).BUILD()
 
-        print('Record updated of park with id: ', park_id)
+        vals_tuple = form.to_tuple()
+        # None values are generating problems for logging
+        logQuery(query % vals_tuple)
 
-    return redirect(url_for('parks.view_table'))
+        # Execute query
+        db.execute(query, vals_tuple)
+        print('Record updated: ', ID)
+
+    return redirect(url_for('parks.view_table', **other_args))
