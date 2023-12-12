@@ -1,0 +1,110 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#sortingModal">Sort</button>
+
+<!-- Sorting Modal -->
+<div class="modal fade" id="sortingModal" tabindex="-1" aria-labelledby="sortingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="sortingModalLabel">Sorting</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('people.view_table', p=current_page, sort=sort, filter=filter) }}" method="POST">
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortNameFirst" class="form-label">First Name</label>
+                <div>
+                <input type="radio" class="btn-check" name="nameFirst" id="nameFirstASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="nameFirstASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortNameFirst" id="sortNameFirstDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortNameFirstDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortNameLast" class="form-label">Last Name</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortNameLast" id="sortNameLastASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortNameLastASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortNameLast" id="sortNameLastDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortNameLastDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortNameGiven" class="form-label">Given Name</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortNameGiven" id="sortNameGivenASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortNameGivenASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortNameGiven" id="sortNameGivenDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortNameGivenDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortBirthDate" class="form-label">Birth Date</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortBirthDate" id="sortBirthDateASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortBirthDateASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortBirthDate" id="sortBirthDateDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortBirthDateDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortBirthCountry" class="form-label">Birth Country</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortBirthCountry" id="sortBirthCountryASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortBirthCountryASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortBirthCountry" id="sortBirthCountryDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortBirthCountryDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortWeight" class="form-label">Weight</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortWeight" id="sortWeightASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortWeightASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortWeight" id="sortWeightDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortWeightDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortHeight" class="form-label">Height</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortHeight" id="sortHeightASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortHeightASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortHeight" id="sortHeightDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortHeightDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="d-flex mb-3 justify-content-between align-items-center">
+                <label for="sortBats" class="form-label">Bats</label>
+                <div>
+                <input type="radio" class="btn-check" name="sortBats" id="sortBatsASC" autocomplete="off" value="ASC">
+                <label class="btn btn-outline-primary" for="sortBatsASC">▲</label>
+
+                <input type="radio" class="btn-check" name="sortBats" id="sortBatsDESC" autocomplete="off" value="DESC">
+                <label class="btn btn-outline-primary" for="sortBatsDESC">▼</label>
+                </div>
+            </div> <hr/>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
