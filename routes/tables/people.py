@@ -3,7 +3,8 @@ from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.people.records import Records
-from models.tables.people.forms import UpdateForm, FilterForm
+from models.tables.people.forms import UpdateForm, FilterForm, SortForm
+import urllib.parse
 
 """
 ATTENTION:
@@ -21,26 +22,47 @@ def view_table():
     page = request.args.get('p', 1, type=int)
     first_record = (page - 1) * RECORDS_PER_PAGE
 
-    # Searching / Filtering
 
-    # Get parameter arguments from previous request
-    arg_dict = request.args.to_dict()
-    filter = FilterForm().from_dict(arg_dict)
-    filter_string = filter.to_and_string()
-    filter_dict = filter.to_dict()
-    print("Filter request from previous page: ", filter.to_dict())
-    
-    # Get form data
-    filter = FilterForm().from_dict(request.form)
+    # Request from form
+    request_form = request.form.to_dict()
 
-    if filter.to_and_string() != '':
-        print("Filter request from filter form: ", filter.to_dict())
-        # Get column-value pairs to use in WHERE clause
-        filter_string = filter.to_and_string()
-        filter_dict = filter.to_dict()
+
+    # Filtering
+    filter_request_from_prev = request.args.get('filter', None, type=str) # filter=nameFirst=John&nameLast=Doe&...
+    filter_dict = urllib.parse.parse_qsl(filter_request_from_prev) # [('nameFirst', 'John'), ('nameLast', 'Doe'), ...]
+    filter_dict = dict(filter_dict) # {'nameFirst': 'John', 'nameLast': 'Doe', ...}
+    filter = FilterForm().from_dict(filter_dict) # FilterForm object
+    filter_dict = filter.to_dict() # {'nameFirst': 'John', 'nameLast': 'Doe', ...}
+    print("Filter request from previous page: ", filter_dict)
+
+    filter_request_from_form = FilterForm().from_dict(request_form) # FilterForm object
+    if not filter_request_from_form.is_empty(): # if not empty
+        filter = filter_request_from_form # update filter
+        filter_dict = filter.to_dict() # {'nameFirst': 'John', 'nameLast': 'Doe', ...}
+        print("Filter request from form: ", filter_dict)
+
+    filter_string = filter.to_and_string() # nameFirst = 'John' AND nameLast = 'Doe' AND ...
+
+
+    # Sorting
+    sort = request.args.get('sort', None, type=str) # sort=nameFirst=ASC&nameLast=DESC&...
+    sort_dict = urllib.parse.parse_qsl(sort) # [('nameFirst', 'ASC'), ('nameLast', 'DESC'), ...]
+    sort_dict = dict(sort_dict) # {'nameFirst': 'ASC', 'nameLast': 'DESC', ...}
+    sort = SortForm().from_dict(sort_dict) # SortForm object
+    sort_dict = sort.to_dict() # {'nameFirst': 'ASC', 'nameLast': 'DESC', ...}
+    print("Sort request from previous page: ", sort_dict)
+
+    sort_request_from_form = SortForm().from_dict(request_form) # SortForm object
+    if not sort_request_from_form.is_empty(): # if not empty
+        sort = sort_request_from_form # update sort
+        sort_dict = sort.to_dict() # {'nameFirst': 'ASC', 'nameLast': 'DESC', ...}
+        print("Sort request from form: ", sort_dict)
+
+    sort_string = sort.to_and_string() # nameFirst ASC, nameLast DESC, ...
+
 
     # Query building for table
-    query = Query().SELECT('*').FROM('people').WHERE(filter_string).LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
+    query = Query().SELECT('*').FROM('people').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
     print(query)
     result = db.fetchall(query)
 
@@ -53,8 +75,12 @@ def view_table():
     data = Records()
     data.from_list(result)
     print("Records length: ", len(data.records))
+
+    # Encode filter and sort to pass to template as one string
+    filter_encoded = urllib.parse.urlencode(filter_dict) # nameFirst=John&nameLast=Doe&...
+    sort_encoded = urllib.parse.urlencode(sort_dict) # nameFirst=ASC&nameLast=DESC&...
         
-    return render_template('table_people/table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, search_val = "", **filter_dict)
+    return render_template('table_people/table_people.html', data_list=data.records, current_page = page, total_pages = total_pages, filter = filter_encoded, sort = sort_encoded)
 
 
 @table_people_blueprint.route('/people/update/<string:player_id>', methods=['GET', 'POST'])
