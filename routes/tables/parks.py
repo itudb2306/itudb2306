@@ -87,15 +87,13 @@ def view_table():
     logQuery(f"Records length: {len(data.records)}")
 
     # Encode filter and sort to pass to template as one string
-    # nameFirst=John&nameLast=Doe&...
     filter_encoded = urllib.parse.urlencode(filter_dict)
-    # nameFirst=ASC&nameLast=DESC&...
     sort_encoded = urllib.parse.urlencode(sort_dict)
 
     return render_template('table_parks/table_parks.html', data_list=data.records, current_page=page, total_pages=total_pages, filter=filter_encoded, sort=sort_encoded)
 
 
-@table_parks_blueprint.route('/%s/update/<string:ID>', methods=['GET', 'POST'])
+@table_parks_blueprint.route('/parks/update/<string:ID>', methods=['GET', 'POST'])
 def update_record(ID=None):
     """
     URL: /tables/parks/update/<string:ID>
@@ -112,7 +110,7 @@ def update_record(ID=None):
 
         # Query building
         query = Query().UPDATE('parks').SET(col_val_pairs).WHERE(
-            'ID = \'%s\'' % ID).BUILD()
+            'ID = %s' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
         # None values are generating problems for logging

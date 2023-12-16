@@ -1,0 +1,67 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#updateModal{{data.ID}}">Update</button>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal{{data.ID}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{{ url_for('divisions.update_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+
+                    <input type="hidden" name="ID" value="{{data.ID}}">
+
+                    <div class="mb-3">
+                        <label for="division" class="form-label">Division Name</label>
+                        <input type="text" class="form-control" id="division" name="division"
+                            value="{{ data.division }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="active" class="form-label">Is active?</label>
+                        <select class="form-control" id="active" name="active">
+                            {% if data.divActive == 'Y' %}
+                            <option selected="selected" value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                            {% else %}
+                            <option value='Y'>Yes</option>
+                            <option selected="selected" value='N'>No</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="divID" class="form-label">Division Code</label>
+                        <input type="text" class="form-control" id="divID" name="divID" value="{{ data.divID }}"
+                            maxlength="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lgID" class="form-label">League</label>
+                        <select class="form-control" id="lgID" name="lgID">
+                            {% for league in leagues_list %}
+                            {% if league['lgID']==data.lgID %}
+                            <option selected="selected" value="{{ league['lgID'] }}">{{ league['league'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
