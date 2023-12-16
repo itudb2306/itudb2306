@@ -1,0 +1,149 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">Filter</button>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('teams.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+
+                    <div class="mb-3">
+                        <label for="filterName" class="form-label">Team Name</label>
+                        <select class="form-control" id="filterName" name="filterName">
+                            <option value="">None</option>
+                            {% for team in teams_list %}
+                            <option value="{{ team['name'] }}">{{ team['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterYearUL" class="form-label">Year Upper Limit</label>
+                        <input type="number" class="form-control" id="filterYearUL" name="filterYearUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterYearLL" class="form-label">Year Lower Limit</label>
+                        <input type="number" class="form-control" id="filterYearLL" name="filterYearLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLeague" class="form-label">League</label>
+                        <select class="form-control" id="filterLeague" name="filterLeague">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                            <option value="{{ league['name'] }}">{{ league['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterDivision" class="form-label">Division</label>
+                        <select class="form-control" id="filterDivision" name="filterDivision">
+                            <option value="">None</option>
+                            {% for division in divisions_list %}
+                            <option value="{{ division['name'] }}">{{ division['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterPark" class="form-label">Park</label>
+                        <select class="form-control" id="filterPark" name="filterPark">
+                            <option value="">None</option>
+                            {% for park in parks_list %}
+                            <option value="{{ park['name'] }}">{{ park['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterGamesUL" class="form-label">Games Upper Limit</label>
+                        <input type="number" class="form-control" id="filterGamesUL" name="filterGamesUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterGamesLL" class="form-label">Games Lower Limit</label>
+                        <input type="number" class="form-control" id="filterGamesLL" name="filterGamesLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterHomeGamesUL" class="form-label">Home Games Upper Limit</label>
+                        <input type="number" class="form-control" id="filterHomeGamesUL" name="filterHomeGamesUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterHomeGamesLL" class="form-label">Home Games Lower Limit</label>
+                        <input type="number" class="form-control" id="filterHomeGamesLL" name="filterHomeGamesLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterWinsUL" class="form-label">Wins Upper Limit</label>
+                        <input type="number" class="form-control" id="filterWinsUL" name="filterWinsUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterWinsLL" class="form-label">Wins Lower Limit</label>
+                        <input type="number" class="form-control" id="filterWinsLL" name="filterWinsLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLossesUL" class="form-label">Losses Upper Limit</label>
+                        <input type="number" class="form-control" id="filterLossesUL" name="filterLossesUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLossesLL" class="form-label">Losses Lower Limit</label>
+                        <input type="number" class="form-control" id="filterLossesLL" name="filterLossesLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterDivisionWin" class="form-label">Division Win?</label>
+                        <select class="form-control" id="filterDivisionWin" name="filterDivisionWin">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterWildCardWin" class="form-label">Wild Card Win?</label>
+                        <select class="form-control" id="filterWildCardWin" name="filterWildCardWin">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLeagueWin" class="form-label">League Win?</label>
+                        <select class="form-control" id="filterLeagueWin" name="filterLeagueWin">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterWorldSeriesWin" class="form-label">World Series Win?</label>
+                        <select class="form-control" id="filterWorldSeriesWin" name="filterWorldSeriesWin">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

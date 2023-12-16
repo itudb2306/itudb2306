@@ -11,3 +11,6 @@ Teams table stores team name and year in row, so each team has an entry for each
 
 - Week 10: Updated datasets
 - Week 10: Added filtering, update to parks table
+
+- Week 11: Updated parks table with filtering and sorting
+- Week 11: Added sorting, filtering, update to divisions table
