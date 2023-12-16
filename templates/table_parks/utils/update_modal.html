@@ -11,24 +11,23 @@
             </div>
             <div class="modal-body">
                 <form
-                    action="{{ url_for('parks.update_record', ID=data.ID, p=current_page, park_name=park_name, park_key=park_key, park_alias=park_alias, city=city, state=state, country=country) }}"
+                    action="{{ url_for('parks.update_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
                     method="POST">
 
                     <input type="hidden" name="ID" value="{{data.ID}}">
                     <div class="mb-3">
-                        <label for="park_name" class="form-label">Park Name</label>
-                        <input type="text" class="form-control" id="park_name" name="park_name"
+                        <label for="parkname" class="form-label">Park Name</label>
+                        <input type="text" class="form-control" id="parkname" name="parkname"
                             value="{{ data.parkname }}">
                     </div>
                     <div class="mb-3">
-                        <label for="park_alias" class="form-label">Park Alias</label>
-                        <input type="text" class="form-control" id="park_alias" name="park_alias"
+                        <label for="parkalias" class="form-label">Park Alias</label>
+                        <input type="text" class="form-control" id="parkalias" name="parkalias"
                             value="{{ data.parkalias }}">
                     </div>
                     <div class="mb-3">
-                        <label for="park_key" class="form-label">Park Code</label>
-                        <input type="text" class="form-control" id="park_key" name="park_key"
-                            value="{{ data.parkkey }}">
+                        <label for="parkkey" class="form-label">Park Code</label>
+                        <input type="text" class="form-control" id="parkkey" name="parkkey" value="{{ data.parkkey }}">
                     </div>
                     <div class="mb-3">
                         <label for="country" class="form-label">Country</label>
