@@ -2,11 +2,13 @@
 create view teams_easy as
 select 
     t.ID as ID,
+    t.teamID as team_code,
     tn.name as name,
     t.yearID as year,
     l.league as league,
     d.division as division,
     p.parkname as park,
+    t.teamRank as team_rank,
     t.G as games,
     t.Ghome as home_games,
     t.W as wins,
@@ -24,11 +26,12 @@ left join parks p on t.park_ID = p.ID
 
 
 class TableRecord:
-    def __init__(self, ID: int = None, name: str = None, year: int = None, league: str = None,
+    def __init__(self, ID: int = None, team_code: str = None, name: str = None, year: int = None, league: str = None,
                  division: str = None, park: str = None, team_rank: int = None, games: int = None, home_games: int = None,
                  wins: int = None, losses: int = None, division_win: str = None, wild_card_win: str = None,
                  league_win: str = None, world_series_win: str = None):
         self.ID = ID
+        self.team_code = team_code
         self.name = name
         self.year = year
         self.league = league
@@ -46,24 +49,26 @@ class TableRecord:
 
     def from_list(self, list):
         self.ID = list[0]
-        self.name = list[1]
-        self.year = list[2]
-        self.league = list[3]
-        self.division = list[4]
-        self.park = list[5]
-        self.team_rank = list[6]
-        self.games = list[7]
-        self.home_games = list[8]
-        self.wins = list[9]
-        self.losses = list[10]
-        self.division_win = list[11]
-        self.wild_card_win = list[12]
-        self.league_win = list[13]
-        self.world_series_win = list[14]
+        self.team_code = list[1]
+        self.name = list[2]
+        self.year = list[3]
+        self.league = list[4]
+        self.division = list[5]
+        self.park = list[6]
+        self.team_rank = list[7]
+        self.games = list[8]
+        self.home_games = list[9]
+        self.wins = list[10]
+        self.losses = list[11]
+        self.division_win = list[12]
+        self.wild_card_win = list[13]
+        self.league_win = list[14]
+        self.world_series_win = list[15]
         return self
 
     def from_dict(self, dict):
         self.ID = dict.get('ID', None)
+        self.team_code = dict.get('team_code', None)
         self.name = dict.get('name', None)
         self.year = dict.get('year', None)
         self.league = dict.get('league', None)
@@ -81,7 +86,7 @@ class TableRecord:
         return self
 
     def to_list(self):
-        return [self.ID, self.name, self.year, self.league,
+        return [self.ID, self.team_code, self.name, self.year, self.league,
                 self.division, self.park, self.team_rank, self.games, self.home_games,
                 self.wins, self.losses, self.division_win, self.wild_card_win,
                 self.league_win, self.world_series_win]
@@ -89,6 +94,7 @@ class TableRecord:
     def to_dict(self):
         return {
             'ID': self.ID,
+            'team_code': self.team_code,
             'name': self.name,
             'year': self.year,
             'league': self.league,

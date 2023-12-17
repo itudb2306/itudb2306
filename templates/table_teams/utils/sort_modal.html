@@ -13,6 +13,20 @@
                     method="POST">
 
                     <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortTeamCode" class="form-label">Team Code</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortTeamCode" id="sortTeamCodeASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortTeamCodeASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortTeamCode" id="sortTeamCodeDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortTeamCodeDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
                         <label for="sortName" class="form-label">Team Name</label>
                         <div>
                             <input type="radio" class="btn-check" name="sortName" id="sortNameASC" autocomplete="off"
