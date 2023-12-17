@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
+{% extends "table_base.html" %}
+{% block header %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Fielding Table</title>
+{% endblock %}
 
+{% block table %}
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
@@ -30,11 +30,6 @@
                 <th scope="col">Assists (A)</th>
                 <th scope="col">Errors (E)</th>
                 <th scope="col">Double Plays (DP)</th>
-                <th scope="col">Passed Balls (PB)</th>
-                <th scope="col">Wild Pitches (WP)</th>
-                <th scope="col">Stolen Bases (SB)</th>
-                <th scope="col">Caught Stealing (CS)</th>
-                <th scope="col">Zone Rating (ZR)</th>
                 <th scope="col">Admin Actions</th>
             </tr>
         </thead>
@@ -55,11 +50,6 @@
                 <td>{{ data['A'] }}</td>
                 <td>{{ data['E'] }}</td>
                 <td>{{ data['DP'] }}</td>
-                <td>{{ data['PB'] }}</td>
-                <td>{{ data['WP'] }}</td>
-                <td>{{ data['SB'] }}</td>
-                <td>{{ data['CS'] }}</td>
-                <td>{{ data['ZR'] }}</td>
                 <td>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}">Update</button>
                 </td>
@@ -77,6 +67,21 @@
                             <form action="{{ url_for('fielding.update_record', ID=data['ID']) }}" method="POST">
     
                                 <input type="hidden" name="ID" value="{{data['ID']}}">
+
+                                <div class="mb-3">
+                                    <label for="team_id" class="form-label">Team</label>
+                                    <select class="form-control" id="team_id" name="team_id">
+                                        {% for team in teams_list %}
+                                        {% if team['name']==data['TeamName'] %}
+                                        <option selected="selected" value={{ team['team_id'] }}>{{ team['name'] }}
+                                        </option>
+                                        {% else %}
+                                        <option value={{ team['team_id'] }}>{{ team['name'] }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
                                 <div class="mb-3">
                                     <label for="yearID" class="form-label">Year ID</label>
                                     <input type="text" class="form-control" id="yearID" name="yearID" value="{{ data['yearID'] }}">
@@ -85,6 +90,8 @@
                                     <label for="stint" class="form-label">Stint</label>
                                     <input type="text" class="form-control" id="stint" name="stint" value="{{ data['stint'] }}">
                                 </div>
+                                
+
                                 <div class="mb-3">
                                     <label for="lgID" class="form-label">League</label>
                                     <select class="form-control" id="lgID" name="lgID">
@@ -129,26 +136,6 @@
                                 <div class="mb-3">
                                     <label for="DP" class="form-label">Double Plays (DP)</label>
                                     <input type="text" class="form-control" id="DP" name="DP" value="{{ data['DP'] }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="PB" class="form-label">Passed Balls (PB)</label>
-                                    <input type="text" class="form-control" id="PB" name="PB" value="{{ data['PB'] }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="WP" class="form-label">Wild Pitches (WP)</label>
-                                    <input type="text" class="form-control" id="WP" name="WP" value="{{ data['WP'] }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="SB" class="form-label">Stolen Bases (SB)</label>
-                                    <input type="text" class="form-control" id="SB" name="SB" value="{{ data['SB'] }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="CS" class="form-label">Caught Stealing (CS)</label>
-                                    <input type="text" class="form-control" id="CS" name="CS" value="{{ data['CS'] }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="ZR" class="form-label">Zone Rating (ZR)</label>
-                                    <input type="text" class="form-control" id="ZR" name="ZR" value="{{ data['ZR'] }}">
                                 </div>
                             
                                 <div class="modal-footer">
@@ -224,3 +211,4 @@
       </nav>
 </body>
 </html>
+{% endblock %}
