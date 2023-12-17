@@ -28,6 +28,7 @@
             <th scope="col">League</th>
             <th scope="col">Division</th>
             <th scope="col">Park</th>
+            <th scope="col">Rank</th>
             <th scope="col">Games</th>
             <th scope="col">Home Games</th>
             <th scope="col">Wins</th>
@@ -36,7 +37,6 @@
             <th scope="col">Wild Card Win?</th>
             <th scope="col">League Win?</th>
             <th scope="col">World Series Win?</th>
-            <th scope="col">Details</th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +47,7 @@
             <td>{{ data.league }}</td>
             <td>{{ data.division }}</td>
             <td>{{ data.park }}</td>
+            <td>{{ data.team_rank}}</td>
             <td>{{ data.games }}</td>
             <td>{{ data.home_games }}</td>
             <td>{{ data.wins }}</td>
@@ -55,7 +56,6 @@
             <td>{{ data.wild_card_win }}</td>
             <td>{{ data.league_win }}</td>
             <td>{{ data.world_series_win }}</td>
-            <td>LINK</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -22,6 +22,7 @@ def checkTeamsViewExists():
             l.league as league,
             d.division as division,
             p.parkname as park,
+            t.teamRank as team_rank,
             t.G as games,
             t.Ghome as home_games,
             t.W as wins,

@@ -25,15 +25,17 @@ left join parks p on t.park_ID = p.ID
 
 class FilterForm:
     def __init__(self, name: str = None, yearUL: int = None, yearLL: int = None, league: str = None, division: str = None,
-                 park: str = None, gamesUL: int = None, gamesLL: int = None,  home_gamesUL: int = None, home_gamesLL: int = None,
-                 winsUL: int = None, winsLL: int = None, lossesUL: int = None, lossesLL: int = None, division_win: str = None,
-                 wild_card_win: str = None, league_win: str = None, world_series_win: str = None):
+                 park: str = None, team_rankUL: int = None, team_rankLL: int = None, gamesUL: int = None, gamesLL: int = None,
+                 home_gamesUL: int = None, home_gamesLL: int = None, winsUL: int = None, winsLL: int = None, lossesUL: int = None,
+                 lossesLL: int = None, division_win: str = None, wild_card_win: str = None, league_win: str = None, world_series_win: str = None):
         self.name = name
         self.yearUL = yearUL
         self.yearLL = yearLL
         self.league = league
         self.division = division
         self.park = park
+        self.team_rankUL = team_rankUL
+        self.team_rankLL = team_rankLL
         self.gamesUL = gamesUL
         self.gamesLL = gamesLL
         self.home_gamesUL = home_gamesUL
@@ -50,10 +52,10 @@ class FilterForm:
     def is_empty(self):
         empty = [None, '', 'None']
         return (self.name in empty and self.yearUL in empty and self.yearLL in empty and self.league in empty and
-                self.division in empty and self.park in empty and self.gamesUL in empty and self.gamesLL in empty and
-                self.home_gamesUL in empty and self.home_gamesLL in empty and self.winsUL in empty and
-                self.winsLL in empty and self.lossesUL in empty and self.lossesLL in empty and self.division_win in empty and
-                self.wild_card_win in empty and self.league_win in empty and self.world_series_win in empty)
+                self.division in empty and self.park in empty and self.team_rankUL in empty and self.team_rankLL in empty and
+                self.gamesUL in empty and self.gamesLL in empty and self.home_gamesUL in empty and self.home_gamesLL in empty and
+                self.winsUL in empty and self.winsLL in empty and self.lossesUL in empty and self.lossesLL in empty and
+                self.division_win in empty and self.wild_card_win in empty and self.league_win in empty and self.world_series_win in empty)
 
     def from_dict(self, dict):
         empty = [None, '', 'None']
@@ -81,6 +83,14 @@ class FilterForm:
         self.park = dict.get('filterPark', None)
         if self.park in empty:
             self.park = None
+
+        self.team_rankUL = dict.get('filterTeamRankUL', None)
+        if self.team_rankUL in empty:
+            self.team_rankUL = None
+
+        self.team_rankLL = dict.get('filterTeamRankLL', None)
+        if self.team_rankLL in empty:
+            self.team_rankLL = None
 
         self.gamesUL = dict.get('filterGamesUL', None)
         if self.gamesUL in empty:
@@ -138,6 +148,8 @@ class FilterForm:
             'filterLeague': self.league,
             'filterDivision': self.division,
             'filterPark': self.park,
+            'filterTeamRankUL': self.team_rankUL,
+            'filterTeamRankLL': self.team_rankLL,
             'filterGamesUL': self.gamesUL,
             'filterGamesLL': self.gamesLL,
             'filterHomeGamesUL': self.home_gamesUL,
@@ -177,6 +189,12 @@ class FilterForm:
 
         if self.park not in empty:
             and_string += " AND park LIKE '%{}%'".format(self.park)
+
+        if self.team_rankUL not in empty:
+            and_string += " AND team_rank <= {}".format(self.team_rankUL)
+
+        if self.team_rankLL not in empty:
+            and_string += " AND team_rank >= {}".format(self.team_rankLL)
 
         if self.gamesUL not in empty:
             and_string += " AND games <= {}".format(self.gamesUL)
@@ -226,14 +244,15 @@ class FilterForm:
 
 class SortForm:
     def __init__(self, name: str = None, year: int = None, league: str = None, division: str = None,
-                 park: str = None, games: int = None, home_games: int = None, wins: int = None,
-                 losses: int = None, division_win: str = None, wild_card_win: str = None,
+                 park: str = None, team_rank: int = None, games: int = None, home_games: int = None,
+                 wins: int = None, losses: int = None, division_win: str = None, wild_card_win: str = None,
                  league_win: str = None, world_series_win: str = None):
         self.name = name
         self.year = year
         self.league = league
         self.division = division
         self.park = park
+        self.team_rank = team_rank
         self.games = games
         self.home_games = home_games
         self.wins = wins
@@ -245,7 +264,7 @@ class SortForm:
 
     def is_empty(self):
         empty = [None, '', 'None']
-        return self.name in empty and self.year in empty and self.league in empty and self.division in empty and self.park in empty and self.games in empty and self.home_games in empty and self.wins in empty and self.losses in empty and self.division_win in empty and self.wild_card_win in empty and self.league_win in empty and self.world_series_win in empty
+        return self.name in empty and self.year in empty and self.league in empty and self.division in empty and self.park in empty and self.team_rank in empty and self.games in empty and self.home_games in empty and self.wins in empty and self.losses in empty and self.division_win in empty and self.wild_card_win in empty and self.league_win in empty and self.world_series_win in empty
 
     def from_dict(self, dict):
         options = ['ASC', 'DESC']
@@ -269,6 +288,10 @@ class SortForm:
         self.park = dict.get('sortPark', None)
         if self.park not in options:
             self.park = None
+
+        self.team_rank = dict.get('sortTeamRank', None)
+        if self.team_rank not in options:
+            self.team_rank = None
 
         self.games = dict.get('sortGames', None)
         if self.games not in options:
@@ -313,6 +336,7 @@ class SortForm:
             'sortLeague': self.league,
             'sortDivision': self.division,
             'sortPark': self.park,
+            'sortTeamRank': self.team_rank,
             'sortGames': self.games,
             'sortHomeGames': self.home_games,
             'sortWins': self.wins,
@@ -345,6 +369,9 @@ class SortForm:
 
         if self.park not in empty:
             and_string += "park {}, ".format(self.park)
+
+        if self.team_rank not in empty:
+            and_string += "team_rank {}, ".format(self.team_rank)
 
         if self.games not in empty:
             and_string += "games {}, ".format(self.games)

@@ -25,7 +25,7 @@ left join parks p on t.park_ID = p.ID
 
 class TableRecord:
     def __init__(self, ID: int = None, name: str = None, year: int = None, league: str = None,
-                 division: str = None, park: str = None, games: int = None, home_games: int = None,
+                 division: str = None, park: str = None, team_rank: int = None, games: int = None, home_games: int = None,
                  wins: int = None, losses: int = None, division_win: str = None, wild_card_win: str = None,
                  league_win: str = None, world_series_win: str = None):
         self.ID = ID
@@ -34,6 +34,7 @@ class TableRecord:
         self.league = league
         self.division = division
         self.park = park
+        self.team_rank = team_rank
         self.games = games
         self.home_games = home_games
         self.wins = wins
@@ -50,14 +51,15 @@ class TableRecord:
         self.league = list[3]
         self.division = list[4]
         self.park = list[5]
-        self.games = list[6]
-        self.home_games = list[7]
-        self.wins = list[8]
-        self.losses = list[9]
-        self.division_win = list[10]
-        self.wild_card_win = list[11]
-        self.league_win = list[12]
-        self.world_series_win = list[13]
+        self.team_rank = list[6]
+        self.games = list[7]
+        self.home_games = list[8]
+        self.wins = list[9]
+        self.losses = list[10]
+        self.division_win = list[11]
+        self.wild_card_win = list[12]
+        self.league_win = list[13]
+        self.world_series_win = list[14]
         return self
 
     def from_dict(self, dict):
@@ -67,6 +69,7 @@ class TableRecord:
         self.league = dict.get('league', None)
         self.division = dict.get('division', None)
         self.park = dict.get('park', None)
+        self.team_rank = dict.get('team_rank', None)
         self.games = dict.get('games', None)
         self.home_games = dict.get('home_games', None)
         self.wins = dict.get('wins', None)
@@ -79,7 +82,7 @@ class TableRecord:
 
     def to_list(self):
         return [self.ID, self.name, self.year, self.league,
-                self.division, self.park, self.games, self.home_games,
+                self.division, self.park, self.team_rank, self.games, self.home_games,
                 self.wins, self.losses, self.division_win, self.wild_card_win,
                 self.league_win, self.world_series_win]
 
@@ -91,6 +94,7 @@ class TableRecord:
             'league': self.league,
             'division': self.division,
             'park': self.park,
+            'team_rank': self.team_rank,
             'games': self.games,
             'home_games': self.home_games,
             'wins': self.wins,
