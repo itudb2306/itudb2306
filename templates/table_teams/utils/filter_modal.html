@@ -42,7 +42,7 @@
                         <select class="form-control" id="filterLeague" name="filterLeague">
                             <option value="">None</option>
                             {% for league in leagues_list %}
-                            <option value="{{ league['name'] }}">{{ league['name'] }}</option>
+                            <option value="{{ league['league'] }}">{{ league['league'] }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                         <select class="form-control" id="filterDivision" name="filterDivision">
                             <option value="">None</option>
                             {% for division in divisions_list %}
-                            <option value="{{ division['name'] }}">{{ division['name'] }}</option>
+                            <option value="{{ division['division'] }}">{{ division['division'] }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -62,7 +62,7 @@
                         <select class="form-control" id="filterPark" name="filterPark">
                             <option value="">None</option>
                             {% for park in parks_list %}
-                            <option value="{{ park['name'] }}">{{ park['name'] }}</option>
+                            <option value="{{ park['parkname'] }}">{{ park['parkname'] }}</option>
                             {% endfor %}
                         </select>
                     </div>
