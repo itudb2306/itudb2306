@@ -11,9 +11,8 @@ table_teams_blueprint = Blueprint('teams', __name__)
 
 
 def checkTeamsEasyViewExists():
-    # This view joins divisions with leagues.
     if not db.checkTableExists('teams_easy'):
-        divisions_leagues_query = """
+        teams_easy_query = """
         create view teams_easy as
         select 
             t.ID as ID,
@@ -38,17 +37,25 @@ def checkTeamsEasyViewExists():
         left join teamnames tn on t.team_ID = tn.ID
         left join parks p on t.park_ID = p.ID
         """
-        db.execute(divisions_leagues_query, None)
+        db.execute(teams_easy_query, None)
 
-        """
+
+def checkTeamsDetailsViewExists():
+    if not db.checkTableExists('teams_details'):
+        teams_deatails_query = """
         create view teams_details as
         select 
             t.ID as ID,
+            t.teamID as team_code,
             tn.name as name,
+            tn.ID as team_name_ID,
             t.yearID as year,
             l.league as league,
+            l.lgID as league_ID,
             d.division as division,
+            d.ID as division_ID,
             p.parkname as park,
+            p.ID as park_ID,
             t.teamRank as team_rank,
             t.G as games,
             t.Ghome as home_games,
@@ -93,6 +100,7 @@ def checkTeamsEasyViewExists():
         left join teamnames tn on t.team_ID = tn.ID
         left join parks p on t.park_ID = p.ID
         """
+        db.execute(teams_deatails_query, None)
 
 
 def getLeaguesList():
