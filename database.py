@@ -75,6 +75,11 @@ class Query:
         return self
 
     def SET(self, col_val_pairs={}):
+        # To accept col val pairs as a string
+        if isinstance(col_val_pairs, str):
+            self._SET += col_val_pairs
+            return self
+
         if not col_val_pairs or not isinstance(col_val_pairs, dict):
             return self
 
@@ -95,7 +100,6 @@ class Query:
         self._SET = self._SET[:-2]
         print(self._PARAMS)
         return self
-
 
     def FROM(self, table_name):
         if table_name == '':
