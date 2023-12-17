@@ -35,3 +35,7 @@ li.navbar_item a {
 li.navbar_item a:hover {
     background-color: #111;
 }
+
+.admin-actions {
+    margin-top: 5px;
+}
