@@ -52,11 +52,14 @@ class Query:
         self._LIKE = ''
         self._ORDER_BY = ''
         self._LIMIT = ''
+        self._DELETE = ''
+        self._INSERT_INTO = ''
+        self._VALUES = ''
         self._PARAMS = []
 
     def _create_statements(self):
-        self.statements = [self._SELECT, self._UPDATE, self._SET, self._FROM,
-                           self._WHERE, self._LIKE, self._ORDER_BY, self._LIMIT]
+        self.statements = [self._SELECT, self._UPDATE,  self._DELETE, self._INSERT_INTO, self._SET, self._FROM,
+                           self._WHERE, self._LIKE, self._ORDER_BY, self._LIMIT, self._VALUES]
 
     def SELECT(self, selection):
         if selection == '':
@@ -79,8 +82,6 @@ class Query:
             return self
 
         self._SET += ', ' if self._SET != '' else 'SET '
-
-        set_query = '%s = %s, '
 
         for col, val in col_val_pairs.items():
             if val is None or val == 'None' or val == '':
@@ -147,3 +148,32 @@ class Query:
         self._create_statements()
         query = ' '.join(self.statements)
         return query
+    
+    def DELETE(self):
+        self._DELETE = 'DELETE '
+        return self
+    
+    def INSERT_INTO(self, table_name):
+        self._INSERT_INTO = 'INSERT INTO %s ' % table_name
+        return self
+    
+    def VALUES(self, col_val_pairs={}):
+        if not col_val_pairs or not isinstance(col_val_pairs, dict):
+            return self
+
+        self._VALUES = 'VALUES ('
+        for col, val in col_val_pairs.items():
+            if val is None or val == 'None' or val == '':
+                set_query_with_none = 'NULL, '
+                self._VALUES += set_query_with_none
+            else:
+                # Use parameterized queries to prevent SQL injection
+                set_query_param = '%s, '
+                self._VALUES += set_query_param % ('%s')
+                self._PARAMS.append(val)
+
+        self._VALUES = self._VALUES[:-2]
+        self._VALUES += ')'
+        return self
+
+          
