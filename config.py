@@ -18,3 +18,10 @@ DB_NAME = os.getenv("DB_NAME")
 # Tables
 TABLES_PREFIX = "/tables"
 RECORDS_PER_PAGE = 20
+
+# Authentication
+AUTH_PREFIX = "/user"
+
+# Flask
+SECRET_KEY = os.getenv("SECRET_KEY")
+WTF_CSRF_SECRET_KEY = os.getenv("WTF_CSRF_SECRET_KEY")
