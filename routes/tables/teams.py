@@ -4,6 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.teams.table_records import TableRecords
 from models.tables.teams.table_forms import FilterForm, SortForm
+from models.tables.teams.details_records import DetailsRecord
 from utility import logQuery
 import urllib.parse
 
@@ -231,3 +232,26 @@ def view_table():
 
     return render_template('table_teams/table_teams.html', data_list=data.records, current_page=page, total_pages=total_pages, leagues_list=leagues_list,
                            divisions_list=divisions_list, teams_list=teams_list, parks_list=parks_list, filter=filter_encoded, sort=sort_encoded)
+
+
+@table_teams_blueprint.route('/teams/details/<string:ID>', methods=['GET', 'POST'])
+def view_details(ID):
+    """
+    URL: /tables/divisions/details/<int:ID>
+    """
+    # Check if the view exists, if not so, create it.
+    checkTeamsDetailsViewExists()
+
+    # Divisions and leagues query
+    query = Query().SELECT('*').FROM('teams_details').WHERE('ID = %s' % ID).BUILD()
+    result = db.fetchall(query)
+
+    data = DetailsRecord()
+    data.from_list(result[0])
+
+    leagues_list = getLeaguesList()
+    divisions_list = getDivisionsList()
+    teams_list = getTeamNamesList()
+    parks_list = getParksList()
+
+    return render_template('table_teams/teams_details.html', data=data, leagues_list=leagues_list, divisions_list=divisions_list, teams_list=teams_list, parks_list=parks_list)

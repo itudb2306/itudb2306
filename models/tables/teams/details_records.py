@@ -58,7 +58,7 @@ left join parks p on t.park_ID = p.ID
 """
 
 
-class TableRecord:
+class DetailsRecord:
     def __init__(self, ID: int = None, team_code: str = None, name: str = None, team_name_ID: int = None, year: int = None,
                  league: str = None, league_ID: int = None, division: str = None, division_ID: int = None,  park: str = None,
                  park_ID: int = None, team_rank: int = None, games: int = None, home_games: int = None, wins: int = None, losses: int = None,
@@ -288,31 +288,3 @@ class TableRecord:
             'batter_park_factor': self.batter_park_factor,
             'pitcher_park_factor': self.pitcher_park_factor
         }
-
-
-class TableRecords:
-    def __init__(self, records: list = None):
-        self.records = records
-
-    def from_list(self, list):
-        self.records = []
-        for row in list:
-            record = TableRecord().from_list(row)
-            self.records.append(record)
-
-    def from_dict(self, dict):
-        self.records = []
-        for row in dict:
-            self.records.append(TableRecord().from_dict(row))
-
-    def to_list(self):
-        list = []
-        for record in self.records:
-            list.append(record.to_list())
-        return list
-
-    def to_dict(self):
-        dict = []
-        for record in self.records:
-            dict.append(record.to_dict())
-        return dict

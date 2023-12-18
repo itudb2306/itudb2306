@@ -44,7 +44,7 @@
         {% for data in data_list %}
         <tr>
             <td>{{ data.team_code }}</td>
-            <td>{{ data.name }}</td>
+            <td><a href="{{ url_for('teams.view_details', ID=data.ID)}}">{{ data.name }}</a></td>
             <td>{{ data.year }}</td>
             <td>{{ data.league }}</td>
             <td>{{ data.division }}</td>
