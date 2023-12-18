@@ -1,24 +1,29 @@
 class NamesRecord:
-    def __init__(self, ID: int = None, name: str = None):
+    def __init__(self, ID: int = None, name: str = None, count: int = None):
         self.ID = ID
         self.name = name
+        self.count = count
 
     def from_list(self, list):
         self.ID = list[0]
         self.name = list[1]
+        self.count = list[2]
         return self
 
     def from_dict(self, dict):
         self.ID = dict.get('ID', None)
+        self.name = dict.get('name', None)
+        self.count = dict.get('count', None)
         return self
 
     def to_list(self):
-        return [self.ID, self.name]
+        return [self.ID, self.name, self.count]
 
     def to_dict(self):
         return {
             'ID': self.ID,
             'name': self.name,
+            'count': self.count,
         }
 
 
