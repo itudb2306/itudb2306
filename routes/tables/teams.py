@@ -5,6 +5,7 @@ from config import RECORDS_PER_PAGE
 from models.tables.teams.table_records import TableRecords
 from models.tables.teams.table_forms import FilterForm, SortForm
 from models.tables.teams.details_records import DetailsRecord
+from models.tables.teams.details_forms import UpdateForm
 from utility import logQuery
 import urllib.parse
 
@@ -151,7 +152,7 @@ def getParksList():
 @table_teams_blueprint.route('/teams', methods=['GET', 'POST'])
 def view_table():
     """
-    URL: /tables/divisions?p=
+    URL: /tables/teams?p=
     """
     # Check if the view exists, if not so, create it.
     checkTeamsEasyViewExists()
@@ -237,7 +238,7 @@ def view_table():
 @table_teams_blueprint.route('/teams/details/<string:ID>', methods=['GET', 'POST'])
 def view_details(ID):
     """
-    URL: /tables/divisions/details/<int:ID>
+    URL: /tables/teams/details/<int:ID>
     """
     # Check if the view exists, if not so, create it.
     checkTeamsDetailsViewExists()
@@ -255,3 +256,30 @@ def view_details(ID):
     parks_list = getParksList()
 
     return render_template('table_teams/teams_details.html', data=data, leagues_list=leagues_list, divisions_list=divisions_list, teams_list=teams_list, parks_list=parks_list)
+
+
+@table_teams_blueprint.route('/teams/update/<string:ID>', methods=['GET', 'POST'])
+def update_record(ID=None):
+    """
+    URL: /tables/parks/update/<string:ID>
+    """
+    if request.method == 'POST' and ID is not None:
+        # Get form data
+        form = UpdateForm().from_dict(request.form)
+
+        # Get column-value pairs to use in SET clause
+        set_string = form.to_set_string()
+
+        # Query building
+        query = Query().UPDATE('teams').SET(set_string).WHERE(
+            'ID = %s' % ID).BUILD()
+
+        vals_tuple = form.to_tuple()
+        # None values are generating problems for logging
+        logQuery(query % vals_tuple)
+
+        # Execute query
+        db.execute(query, vals_tuple)
+        print('Record updated: ', ID)
+
+    return redirect(url_for('teams.view_details', ID=ID))

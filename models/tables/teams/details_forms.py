@@ -120,51 +120,51 @@ class UpdateForm:
                  IPouts: int = None, HA: int = None, HRA: int = None, BBA: int = None, SOA: int = None, E: int = None,
                  DP: int = None, FP: float = None, attendance: int = None, BPF: int = None, PPF: int = None,
                  park_ID: int = None, team_ID: int = None):
-        self.ID = ID,
-        self.yearID = yearID,
-        self.lgID = lgID,
-        self.teamID = teamID,
-        self.div_ID = div_ID,
-        self.teamRank = teamRank,
-        self.G = G,
-        self.Ghome = Ghome,
-        self.W = W,
-        self.L = L,
-        self.DivWin = DivWin,
-        self.WCWin = WCWin,
-        self.LgWin = LgWin,
-        self.WSWin = WSWin,
-        self.R = R,
-        self.AB = AB,
-        self.H = H,
-        self._2B = _2B,
-        self._3B = _3B,
-        self.HR = HR,
-        self.BB = BB,
-        self.SO = SO,
-        self.SB = SB,
-        self.CS = CS,
-        self.HBP = HBP,
-        self.SF = SF,
-        self.RA = RA,
-        self.ER = ER,
-        self.ERA = ERA,
-        self.CG = CG,
-        self.SHO = SHO,
-        self.SV = SV,
-        self.IPouts = IPouts,
-        self.HA = HA,
-        self.HRA = HRA,
-        self.BBA = BBA,
-        self.SOA = SOA,
-        self.E = E,
-        self.DP = DP,
-        self.FP = FP,
-        self.attendance = attendance,
-        self.BPF = BPF,
-        self.PPF = PPF,
-        self.park_ID = park_ID,
-        self.team_ID = team_ID,
+        self.ID = ID
+        self.yearID = yearID
+        self.lgID = lgID
+        self.teamID = teamID
+        self.div_ID = div_ID
+        self.teamRank = teamRank
+        self.G = G
+        self.Ghome = Ghome
+        self.W = W
+        self.L = L
+        self.DivWin = DivWin
+        self.WCWin = WCWin
+        self.LgWin = LgWin
+        self.WSWin = WSWin
+        self.R = R
+        self.AB = AB
+        self.H = H
+        self._2B = _2B
+        self._3B = _3B
+        self.HR = HR
+        self.BB = BB
+        self.SO = SO
+        self.SB = SB
+        self.CS = CS
+        self.HBP = HBP
+        self.SF = SF
+        self.RA = RA
+        self.ER = ER
+        self.ERA = ERA
+        self.CG = CG
+        self.SHO = SHO
+        self.SV = SV
+        self.IPouts = IPouts
+        self.HA = HA
+        self.HRA = HRA
+        self.BBA = BBA
+        self.SOA = SOA
+        self.E = E
+        self.DP = DP
+        self.FP = FP
+        self.attendance = attendance
+        self.BPF = BPF
+        self.PPF = PPF
+        self.park_ID = park_ID
+        self.team_ID = team_ID
 
     # Request args from form
     def from_dict(self, dict):
@@ -184,17 +184,13 @@ class UpdateForm:
         if self.teamID == "":
             self.teamID = None
 
-        self.franchID = dict.get('franchID', None)
-        if self.franchID == "":
-            self.franchID = None
+        self.div_ID = dict.get('div_ID', None)
+        if self.div_ID == "":
+            self.div_ID = None
 
-        self.divID = dict.get('divID', None)
-        if self.divID == "":
-            self.divID = None
-
-        self.rank = dict.get('rank', None)
-        if self.rank == "":
-            self.rank = None
+        self.teamRank = dict.get('teamRank', None)
+        if self.teamRank == "":
+            self.teamRank = None
 
         self.G = dict.get('G', None)
         if self.G == "":
@@ -360,135 +356,223 @@ class UpdateForm:
 
         if self.yearID not in empty:
             set_string += "yearID = %s, "
+        else:
+            set_string += "yearID = NULL, "
 
         if self.lgID not in empty:
             set_string += "lgID = %s, "
+        else:
+            set_string += "lgID = NULL, "
 
         if self.teamID not in empty:
             set_string += "teamID = %s, "
+        else:
+            set_string += "teamID = NULL, "
 
         if self.div_ID not in empty:
             set_string += "div_ID = %s, "
+        else:
+            set_string += "div_ID = NULL, "
 
         if self.teamRank not in empty:
             set_string += "teamRank = %s, "
+        else:
+            set_string += "teamRank = NULL, "
 
         if self.G not in empty:
             set_string += "G = %s, "
+        else:
+            set_string += "G = NULL, "
 
         if self.Ghome not in empty:
             set_string += "Ghome = %s, "
+        else:
+            set_string += "Ghome = NULL, "
 
         if self.W not in empty:
             set_string += "W = %s, "
+        else:
+            set_string += "W = NULL, "
 
         if self.L not in empty:
             set_string += "L = %s, "
+        else:
+            set_string += "L = NULL, "
 
         if self.DivWin not in empty:
             set_string += "DivWin = %s, "
+        else:
+            set_string += "DivWin = NULL, "
 
         if self.WCWin not in empty:
             set_string += "WCWin = %s, "
+        else:
+            set_string += "WCWin = NULL, "
 
         if self.LgWin not in empty:
             set_string += "LgWin = %s, "
+        else:
+            set_string += "LgWin = NULL, "
 
         if self.WSWin not in empty:
             set_string += "WSWin = %s, "
+        else:
+            set_string += "WSWin = NULL, "
 
         if self.R not in empty:
             set_string += "R = %s, "
+        else:
+            set_string += "R = NULL, "
 
         if self.AB not in empty:
             set_string += "AB = %s, "
+        else:
+            set_string += "AB = NULL, "
 
         if self.H not in empty:
             set_string += "H = %s, "
+        else:
+            set_string += "H = NULL, "
 
         if self._2B not in empty:
             set_string += "2B = %s, "
+        else:
+            set_string += "2B = NULL, "
 
         if self._3B not in empty:
             set_string += "3B = %s, "
+        else:
+            set_string += "3B = NULL, "
 
         if self.HR not in empty:
             set_string += "HR = %s, "
+        else:
+            set_string += "HR = NULL, "
 
         if self.BB not in empty:
             set_string += "BB = %s, "
+        else:
+            set_string += "BB = NULL, "
 
         if self.SO not in empty:
             set_string += "SO = %s, "
+        else:
+            set_string += "SO = NULL, "
 
         if self.SB not in empty:
             set_string += "SB = %s, "
+        else:
+            set_string += "SB = NULL, "
 
         if self.CS not in empty:
             set_string += "CS = %s, "
+        else:
+            set_string += "CS = NULL, "
 
         if self.HBP not in empty:
             set_string += "HBP = %s, "
+        else:
+            set_string += "HBP = NULL, "
 
         if self.SF not in empty:
             set_string += "SF = %s, "
+        else:
+            set_string += "SF = NULL, "
 
         if self.RA not in empty:
             set_string += "RA = %s, "
+        else:
+            set_string += "RA = NULL, "
 
         if self.ER not in empty:
             set_string += "ER = %s, "
+        else:
+            set_string += "ER = NULL, "
 
         if self.ERA not in empty:
             set_string += "ERA = %s, "
+        else:
+            set_string += "ERA = NULL, "
 
         if self.CG not in empty:
             set_string += "CG = %s, "
+        else:
+            set_string += 'CG = NULL, '
 
         if self.SHO not in empty:
             set_string += "SHO = %s, "
+        else:
+            set_string += "SHO = NULL, "
 
         if self.SV not in empty:
             set_string += "SV = %s, "
+        else:
+            set_string += "SV = NULL, "
 
         if self.IPouts not in empty:
             set_string += "IPouts = %s, "
+        else:
+            set_string += "IPouts = NULL, "
 
         if self.HA not in empty:
             set_string += "HA = %s, "
+        else:
+            set_string += "HA = NULL, "
 
         if self.HRA not in empty:
             set_string += "HRA = %s, "
+        else:
+            set_string += "HRA = NULL, "
 
         if self.BBA not in empty:
             set_string += "BBA = %s, "
+        else:
+            set_string += "BBA = NULL, "
 
         if self.SOA not in empty:
             set_string += "SOA = %s, "
+        else:
+            set_string += "SOA = NULL, "
 
         if self.E not in empty:
             set_string += "E = %s, "
+        else:
+            set_string += "E = NULL, "
 
         if self.DP not in empty:
             set_string += "DP = %s, "
+        else:
+            set_string += "DP = NULL, "
 
         if self.FP not in empty:
             set_string += "FP = %s, "
+        else:
+            set_string += "FP = NULL, "
 
         if self.attendance not in empty:
             set_string += "attendance = %s, "
+        else:
+            set_string += "attendance = NULL, "
 
         if self.BPF not in empty:
             set_string += "BPF = %s, "
+        else:
+            set_string += "BPF = NULL, "
 
         if self.PPF not in empty:
             set_string += "PPF = %s, "
+        else:
+            set_string += "PPF = NULL, "
 
         if self.park_ID not in empty:
             set_string += "park_ID = %s, "
+        else:
+            set_string += "park_ID = NULL, "
 
         if self.team_ID not in empty:
             set_string += "team_ID = %s, "
+        else:
+            set_string += "team_ID = NULL, "
 
         if set_string != "":
             set_string = set_string[:-2]

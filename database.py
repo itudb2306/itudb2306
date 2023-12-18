@@ -77,6 +77,9 @@ class Query:
     def SET(self, col_val_pairs={}):
         # To accept col val pairs as a string
         if isinstance(col_val_pairs, str):
+            if col_val_pairs == '':
+                return self
+            self._SET += ', ' if self._SET != '' else 'SET '
             self._SET += col_val_pairs
             return self
 
