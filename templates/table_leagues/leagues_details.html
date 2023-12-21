@@ -1,0 +1,31 @@
+{% extends "table_base.html" %}
+
+{% block header %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Fielding Details</title>
+{% endblock %}
+
+{% block table %}
+  <div class="container mt-4">
+    <h1 class="text-center">Leagues Details about {{ data['league'] }} </h1>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="detail">
+          <span class="label">League Name:</span>
+          <span class="value">{{ data['league'] }}</span>
+        </div>
+
+        <div class="detail">
+            <span class="label">Is League Still Active? :</span>
+            <span class="value">{{ data['active'] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+          integrity="..." crossorigin="anonymous"></script>
+{% endblock %}
