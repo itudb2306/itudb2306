@@ -102,7 +102,9 @@ def update_record(player_id = None):
         query = Query().UPDATE('people').SET(col_val_pairs).WHERE('playerID = \'%s\'' % player_id).BUILD()
         # UPDATE people SET nameFirst = 'John', nameLast = 'Doe' ... WHERE playerID = 'johndoe01'
         print(query)
-        db.execute(query)
+        col_val_tuple = form.to_tuple()
+        print(col_val_tuple)
+        db.execute(query, col_val_tuple)
 
         print('Record updated: ', player_id)
 
