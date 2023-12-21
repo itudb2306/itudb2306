@@ -1,0 +1,149 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#sortingModal">Sort</button>
+
+<!-- Sorting Modal -->
+<div class="modal fade" id="sortingModal" tabindex="-1" aria-labelledby="sortingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="sortingModalLabel">Sorting</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('homegames.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortYear" class="form-label">Year</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortYear" id="sortYearASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortYearASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortYear" id="sortYearDESC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortYearDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortLeague" class="form-label">League</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortLeague" id="sortLeagueASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortLeagueASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortLeague" id="sortLeagueDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortLeagueDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortTeamName" class="form-label">Team Name</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortTeamName" id="sortTeamNameASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortTeamNameASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortTeamName" id="sortTeamNameDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortTeamNameDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortParkName" class="form-label">Park Name</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortParkName" id="sortParkNameASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortParkNameASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortParkName" id="sortParkNameDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortParkNameDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortGames" class="form-label">Games</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortGames" id="sortGamesASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortGamesASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortGames" id="sortGamesDESC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortGamesDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortOpenings" class="form-label">Openings</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortOpenings" id="sortOpeningsASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortOpeningsASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortOpenings" id="sortOpeningsDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortOpeningsDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortAttendance" class="form-label">Attendance</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortAttendance" id="sortAttendanceASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortAttendanceASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortAttendance" id="sortAttendanceDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortAttendanceDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortSpanFirstDate" class="form-label">Span First Date</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortSpanFirstDate" id="sortSpanFirstDateASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortSpanFirstDateASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortSpanFirstDate" id="sortSpanFirstDateDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortSpanFirstDateDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortSpanLastDate" class="form-label">Span Last Date</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortSpanLastDate" id="sortSpanLastDateASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortSpanLastDateASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortSpanLastDate" id="sortSpanLastDateDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortSpanLastDateDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

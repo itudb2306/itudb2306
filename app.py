@@ -10,9 +10,13 @@ from routes.tables.batting import table_batting_blueprint
 from routes.tables.divisions import table_divisions_blueprint
 from routes.tables.parks import table_parks_blueprint
 from routes.tables.teams import table_teams_blueprint
+<<<<<<< HEAD
 from routes.tables.leagues import table_leagues_blueprint
 
 from routes.users.auth import auth_blueprint
+=======
+from routes.tables.homegames import table_homegames_blueprint
+>>>>>>> fatih_tables
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -32,9 +36,13 @@ app.register_blueprint(table_divisions_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_parks_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_batting_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_teams_blueprint, url_prefix=TABLES_PREFIX)
+<<<<<<< HEAD
 app.register_blueprint(table_leagues_blueprint, url_prefix=TABLES_PREFIX)
 
 app.register_blueprint(auth_blueprint, url_prefix=AUTH_PREFIX)
+=======
+app.register_blueprint(table_homegames_blueprint, url_prefix=TABLES_PREFIX)
+>>>>>>> fatih_tables
 
 """
 @app.route("/")

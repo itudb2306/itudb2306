@@ -1,0 +1,106 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#updateModal{{data.ID}}">Update</button>
+
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal{{data.ID}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{{ url_for('homegames.update_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+
+                    <input type="hidden" name="ID" value="{{data.ID}}">
+
+                    <div class="mb-3">
+                        <label for="yearkey" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="yearkey" name="yearkey" value="{{ data.year }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="leaguekey" class="form-label">League</label>
+                        <select class="form-control" id="leaguekey" name="leaguekey">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                            {% if league['lgID']==data.lgID %}
+                            <option selected="selected" value="{{ league['lgID'] }}">{{ league['league'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+
+                        <div class="mb-3">
+                            <label for="team_ID" class="form-label">Team</label>
+                            <select class="form-control" id="team_ID" name="team_ID">
+                                <option value="">None</option>
+                                {% for team in teams_list %}
+                                {% if team['ID']==data.team_ID %}
+                                <option selected="selected" value="{{ team['ID'] }}">{{ team['name'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ team['ID'] }}">{{ team['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="park_ID" class="form-label">Park</label>
+                            <select class="form-control" id="park_ID" name="park_ID">
+                                <option value="">None</option>
+                                {% for park in parks_list %}
+                                {% if park['ID']==data.park_ID %}
+                                <option selected="selected" value="{{ park['ID'] }}">{{ park['parkname'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ park['ID'] }}">{{ park['parkname'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="games" class="form-label">Games</label>
+                            <input type="number" class="form-control" id="games" name="games" value="{{ data.games }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="openings" class="form-label">Openings</label>
+                            <input type="number" class="form-control" id="openings" name="openings"
+                                value="{{ data.openings }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="attendance" class="form-label">Attendance</label>
+                            <input type="number" class="form-control" id="attendance" name="attendance"
+                                value="{{ data.attendance }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="spanfirst_date" class="form-label">Span First Date</label>
+                            <input type="date" class="form-control" id="spanfirst_date" name="spanfirst_date"
+                                value="{{ data.spanfirst_date }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="spanlast_date" class="form-label">Span Last Date</label>
+                            <input type="date" class="form-control" id="spanlast_date" name="spanlast_date"
+                                value="{{ data.spanlast_date }}">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
