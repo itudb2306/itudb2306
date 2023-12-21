@@ -8,7 +8,6 @@ from routes.tables.people import table_people_blueprint
 from routes.tables.fielding import table_fielding_blueprint
 from routes.tables.divisions import table_divisions_blueprint
 from routes.tables.parks import table_parks_blueprint
-from routes.tables.teams import table_teams_name_blueprint
 from routes.tables.teams import table_teams_blueprint
 
 from routes.users.auth import auth_blueprint
@@ -29,7 +28,6 @@ app.register_blueprint(table_people_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_fielding_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_divisions_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_parks_blueprint, url_prefix=TABLES_PREFIX)
-app.register_blueprint(table_teams_name_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_teams_blueprint, url_prefix=TABLES_PREFIX)
 
 app.register_blueprint(auth_blueprint, url_prefix=AUTH_PREFIX)
