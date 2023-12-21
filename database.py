@@ -12,8 +12,11 @@ class Database:
         )
         self.cursor = self.db.cursor()
 
-    def fetchone(self, query):
-        self.cursor.execute(query)
+    def fetchone(self, query, params=None):
+        if params is not None:
+            self.cursor.execute(query, params)
+        else:
+            self.cursor.execute(query)
         return self.cursor.fetchone()
 
     def fetchall(self, query):
@@ -46,6 +49,8 @@ class Query:
     def __init__(self):
         self._SELECT = ''
         self._UPDATE = ''
+        self._INSERT_INTO = ''
+        self._VALUES = ''
         self._SET = ''
         self._FROM = ''
         self._WHERE = ''
@@ -75,6 +80,31 @@ class Query:
 
         self._UPDATE += 'UPDATE '
         self._UPDATE += table_name
+        return self
+
+    def INSERT_INTO(self, table_name='', fields=[]):
+        if table_name == '' or not fields or not isinstance(fields, list) or self._INSERT_INTO != '':
+            return self
+
+        self._INSERT_INTO += 'INSERT INTO '
+        self._INSERT_INTO += table_name
+        self._INSERT_INTO += ' ('
+        for field in fields:
+            self._INSERT_INTO += '%s, ' % field
+        self._INSERT_INTO = self._INSERT_INTO[:-2]
+        self._INSERT_INTO += ') '
+        return self
+    
+    def VALUES(self, *args):
+        if not args or not isinstance(args, tuple):
+            return self
+
+        self._VALUES += 'VALUES ('
+        for arg in args:
+            self._VALUES += '%s, '
+            self._PARAMS.append(arg)
+        self._VALUES = self._VALUES[:-2]
+        self._VALUES += ')'
         return self
 
     def SET(self, col_val_pairs={}):

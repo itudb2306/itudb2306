@@ -32,6 +32,41 @@ class UpdateForm:
     
     def to_dict(self):
         return self.__dict__
+    
+    def to_tuple(self):
+        tuple = ()
+
+        if self.playerId is not None and self.playerId != '':
+            tuple += (self.playerId,)
+
+        if self.nameFirst is not None and self.nameFirst != '':
+            tuple += (self.nameFirst,)
+
+        if self.nameLast is not None and self.nameLast != '':
+            tuple += (self.nameLast,)
+
+        if self.nameGiven is not None and self.nameGiven != '':
+            tuple += (self.nameGiven,)
+
+        if self.birth_date is not None and self.birth_date != '':
+            tuple += (self.birth_date,)
+
+        if self.birthCountry is not None and self.birthCountry != '':
+            tuple += (self.birthCountry,)
+
+        if self.weight is not None and self.weight != '':
+            tuple += (self.weight,)
+
+        if self.height is not None and self.height != '':
+            tuple += (self.height,)
+
+        if self.bats is not None and self.bats != '':
+            tuple += (self.bats,)
+
+        if self.throws is not None and self.throws != '':
+            tuple += (self.throws,)
+
+        return tuple
 
 class FilterForm:
     def __init__(self, nameFirst : str = None, nameLast : str = None, nameGiven : str = None, birth_date : str = None, birthCountry : str = None, weight : str = None, height : str = None, bats : str = None, throws : str = None):
