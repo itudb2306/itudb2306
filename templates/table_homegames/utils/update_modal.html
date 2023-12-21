@@ -11,40 +11,102 @@
             </div>
             <div class="modal-body">
                 <form
-                    action="{{ url_for('parks.update_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
+                    action="{{ url_for('homegames.update_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
                     method="POST">
 
                     <input type="hidden" name="ID" value="{{data.ID}}">
+
+                    <!--
+                        self.ID = ID
+                        self.yearkey = yearkey
+                        self.leaguekey = leaguekey
+                        self.team_ID = team_ID
+                        self.park_ID = park_ID
+                        self.games = games
+                        self.openings = openings
+                        self.attendance = attendance
+                        self.spanfirst_date = spanfirst_date
+                        self.spanlast_date = spanlast_date
+                    -->
+
                     <div class="mb-3">
-                        <label for="parkname" class="form-label">Park Name</label>
-                        <input type="text" class="form-control" id="parkname" name="parkname"
-                            value="{{ data.parkname }}">
+                        <label for="yearkey" class="form-label">Year</label>
+                        <input type="number" class="form-control" id="yearkey" name="yearkey" value="{{ data.year }}">
                     </div>
+
                     <div class="mb-3">
-                        <label for="parkalias" class="form-label">Park Alias</label>
-                        <input type="text" class="form-control" id="parkalias" name="parkalias"
-                            value="{{ data.parkalias }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="parkkey" class="form-label">Park Code</label>
-                        <input type="text" class="form-control" id="parkkey" name="parkkey" value="{{ data.parkkey }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" name="country" value="{{ data.country }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="state" class="form-label">State</label>
-                        <input type="text" class="form-control" id="state" name="state" value="{{ data.state }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" name="city" value="{{ data.city }}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
+                        <label for="leaguekey" class="form-label">League</label>
+                        <select class="form-control" id="leaguekey" name="leaguekey">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                            {% if league['lgID']==data.lgID %}
+                            <option selected="selected" value="{{ league['lgID'] }}">{{ league['league'] }}
+                            </option>
+                            {% else %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+
+                        <div class="mb-3">
+                            <label for="team_ID" class="form-label">Team</label>
+                            <select class="form-control" id="team_ID" name="team_ID">
+                                <option value="">None</option>
+                                {% for team in teams_list %}
+                                {% if team['ID']==data.team_ID %}
+                                <option selected="selected" value="{{ team['ID'] }}">{{ team['name'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ team['ID'] }}">{{ team['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="park_ID" class="form-label">Park</label>
+                            <select class="form-control" id="park_ID" name="park_ID">
+                                <option value="">None</option>
+                                {% for park in parks_list %}
+                                {% if park['ID']==data.park_ID %}
+                                <option selected="selected" value="{{ park['ID'] }}">{{ park['parkname'] }}
+                                </option>
+                                {% else %}
+                                <option value="{{ park['ID'] }}">{{ park['parkname'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="games" class="form-label">Games</label>
+                            <input type="number" class="form-control" id="games" name="games" value="{{ data.games }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="openings" class="form-label">Openings</label>
+                            <input type="number" class="form-control" id="openings" name="openings"
+                                value="{{ data.openings }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="attendance" class="form-label">Attendance</label>
+                            <input type="number" class="form-control" id="attendance" name="attendance"
+                                value="{{ data.attendance }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="spanfirst_date" class="form-label">Span First Date</label>
+                            <input type="date" class="form-control" id="spanfirst_date" name="spanfirst_date"
+                                value="{{ data.spanfirst_date }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="spanlast_date" class="form-label">Span Last Date</label>
+                            <input type="date" class="form-control" id="spanlast_date" name="spanlast_date"
+                                value="{{ data.spanlast_date }}">
+                        </div>
                 </form>
             </div>
         </div>

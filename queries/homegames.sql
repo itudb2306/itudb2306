@@ -9,7 +9,10 @@ select
     h.openings as openings,
     h.attendance as attendance,
     h.spanfirst_date as spanfirst_date,
-    h.spanlast_date as spanlast_date
+    h.spanlast_date as spanlast_date,
+    tn.ID as team_ID,
+    l.lgID as lgID,
+    p.ID as park_ID
 from homegames h
 left join teamnames tn on tn.ID = h.team_ID
 left join parks p on p.ID = h.park_ID

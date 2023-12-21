@@ -12,6 +12,9 @@
 | attendance     | int          | YES  |     | NULL    |       |
 | spanfirst_date | date         | YES  |     | NULL    |       |
 | spanlast_date  | date         | YES  |     | NULL    |       |
+| team_ID        | int          | YES  |     | 0       |       |
+| lgID           | char(2)      | YES  |     | NULL    |       |
+| park_ID        | int          | YES  |     | 0       |       |
 +----------------+--------------+------+-----+---------+-------+
 """
 
@@ -19,7 +22,8 @@
 class Record:
     def __init__(self, ID: int = None, year: int = None, league: str = None, team_name: str = None,
                  park_name: str = None, games: int = None, openings: int = None, attendance: int = None,
-                 spanfirst_date: str = None, spanlast_date: str = None):
+                 spanfirst_date: str = None, spanlast_date: str = None, team_ID: int = None, lgID: str = None,
+                 park_ID: int = None):
         self.ID = ID
         self.year = year
         self.league = league
@@ -30,6 +34,9 @@ class Record:
         self.attendance = attendance
         self.spanfirst_date = spanfirst_date
         self.spanlast_date = spanlast_date
+        self.team_ID = team_ID
+        self.lgID = lgID
+        self.park_ID = park_ID
 
     # record.ID -> record[ID]
     # No need for this, since we can use record.ID in jinja2 templates
@@ -47,6 +54,10 @@ class Record:
         self.attendance = list[7]
         self.spanfirst_date = list[8]
         self.spanlast_date = list[9]
+        self.team_ID = list[10]
+        self.lgID = list[11]
+        self.park_ID = list[12]
+
         return self
 
     def from_dict(self, dict):
@@ -60,11 +71,14 @@ class Record:
         self.attendance = dict['attendance']
         self.spanfirst_date = dict['spanfirst_date']
         self.spanlast_date = dict['spanlast_date']
+        self.team_ID = dict['team_ID']
+        self.lgID = dict['lgID']
+        self.park_ID = dict['park_ID']
         return self
 
     def to_list(self):
         return [self.ID, self.year, self.league, self.team_name, self.park_name, self.games, self.openings,
-                self.attendance, self.spanfirst_date, self.spanlast_date]
+                self.attendance, self.spanfirst_date, self.spanlast_date, self.team_ID, self.lgID, self.park_ID]
 
     def to_dict(self):
         return {
@@ -78,6 +92,9 @@ class Record:
             'attendance': self.attendance,
             'spanfirst_date': self.spanfirst_date,
             'spanlast_date': self.spanlast_date,
+            'team_ID': self.team_ID,
+            'lgID': self.lgID,
+            'park_ID': self.park_ID
         }
 
 
