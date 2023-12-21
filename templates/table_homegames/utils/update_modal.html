@@ -16,19 +16,6 @@
 
                     <input type="hidden" name="ID" value="{{data.ID}}">
 
-                    <!--
-                        self.ID = ID
-                        self.yearkey = yearkey
-                        self.leaguekey = leaguekey
-                        self.team_ID = team_ID
-                        self.park_ID = park_ID
-                        self.games = games
-                        self.openings = openings
-                        self.attendance = attendance
-                        self.spanfirst_date = spanfirst_date
-                        self.spanlast_date = spanlast_date
-                    -->
-
                     <div class="mb-3">
                         <label for="yearkey" class="form-label">Year</label>
                         <input type="number" class="form-control" id="yearkey" name="yearkey" value="{{ data.year }}">
@@ -106,6 +93,11 @@
                             <label for="spanlast_date" class="form-label">Span Last Date</label>
                             <input type="date" class="form-control" id="spanlast_date" name="spanlast_date"
                                 value="{{ data.spanlast_date }}">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                 </form>
             </div>

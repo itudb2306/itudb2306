@@ -126,7 +126,7 @@ def view_table():
                            leagues_list=leagues_list, teams_list=teams_list, parks_list=parks_list, filter=filter_encoded, sort=sort_encoded)
 
 
-@table_homegames_blueprint.route('/parks/update/<string:ID>', methods=['GET', 'POST'])
+@table_homegames_blueprint.route('/homegames/update/<string:ID>', methods=['GET', 'POST'])
 def update_record(ID=None):
     """
     URL: /tables/parks/update/<string:ID>
@@ -142,7 +142,7 @@ def update_record(ID=None):
         col_val_pairs = form.to_dict()
 
         # Query building
-        query = Query().UPDATE('parks').SET(col_val_pairs).WHERE(
+        query = Query().UPDATE('homegames').SET(col_val_pairs).WHERE(
             'ID = %s' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
@@ -153,4 +153,4 @@ def update_record(ID=None):
         db.execute(query, vals_tuple)
         print('Record updated: ', ID)
 
-    return redirect(url_for('parks.view_table', **other_args))
+    return redirect(url_for('homegames.view_table', **other_args))
