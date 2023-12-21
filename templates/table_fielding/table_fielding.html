@@ -1,0 +1,76 @@
+{% extends "table_base.html" %}
+{% block header %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Fielding Table</title>
+{% endblock %}
+
+{% block table %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
+
+    <h1>Fielding Table</h1>
+    <p><a href="{{ url_for('index.index') }}">Homepage</a></p>
+
+    <div class="container-fluid mb-3 justify-content-start">
+        <!-- Filter Button -->
+        {% include 'table_fielding/filter_modal.html' %}
+
+        <!-- Sort Button -->
+        {% include 'table_fielding/sort_modal.html' %}
+
+        <!-- Add Button -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Record</button>
+        {% include 'table_fielding/add_modal.html' %}
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Team Name</th>
+                <th scope="col">Year ID</th>
+                <th scope="col">Stint</th>
+                <th scope="col">League Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Games</th>
+                <th scope="col">Games Started</th>
+                <th scope="col">Innings/Outs</th>
+                <th scope="col">Putouts (PO)</th>
+                <th scope="col">Assists (A)</th>
+                <th scope="col">Errors (E)</th>
+                <th scope="col">Double Plays (DP)</th>
+                <th scope="col">Admin Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data['FirstName'] }}</td>
+                <td>{{ data['LastName'] }}</td>
+                <td>{{ data['TeamName'] }}</td>
+                <td>{{ data['yearID'] }}</td>
+                <td>{{ data['stint'] }}</td>
+                <td>{{ data['LeagueName'] }}</td>
+                <td>{{ data['POS'] }}</td>
+                <td>{{ data['G'] }}</td>
+                <td>{{ data['GS'] }}</td>
+                <td>{{ data['InnOuts'] }}</td>
+                <td>{{ data['PO'] }}</td>
+                <td>{{ data['A'] }}</td>
+                <td>{{ data['E'] }}</td>
+                <td>{{ data['DP'] }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}">Update</button>
+                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['ID']}}">Delete</button>
+                </td>
+                
+            </tr>
+            {% include 'table_fielding/update_modal.html' %}
+            {% include 'table_fielding/delete_modal.html' %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include 'table_fielding/pagination.html' %}
+    
+</html>
+{% endblock %}

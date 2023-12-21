@@ -1,0 +1,205 @@
+{% extends "table_base.html" %}
+{% block header %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<title>Team Details</title>
+{% endblock %}
+
+
+{% block table %}
+<!-- Script is for modals to work. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..."
+    crossorigin="anonymous"></script>
+
+<h1>Team Details</h1>
+
+<!--
+    self.ID = ID
+    team_code = team_code
+    self.name = name
+    self.team_name_ID = team_name_ID
+    self.year = year
+    self.league = league
+    self.league_ID = league_ID
+    self.division = division
+    self.division_ID = division_ID
+    self.park = park
+    self.park_ID = park_ID
+    self.team_rank = team_rank
+    self.games = games
+    self.home_games = home_games
+    self.wins = wins
+    self.losses = losses
+    self.division_win = division_win
+    self.wild_card_win = wild_card_win
+    self.league_win = league_win
+    self.world_series_win = world_series_win
+    self.runs_scored = runs_scored
+    self.at_bats = at_bats
+    self.hits = hits
+    self.doubles = doubles
+    self.triples = triples
+    self.homeruns = homeruns
+    self.walks_batters = walks_batters
+    self.strikeouts_batters = strikeouts_batters
+    self.stolen_bases = stolen_bases
+    self.caught_stealing = caught_stealing
+    self.hit_by_pitch = hit_by_pitch
+    self.sacrifice_flies = sacrifice_flies
+    self.runs_allowed = runs_allowed
+    self.earned_runs_allowed = earned_runs_allowed
+    self.earned_run_average = earned_run_average
+    self.complete_games = complete_games
+    self.shutouts = shutouts
+    self.saves = saves
+    self.outs_pitched = outs_pitched
+    self.hits_allowed = hits_allowed
+    self.homeruns_allowed = homeruns_allowed
+    self.walks_allowed = walks_allowed
+    self.strikeouts_pitchers = strikeouts_pitchers
+    self.errors = errors
+    self.double_plays = double_plays
+    self.fielding_percentage = fielding_percentage
+    self.attendance = attendance
+    self.batter_park_factor = batter_park_factor
+    self.pitcher_park_factor = pitcher_park_factor
+-->
+
+<div class="container-fluid mb-3 justify-content-start">
+    {% include 'table_teams/utils/update_modal.html' %}
+</div>
+
+<h2>Team Code</h2>
+<p>{{ data.team_code}}</p>
+
+<h2>Team Name</h2>
+<p>{{ data.name }}</p>
+
+<h2>Year</h2>
+<p>{{ data.year }}</p>
+
+<h2>League</h2>
+<p>{{ data.league }}</p>
+
+<h2>Division</h2>
+<p>{{ data.division }}</p>
+
+<h2>Park</h2>
+<p>{{ data.park }}</p>
+
+<h2>Team Rank</h2>
+<p>{{ data.team_rank }}</p>
+
+<h2>Games</h2>
+<p>{{ data.games }}</p>
+
+<h2>Home Games</h2>
+<p>{{ data.home_games }}</p>
+
+<h2>Wins</h2>
+<p>{{ data.wins }}</p>
+
+<h2>Losses</h2>
+<p>{{ data.losses }}</p>
+
+<h2>Division Win</h2>
+<p>{{ data.division_win }}</p>
+
+<h2>Wild Card Win</h2>
+<p>{{ data.wild_card_win }}</p>
+
+<h2>League Win</h2>
+<p>{{ data.league_win }}</p>
+
+<h2>World Series Win</h2>
+<p>{{ data.world_series_win }}</p>
+
+<h2>Runs Scored</h2>
+<p>{{ data.runs_scored }}</p>
+
+<h2>At Bats</h2>
+<p>{{ data.at_bats }}</p>
+
+<h2>Hits</h2>
+<p>{{ data.hits }}</p>
+
+<h2>Doubles</h2>
+<p>{{ data.doubles }}</p>
+
+<h2>Triples</h2>
+<p>{{ data.triples }}</p>
+
+<h2>Homeruns</h2>
+<p>{{ data.homeruns }}</p>
+
+<h2>Walks Batters</h2>
+<p>{{ data.walks_batters }}</p>
+
+<h2>Strikeouts Batters</h2>
+<p>{{ data.strikeouts_batters }}</p>
+
+<h2>Stolen Bases</h2>
+<p>{{ data.stolen_bases }}</p>
+
+<h2>Caught Stealing</h2>
+<p>{{ data.caught_stealing }}</p>
+
+<h2>Hit By Pitch</h2>
+<p>{{ data.hit_by_pitch }}</p>
+
+<h2>Sacrifice Flies</h2>
+<p>{{ data.sacrifice_flies }}</p>
+
+<h2>Runs Allowed</h2>
+<p>{{ data.runs_allowed }}</p>
+
+<h2>Earned Runs Allowed</h2>
+<p>{{ data.earned_runs_allowed }}</p>
+
+<h2>Earned Run Average</h2>
+<p>{{ data.earned_run_average }}</p>
+
+<h2>Complete Games</h2>
+<p>{{ data.complete_games }}</p>
+
+<h2>Shutouts</h2>
+<p>{{ data.shutouts }}</p>
+
+<h2>Saves</h2>
+<p>{{ data.saves }}</p>
+
+<h2>Outs Pitched</h2>
+<p>{{ data.outs_pitched }}</p>
+
+<h2>Hits Allowed</h2>
+<p>{{ data.hits_allowed }}</p>
+
+<h2>Homeruns Allowed</h2>
+<p>{{ data.homeruns_allowed }}</p>
+
+<h2>Walks Allowed</h2>
+<p>{{ data.walks_allowed }}</p>
+
+<h2>Strikeouts Pitchers</h2>
+<p>{{ data.strikeouts_pitchers }}</p>
+
+<h2>Errors</h2>
+<p>{{ data.errors }}</p>
+
+<h2>Double Plays</h2>
+<p>{{ data.double_plays }}</p>
+
+<h2>Fielding Percentage</h2>
+<p>{{ data.fielding_percentage }}</p>
+
+<h2>Total Home Attendance</h2>
+<p>{{ data.attendance }}</p>
+
+<h2>Three-Year Batter Park Factor</h2>
+<p>{{ data.batter_park_factor }}</p>
+
+<h2>Three-Year Pitcher Park Factor</h2>
+<p>{{ data.pitcher_park_factor }}</p>
+
+{% endblock %}

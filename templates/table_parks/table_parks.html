@@ -13,11 +13,13 @@
   crossorigin="anonymous"></script>
 
 <h1>Parks</h1>
-<p><a href="{{ url_for('index.index') }}">Homepage</a></p>
+<p>Table that holds all the parks held in the baseball database.</p>
 
 <div class="container-fluid mb-3 justify-content-start">
   <!-- Filter Button -->
-  {% include 'table_parks/filter_modal.html' %}
+  {% include 'table_parks/utils/filter_modal.html' %}
+  <!-- Sort Button -->
+  {% include 'table_parks/utils/sort_modal.html' %}
 </div>
 
 <table class="table table-hover">
@@ -41,13 +43,13 @@
       <td>{{ data.state }}</td>
       <td>{{ data.city }}</td>
       <td>
-        {% include 'table_parks/update_modal.html' %}
+        {% include 'table_parks/utils/update_modal.html' %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 
-{% include 'table_parks/pagination.html' %}
+{% include 'table_parks/utils/pagination.html' %}
 
 {% endblock %}

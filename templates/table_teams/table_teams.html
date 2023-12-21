@@ -1,0 +1,68 @@
+{% extends "table_base.html" %}
+{% block header %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<title>Teams</title>
+{% endblock %}
+
+
+{% block table %}
+<!-- Script is for modals to work. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..."
+    crossorigin="anonymous"></script>
+
+<h1>Teams</h1>
+<p>This table shows all the years and leagues that teams played.</p>
+
+<div class="container-fluid mb-3 justify-content-start">
+    {% include 'table_teams/utils/filter_modal.html' %}
+    {% include 'table_teams/utils/sort_modal.html' %}
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Team Code</th>
+            <th scope="col">Team Name</th>
+            <th scope="col">Year</th>
+            <th scope="col">League</th>
+            <th scope="col">Division</th>
+            <th scope="col">Park</th>
+            <th scope="col">Rank</th>
+            <th scope="col">Games</th>
+            <th scope="col">Home Games</th>
+            <th scope="col">Wins</th>
+            <th scope="col">Losses</th>
+            <th scope="col">Division Win?</th>
+            <th scope="col">Wild Card Win?</th>
+            <th scope="col">League Win?</th>
+            <th scope="col">World Series Win?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in data_list %}
+        <tr>
+            <td>{{ data.team_code }}</td>
+            <td><a href="{{ url_for('teams.view_details', ID=data.ID)}}">{{ data.name }}</a></td>
+            <td>{{ data.year }}</td>
+            <td>{{ data.league }}</td>
+            <td>{{ data.division }}</td>
+            <td>{{ data.park }}</td>
+            <td>{{ data.team_rank}}</td>
+            <td>{{ data.games }}</td>
+            <td>{{ data.home_games }}</td>
+            <td>{{ data.wins }}</td>
+            <td>{{ data.losses }}</td>
+            <td>{{ data.division_win }}</td>
+            <td>{{ data.wild_card_win }}</td>
+            <td>{{ data.league_win }}</td>
+            <td>{{ data.world_series_win }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'table_teams/utils/pagination.html' %}
+
+{% endblock %}

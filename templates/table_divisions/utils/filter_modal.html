@@ -1,0 +1,60 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">Filter</button>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('divisions.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+
+                    <div class="mb-3">
+                        <label for="filterLgID" class="form-label">League Code</label>
+                        <select class="form-control" id="filterLgID" name="filterLgID">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterLeague" class="form-label">League Name</label>
+                        <input type="text" class="form-control" id="filterLeague" name="filterLeague">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterLgActive" class="form-label">Is league active?</label>
+                        <select class="form-control" id="filterLgActive" name="filterLgActive">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterDivID" class="form-label">Division Code</label>
+                        <input type="text" class="form-control" id="filterDivID" name="filterDivID" maxlength="1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterDivision" class="form-label">Division Name</label>
+                        <input type="text" class="form-control" id="filterDivision" name="filterDivision">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterDivActive" class="form-label">Is division active?</label>
+                        <select class="form-control" id="filterDivActive" name="filterDivActive">
+                            <option value="">None</option>
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

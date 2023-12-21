@@ -1,0 +1,107 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#sortingModal">Sort</button>
+
+<!-- Sorting Modal -->
+<div class="modal fade" id="sortingModal" tabindex="-1" aria-labelledby="sortingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="sortingModalLabel">Sorting</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('parks.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortParkName" class="form-label">Park Name</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortParkName" id="sortParkNameASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortParkNameASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortParkName" id="sortParkNameDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortParkNameDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortParkAlias" class="form-label">Park Alias</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortParkAlias" id="sortParkAliasASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortParkAliasASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortParkAlias" id="sortParkAliasDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortParkAliasDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortParkKey" class="form-label">Park Code</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortParkKey" id="sortParkKeyASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortParkKeyASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortParkKey" id="sortParkKeyDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortParkKeyDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortCountry" class="form-label">Country</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortCountry" id="sortCountryASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortCountryASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortCountry" id="sortCountryDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortCountryDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortState" class="form-label">State</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortState" id="sortStateASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortStateASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortState" id="sortStateDESC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortStateDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortCity" class="form-label">City</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortCity" id="sortCityASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortCityASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortCity" id="sortCityDESC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortCityDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

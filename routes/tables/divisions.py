@@ -2,12 +2,16 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
+from models.tables.divisions.records import Records
+from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm
+from utility import logQuery
+import urllib.parse
 
 table_divisions_blueprint = Blueprint('divisions', __name__)
 
 
 def checkDivisionsViewExists():
-    # Check whether view exists
+    # This view joins divisions with leagues.
     if not db.checkTableExists('divisions_leagues'):
         divisions_leagues_query = """
         create view divisions_leagues as 
@@ -23,7 +27,7 @@ def checkDivisionsViewExists():
         where
             d.lgID=l.lgID;
         """
-        db.execute(divisions_leagues_query)
+        db.execute(divisions_leagues_query, None)
 
 
 def getLeaguesList():
@@ -37,123 +41,116 @@ def getLeaguesList():
     return leagues_list
 
 
-@table_divisions_blueprint.route('divisions')
+@table_divisions_blueprint.route('/divisions', methods=['GET', 'POST'])
 def view_table():
     """
     URL: /tables/divisions?p=
     """
-
+    # Check if the view exists, if not so, create it.
     checkDivisionsViewExists()
 
-    # Pagination
+   # Pagination
     page = request.args.get('p', 1, type=int)
     first_record = (page - 1) * RECORDS_PER_PAGE
 
+    # Rrequest from form
+    request_form = request.form.to_dict()
+
+    # Filter arguments from the previous request:
+    filter_request_from_prev = request.args.get('filter', None, type=str)
+    filter_dict = urllib.parse.parse_qsl(filter_request_from_prev)
+    filter_dict = dict(filter_dict)
+    filter = FilterForm().from_dict(filter_dict)
+    filter_dict = filter.to_dict()
+    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+
+    # Filter arguments from the new request:
+    filter_request_from_form = FilterForm().from_dict(request_form)
+    if not filter_request_from_form.is_empty():
+        filter = filter_request_from_form
+        filter_dict = filter.to_dict()
+        logQuery(f"Filter request from form: {filter.to_dict()}")
+
+    # Construct the filter string
+    filter_string = filter.to_and_string()
+
+    # Filter arguments from the new request:
+    filter = FilterForm().from_dict(request.form)
+    if filter.to_and_string() != '':
+        print(f"Filter request from filter form: {filter.to_dict()}")
+        filter_string = filter.to_and_string()
+        filter_dict = filter.to_dict()
+
+    # Sorting argıuments from the previous request:
+    sort = request.args.get('sort', None, type=str)
+    sort_dict = urllib.parse.parse_qsl(sort)
+    sort_dict = dict(sort_dict)
+    sort = SortForm().from_dict(sort_dict)
+    sort_dict = sort.to_dict()
+    logQuery(f"Sort request from previous page: {sort.to_dict()}")
+
+    # Sorting arguments from the new request:
+    sort_request_from_form = SortForm().from_dict(request_form)
+    if not sort_request_from_form.is_empty():
+        sort = sort_request_from_form
+        sort_dict = sort.to_dict()
+        logQuery(f"Sort request from form: {sort.to_dict()}")
+
+    # Construct the sort string
+    sort_string = sort.to_and_string()
+
     # Divisions and leagues query
-    query = Query().SELECT('*').FROM('divisions_leagues').LIMIT(first_record,
-                                                                RECORDS_PER_PAGE).BUILD()
+    query = Query().SELECT('*').FROM('divisions_leagues').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
+                                                                                                           RECORDS_PER_PAGE).BUILD()
     result = db.fetchall(query)
 
     # Query building for total pages
-    """
-    select count(*) 
-    from divisions_leagues;
-    """
-    total_pages_query = Query().SELECT('COUNT(*)').FROM(
-        'divisions_leagues').BUILD()
+    total_pages_query = Query().SELECT(
+        'COUNT(*)').FROM('divisions_leagues').WHERE(filter_string).BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
 
     leagues_list = getLeaguesList()
 
-    data_recordings = []
-    for row in result:
-        data_recordings.append({'lgID': row[0],
-                                'league': row[1],
-                                'lgActive': row[2],
-                                'divID': row[3],
-                                'division': row[4],
-                                'divActive': row[5],
-                                'ID': row[6]})
+    data = Records()
+    data.from_list(result)
+    logQuery(f"Records length: {len(data.records)}")
 
-    return render_template('table_divisions.html', data_list=data_recordings, current_page=page, total_pages=total_pages, leagues_list=leagues_list)
+    # Encode filter and sort to pass to template as one string
+    filter_encoded = urllib.parse.urlencode(filter_dict)
+    sort_encoded = urllib.parse.urlencode(sort_dict)
+
+    return render_template('table_divisions/table_divisions.html', data_list=data.records, current_page=page, total_pages=total_pages, leagues_list=leagues_list, filter=filter_encoded, sort=sort_encoded)
 
 
-@table_divisions_blueprint.route('/divisions/update/<int:ID>', methods=['GET', 'POST'])
+@table_divisions_blueprint.route('/divisions/update/<string:ID>', methods=['GET', 'POST'])
 def update_record(ID=None):
     """
-    URL: /tables/divisions/update/<int:ID>
+    URL: /tables/divisions/update/<string:ID>
     """
+    other_args = request.args.to_dict()
 
     if request.method == 'POST' and ID is not None:
         # Get form data
-        col_val_pairs = {
-            'lgID': request.form['lgID'],
-            'division': request.form['division'],
-            'active': request.form['active'],
-            'divID': request.form['divID']
-        }
+        form = UpdateForm().from_dict(request.form)
+        logQuery(form.to_dict())
+
+        # Get column-value pairs to use in SET clause
+        col_val_pairs = form.to_dict()
 
         # Query building
         query = Query().UPDATE('divisions').SET(col_val_pairs).WHERE(
-            'ID = %d' % ID).LIMIT().BUILD()
-        # UPDATE divisions SET lgID = 'AB', division = 'ABC', active = 'N' ... WHERE ID = 5
-        print(query)
+            'ID = %s' % ID).BUILD()
+
+        vals_tuple = form.to_tuple()
+        # None values are generating problems for logging
+        logQuery(query % vals_tuple)
+
         try:
-            db.execute(query)
+            db.execute(query, vals_tuple)
         except:
-            # TODO maybe add a beautiful html page
             return "<p> There is already a league %s and division %s </p>" % (col_val_pairs['lgID'], col_val_pairs['divID'])
 
         print('Record updated: ', ID)
 
-    return redirect(url_for('divisions.view_table'))
-
-
-@table_divisions_blueprint.route('/divisions/seach', methods=['GET', 'POST'])
-def search_records():
-    """
-    URL: /tables/divisions/search
-    """
-
-    checkDivisionsViewExists()
-    
-    # Pagination
-    page = request.args.get('p', 1, type=int)
-    first_record = (page - 1) * RECORDS_PER_PAGE
-
-    if request.method == 'POST':
-        # No sarch was done, searching from strach
-        column = request.form.get('col', None)
-        value = request.form.get('val', None)
-    elif request.method == 'GET':
-        # Search is done, sending the parameters as arguments
-        column = request.args.get('col', None)
-        value = request.args.get('val', None)
-
-    if column is not None and value is not None and column != '' and value != '':
-        total_pages_query = Query().SELECT('COUNT(*)').FROM(
-        'divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).BUILD()
-        total_pages = db.fetchone(total_pages_query)[0]
-        total_pages = total_pages // RECORDS_PER_PAGE + 1
-
-        search_query = Query().SELECT(
-            '*').FROM('divisions_leagues').WHERE('%s LIKE \'%s\'' % (column, value)).LIMIT(first_record,
-                                                                RECORDS_PER_PAGE).BUILD()
-        result = db.fetchall(search_query)
-
-        leagues_list = getLeaguesList()
-
-        data_recordings = []
-        for row in result:
-            data_recordings.append({'lgID': row[0],
-                                    'league': row[1],
-                                    'lgActive': row[2],
-                                    'divID': row[3],
-                                    'division': row[4],
-                                    'divActive': row[5],
-                                    'ID': row[6]})
-
-        return render_template('table_divisions_search.html', data_list=data_recordings, current_page=1, total_pages=total_pages, leagues_list=leagues_list, col=column, val=value)
-
-    return redirect(url_for('divisions.view_table'))
+    return redirect(url_for('divisions.view_table', **other_args))

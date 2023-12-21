@@ -2,66 +2,66 @@
 
 <!-- Filter Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="{{ url_for('people.view_table', p=current_page, sort=sort, filter=filter) }}" method="POST">
-            
-            <div class="mb-3">
-              <label for="filterNameFirst" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="filterNameFirst" name="filterNameFirst">
-            </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('people.view_table', p=current_page, sort=sort, filter=filter) }}" method="POST">
 
-            <div class="mb-3">
-              <label for="filterNameLast" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="filterNameLast" name="filterNameLast">
-            </div>
+          <div class="mb-3">
+            <label for="filterNameFirst" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="filterNameFirst" name="filterNameFirst">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterNameGiven" class="form-label">Given Name</label>
-              <input type="text" class="form-control" id="filterNameGiven" name="filterNameGiven">
-            </div>
+          <div class="mb-3">
+            <label for="filterNameLast" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="filterNameLast" name="filterNameLast">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterBirthDate" class="form-label">Birth Date</label>
-              <input type="text" class="form-control" id="filterBirthDate" name="filterBirthDate">
-            </div>
+          <div class="mb-3">
+            <label for="filterNameGiven" class="form-label">Given Name</label>
+            <input type="text" class="form-control" id="filterNameGiven" name="filterNameGiven">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterBirthCountry" class="form-label">Birth Country</label>
-              <input type="text" class="form-control" id="filterBirthCountry" name="filterBirthCountry">
-            </div>
+          <div class="mb-3">
+            <label for="filterBirthDate" class="form-label">Birth Date</label>
+            <input type="text" class="form-control" id="filterBirthDate" name="filterBirthDate">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterWeight" class="form-label">Weight</label>
-              <input type="text" class="form-control" id="filterWeight" name="filterWeight">
-            </div>
+          <div class="mb-3">
+            <label for="filterBirthCountry" class="form-label">Birth Country</label>
+            <input type="text" class="form-control" id="filterBirthCountry" name="filterBirthCountry">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterHeight" class="form-label">Height</label>
-              <input type="text" class="form-control" id="filterHeight" name="filterHeight">
-            </div>
+          <div class="mb-3">
+            <label for="filterWeight" class="form-label">Weight</label>
+            <input type="text" class="form-control" id="filterWeight" name="filterWeight">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterBats" class="form-label">Bats</label>
-              <input type="text" class="form-control" id="filterBats" name="filterBats">
-            </div>
+          <div class="mb-3">
+            <label for="filterHeight" class="form-label">Height</label>
+            <input type="text" class="form-control" id="filterHeight" name="filterHeight">
+          </div>
 
-            <div class="mb-3">
-              <label for="filterThrows" class="form-label">Throws</label>
-              <input type="text" class="form-control" id="filterThrows" name="filterThrows">
-            </div>
-            
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Filter</button>
-            </div>
+          <div class="mb-3">
+            <label for="filterBats" class="form-label">Bats</label>
+            <input type="text" class="form-control" id="filterBats" name="filterBats">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterThrows" class="form-label">Throws</label>
+            <input type="text" class="form-control" id="filterThrows" name="filterThrows">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
         </form>
-        </div>
       </div>
     </div>
+  </div>
 </div>

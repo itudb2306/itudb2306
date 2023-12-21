@@ -1,0 +1,107 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#sortingModal">Sort</button>
+
+<!-- Sorting Modal -->
+<div class="modal fade" id="sortingModal" tabindex="-1" aria-labelledby="sortingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="sortingModalLabel">Sorting</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('divisions.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortLgID" class="form-label">League Code</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortLgID" id="sortLgIDASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortLgIDASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortLgID" id="sortLgIDDESC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortLgIDDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortLeague" class="form-label">League Name</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortLeague" id="sortLeagueASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortLeagueASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortLeague" id="sortLeagueDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortLeagueDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortLgActive" class="form-label">Is league active?</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortLgActive" id="sortLgActiveASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortLgActiveASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortLgActive" id="sortLgActiveDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortLgActiveDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortDivID" class="form-label">Division Code</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortDivID" id="sortDivIDASC" autocomplete="off"
+                                value="ASC">
+                            <label class="btn btn-outline-primary" for="sortDivIDASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortDivID" id="sortDivIDASC" autocomplete="off"
+                                value="DESC">
+                            <label class="btn btn-outline-primary" for="sortDivIDASC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortDivision" class="form-label">Division Name</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortDivision" id="sortDivisionASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortDivisionASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortDivision" id="sortDivisionDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortDivisionDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                        <label for="sortDivActive" class="form-label">Is division active?</label>
+                        <div>
+                            <input type="radio" class="btn-check" name="sortDivActive" id="sortDivActiveASC"
+                                autocomplete="off" value="ASC">
+                            <label class="btn btn-outline-primary" for="sortDivActiveASC">▲</label>
+
+                            <input type="radio" class="btn-check" name="sortDivActive" id="sortDivActiveDESC"
+                                autocomplete="off" value="DESC">
+                            <label class="btn btn-outline-primary" for="sortDivActiveDESC">▼</label>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

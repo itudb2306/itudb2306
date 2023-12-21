@@ -26,9 +26,9 @@ class Record:
 
     def from_dict(self, dict):
         self.ID = dict['ID']
-        self.parkalias = dict['park_alias']
-        self.parkkey = dict['park_key']
-        self.parkname = dict['park_name']
+        self.parkalias = dict['parkalias']
+        self.parkkey = dict['parkkey']
+        self.parkname = dict['parkname']
         self.city = dict['city']
         self.state = dict['state']
         self.country = dict['country']
@@ -40,9 +40,9 @@ class Record:
     def to_dict(self):
         return {
             'ID': self.ID,
-            'park_alias': self.parkalias,
-            'park_key': self.parkkey,
-            'park_name': self.parkname,
+            'parkalias': self.parkalias,
+            'parkkey': self.parkkey,
+            'parkname': self.parkname,
             'city': self.city,
             'state': self.state,
             'country': self.country
