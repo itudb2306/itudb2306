@@ -52,18 +52,13 @@ body {
     margin: 0 auto;
   }
   
-  .card {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-body {
+  .card-body-box {
     padding: 20px 30px;
+    align-items: center;
   }
   
   .detail {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
   
   .label {
@@ -85,6 +80,7 @@ body {
   
   .label {
     min-width: 150px;
+    color : #ffffff;
   }
   
   .value {
@@ -92,13 +88,28 @@ body {
   }
   
   /* Colors */
-  .card {
-    border: 1px solid #ddd;
+  .card-box {
+    border: 5px solid #464646;
     align-items: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:current.jpg/q_auto:good,w_3000/v1/people/621566/action/hero/current");
+    background-position: center top;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+  }
+
+  .index-page{
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:current.jpg/q_auto:good,w_3000/v1/people/621502/action/hero/current");
+    background-position: center top;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
   }
   
   .detail .value {
-    color: #007bff; /* Primary blue */
+    color: #ffffff;
   }
   
   /* Responsiveness */
@@ -116,4 +127,12 @@ body {
       margin-bottom: 5px;
     }
   }
+
+  .person-image {
+    width: 20rem;
+    border: 4px solid #343131;
+    border-radius: 5%;
+    margin-bottom: 20px;
+   }
+  
   
