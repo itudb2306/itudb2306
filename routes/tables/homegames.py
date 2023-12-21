@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
-from models.tables.parks.records import Records
-from models.tables.parks.forms import UpdateForm, FilterForm, SortForm
+from models.tables.homegames.records import Records
+from models.tables.homegames.forms import UpdateForm, FilterForm, SortForm
+from routes.tables.teams import getLeaguesList, getParksList, getTeamNamesList
 from utility import logQuery
 import urllib.parse
 
@@ -11,6 +12,30 @@ import urllib.parse
 ATTENTION:
     This route is not finished yet. It is just an initial template for the team to create the routes for the tables.
 """
+
+
+def checkHomegamesViewExists():
+    if not db.checkTableExists('homegames_easy'):
+        teams_easy_query = """
+        create view homegames_easy as 
+        select 
+            h.ID as ID,
+            h.yearkey as year,
+            l.league as league,
+            tn.name as team_name,
+            p.parkname as park_name,
+            h.games as games,
+            h.openings as openings,
+            h.attendance as attendance,
+            h.spanfirst_date as spanfirst_date,
+            h.spanlast_date as spanlast_date
+        from homegames h
+        left join teamnames tn on tn.ID = h.team_ID
+        left join parks p on p.ID = h.park_ID
+        left join leagues l on h.leaguekey = l.lgID;
+        """
+        db.execute(teams_easy_query, None)
+
 
 table_homegames_blueprint = Blueprint('homegames', __name__)
 
@@ -71,13 +96,13 @@ def view_table():
     sort_string = sort.to_and_string()
 
     # Query for table
-    query = Query().SELECT('*').FROM('parks').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
-                                                                                               RECORDS_PER_PAGE).BUILD()
+    query = Query().SELECT('*').FROM('homegames_easy').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
+                                                                                                        RECORDS_PER_PAGE).BUILD()
     logQuery(query)
     result = db.fetchall(query)
 
     total_pages_query = Query().SELECT(
-        'COUNT(*)').FROM('parks').WHERE(filter_string).BUILD()
+        'COUNT(*)').FROM('homegames_easy').WHERE(filter_string).BUILD()
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     logQuery(total_pages_query)
@@ -90,10 +115,15 @@ def view_table():
     filter_encoded = urllib.parse.urlencode(filter_dict)
     sort_encoded = urllib.parse.urlencode(sort_dict)
 
-    return render_template('table_parks/table_parks.html', data_list=data.records, current_page=page, total_pages=total_pages, filter=filter_encoded, sort=sort_encoded)
+    leagues_list = getLeaguesList()
+    teams_list = getTeamNamesList()
+    parks_list = getParksList()
+
+    return render_template('table_homegames/table_homegames.html', data_list=data.records, current_page=page, total_pages=total_pages,
+                           leagues_list=leagues_list, teams_list=teams_list, parks_list=parks_list, filter=filter_encoded, sort=sort_encoded)
 
 
-@table_parks_blueprint.route('/parks/update/<string:ID>', methods=['GET', 'POST'])
+@table_homegames_blueprint.route('/parks/update/<string:ID>', methods=['GET', 'POST'])
 def update_record(ID=None):
     """
     URL: /tables/parks/update/<string:ID>
