@@ -9,33 +9,100 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ url_for('parks.view_table', p=current_page, sort=sort, filter=filter) }}"
+                <form action="{{ url_for('homegames.view_table', p=current_page, sort=sort, filter=filter) }}"
                     method="POST">
 
                     <div class="mb-3">
-                        <label for="fitlerParkName" class="form-label">Park Name</label>
-                        <input type="text" class="form-control" id="fitlerParkName" name="fitlerParkName">
+                        <label for="filterYearUL" class="form-label">Year Upper Limit</label>
+                        <input type="number" class="form-control" id="filterYearUL" name="filterYearUL">
                     </div>
+
                     <div class="mb-3">
-                        <label for="filterParkAlias" class="form-label">Park Alias</label>
-                        <input type="text" class="form-control" id="filterParkAlias" name="filterParkAlias">
+                        <label for="filterYearLL" class="form-label">Year Lower Limit</label>
+                        <input type="number" class="form-control" id="filterYearLL" name="filterYearLL">
                     </div>
+
                     <div class="mb-3">
-                        <label for="filterParkKey" class="form-label">Park Code</label>
-                        <input type="text" class="form-control" id="filterParkKey" name="filterParkKey">
+                        <label for="filterLeague" class="form-label">League</label>
+                        <select class="form-control" id="filterLeague" name="filterLeague">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+
                     <div class="mb-3">
-                        <label for="filterCountry" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="filterCountry" name="filterCountry">
+                        <label for="filterTeamName" class="form-label">Team</label>
+                        <select class="form-control" id="filterTeamName" name="filterTeamName">
+                            <option value="">None</option>
+                            {% for team in teams_list %}
+                            <option value="{{ team['ID'] }}">{{ team['name'] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+
                     <div class="mb-3">
-                        <label for="filterState" class="form-label">State</label>
-                        <input type="text" class="form-control" id="filterState" name="filterState">
+                        <label for="filterParkName" class="form-label">Park</label>
+                        <select class="form-control" id="filterParkName" name="filterParkName">
+                            <option value="">None</option>
+                            {% for park in parks_list %}
+                            <option value="{{ park['ID'] }}">{{ park['parkname'] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+
                     <div class="mb-3">
-                        <label for="filterCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="filterCity" name="filterCity">
+                        <label for="filterGamesUL" class="form-label">Games Upper Limit</label>
+                        <input type="number" class="form-control" id="filterGamesUL" name="filterGamesUL">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="filterGamesLL" class="form-label">Games Lower Limit</label>
+                        <input type="number" class="form-control" id="filterGamesLL" name="filterGamesLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterOpeningsUL" class="form-label">Openings Upper Limit</label>
+                        <input type="number" class="form-control" id="filterOpeningsUL" name="filterOpeningsUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterOpeningsLL" class="form-label">Openings Lower Limit</label>
+                        <input type="number" class="form-control" id="filterOpeningsLL" name="filterOpeningsLL">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="filterAttendanceUL" class="form-label">Attendance Upper Limit</label>
+                        <input type="number" class="form-control" id="filterAttendanceUL" name="filterAttendanceUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterAttendanceLL" class="form-label">Attendance Lower Limit</label>
+                        <input type="number" class="form-control" id="filterAttendanceLL" name="filterAttendanceLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterSpanFirstDateUL" class="form-label">Span First Date Upper Limit</label>
+                        <input type="date" class="form-control" id="filterSpanFirstDateUL" name="filterSpanFirstDateUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterSpanFirstDateLL" class="form-label">Span First Date Lower Limit</label>
+                        <input type="date" class="form-control" id="filterSpanFirstDateLL" name="filterSpanFirstDateLL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterSpanLastDateUL" class="form-label">Span Last Date</label>
+                        <input type="date" class="form-control" id="filterSpanLastDateUL" name="filterSpanLastDateUL">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterSpanLastDateLL" class="form-label">Span Last Date</label>
+                        <input type="date" class="form-control" id="filterSpanLastDateLL" name="filterSpanLastDateLL">
+                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Filter</button>

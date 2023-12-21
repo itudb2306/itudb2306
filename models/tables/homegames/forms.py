@@ -134,16 +134,16 @@ class UpdateForm:
 
 
 class FilterForm:
-    def __init__(self, yearUL: int = None, yearLL: int = None, league: str = None, team_name: str = None,
-                 park_name: str = None, gamesUL: int = None, gamesLL: int = None, openingsUL: int = None,
+    def __init__(self, yearUL: int = None, yearLL: int = None, lgID: str = None, team_ID: int = None,
+                 park_ID: str = None, gamesUL: int = None, gamesLL: int = None, openingsUL: int = None,
                  openingsLL: int = None, attendanceUL: int = None, attendanceLL: int = None,
                  spanfirst_dateUL: str = None, spanfirst_dateLL: str = None, spanlast_dateUL: str = None,
                  spanlast_dateLL: str = None):
         self.yearUL = yearUL
         self.yearLL = yearLL
-        self.league = league
-        self.team_name = team_name
-        self.park_name = park_name
+        self.lgID = lgID
+        self.team_ID = team_ID
+        self.park_ID = park_ID
         self.gamesUL = gamesUL
         self.gamesLL = gamesLL
         self.openingsUL = openingsUL
@@ -232,9 +232,9 @@ class FilterForm:
         fitler_dict = {
             'filterYearUL': self.yearUL,
             'filterYearLL': self.yearLL,
-            'filterLeague': self.league,
-            'filterTeamName': self.team_name,
-            'filterParkName': self.park_name,
+            'filterLeague': self.lgID,
+            'filterTeamName': self.team_ID,
+            'filterParkName': self.park_ID,
             'filterGamesUL': self.gamesUL,
             'filterGamesLL': self.gamesLL,
             'filterOpeningsUL': self.openingsUL,
@@ -262,13 +262,13 @@ class FilterForm:
             and_string += " AND year >= {}".format(self.yearLL)
 
         if self.league not in empty:
-            and_string += " AND league LIKE '%{}%'".format(self.league)
+            and_string += " AND lgID LIKE '%{}%'".format(self.league)
 
         if self.team_name not in empty:
-            and_string += " AND team_name LIKE '%{}%'".format(self.team_name)
+            and_string += " AND team_ID = {}".format(self.team_name)
 
         if self.park_name not in empty:
-            and_string += "park_name LIKE '%{}%'".format(self.park_name)
+            and_string += "park_ID = {}".format(self.park_name)
 
         if self.gamesUL not in empty:
             and_string += " AND games <= {}".format(self.gamesUL)
