@@ -7,6 +7,7 @@ from passlib.hash import pbkdf2_sha256 as hasher
 
 auth_blueprint = Blueprint('auth', __name__)
 
+
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     """
@@ -16,7 +17,7 @@ def login():
     if current_user.is_authenticated:
         print("User already logged in")
         return redirect(url_for('index.index'))
-    
+
     form = LoginForm()
     remember = request.form.get('remember')
 
@@ -30,7 +31,7 @@ def login():
                 print("Invalid username or password")
                 flash('Invalid username or password')
                 return redirect(url_for('auth.login'))
-            
+
             user = User(result[0], result[1], result[2], result[3], result[4])
             print("User logged in:", user)
             login_user(user, remember=remember)
@@ -42,9 +43,10 @@ def login():
             print("Invalid username or password")
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
-        
+
     print("Form is not validated")
     return render_template('users/auth/login.html', form=form)
+
 
 @auth_blueprint.route('/logout')
 @login_required
@@ -55,6 +57,7 @@ def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
+
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     """
@@ -64,7 +67,7 @@ def signup():
     if current_user.is_authenticated:
         print("User already logged in")
         return redirect(url_for('index.index'))
-    
+
     form = SignUpForm()
     print("Form:", form)
     if form.validate_on_submit():
@@ -72,9 +75,10 @@ def signup():
         form.hash_password()
 
         # Query building for table
-        query = Query().INSERT_INTO('users', ['username', 'email', 'password', 'is_admin']).VALUES('%s', '%s', '%s', '%s').BUILD()
+        query = "INSERT INTO users (username, email, password, is_admin) VALUES (%s, %s, %s, %s)"
         print("Query:", query)
-        db.execute(query, params=(form.username.data, form.email.data, form.password.data, 0))
+        db.execute(query, params=(form.username.data,
+                   form.email.data, form.password.data, 0))
         flash('Account created for %s!' % form.username.data)
         return redirect(url_for('auth.login'))
     print("Form is not validated")
