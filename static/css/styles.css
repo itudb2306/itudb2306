@@ -39,3 +39,81 @@ li.navbar_item a:hover {
 .admin-actions {
     margin-top: 5px;
 }
+
+/* Base styling */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 20px 30px;
+  }
+  
+  .detail {
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  /* Modern styling */
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .detail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .label {
+    min-width: 150px;
+  }
+  
+  .value {
+    font-weight: 500;
+  }
+  
+  /* Colors */
+  .card {
+    border: 1px solid #ddd;
+    align-items: center;
+  }
+  
+  .detail .value {
+    color: #007bff; /* Primary blue */
+  }
+  
+  /* Responsiveness */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 15px;
+    }
+  
+    .detail {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .label {
+      margin-bottom: 5px;
+    }
+  }
+  
