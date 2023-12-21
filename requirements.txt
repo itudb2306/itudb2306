@@ -3,3 +3,4 @@ python-dotenv
 flask
 flask-login
 flask_wtf
+passlib

@@ -8,6 +8,7 @@ mysql-connector-python-rf
 python-dotenv
 flask-login
 flask_wtf
+passlib
 ```
 
 
