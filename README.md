@@ -9,6 +9,7 @@ python-dotenv
 flask-login
 flask_wtf
 passlib
+email_validator
 ```
 
 
