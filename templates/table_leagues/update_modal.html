@@ -1,0 +1,32 @@
+<!-- Update Modal -->
+<div class="modal fade" id="updateModal{{data['lgID']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('leagues.update_record', ID=data['lgID']) }}" method="POST">
+
+                    <input type="hidden" name="ID" value="{{data['lgID']}}">
+
+                    <div class="mb-3">
+                        <label for="league" class="form-label">League Name</label>
+                        <input type="text" class="form-control" id="league" name="league" value="{{ data['league'] }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="active" class="form-label">Is Active</label>
+                        <input type="text" class="form-control" id="active" name="active" value="{{ data['active'] }}">
+                    </div>
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

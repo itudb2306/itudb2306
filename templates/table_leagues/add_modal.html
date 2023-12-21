@@ -1,0 +1,58 @@
+<!-- Add Modal -->
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h1 class="modal-title fs-5" id="addModalLabel">Add a New Record</h1>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <form action="{{ url_for('leagues.add_record') }}" method="POST">
+                    
+                    <div class="mb-3">
+
+                        <label for="lgID" class="form-label"> League ID (lgID)</label>
+
+                        <input type="text" class="form-control" id="lgID" name="lgID">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="league" class="form-label"> League Name (league)</label>
+
+                        <input type="text" class="form-control" id="league" name="league">
+                    
+                    </div>
+
+                    <!-- active -->
+
+                    <div class="mb-3">
+
+                        <label for="active" class="form-label"> Is Active (active)</label>
+
+                        <input type="text" class="form-control" id="active" name="active">
+                    
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

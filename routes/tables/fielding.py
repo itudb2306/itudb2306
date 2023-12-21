@@ -6,11 +6,6 @@ from models.tables.fielding.forms import FilterForm , SortForm
 from config import RECORDS_PER_PAGE
 import urllib.parse
 
-"""
-ATTENTION:
-    This route is not finished yet. It is just an initial template for the team to create the routes for the tables.
-"""
-
 table_fielding_blueprint = Blueprint('fielding', __name__)
 
 def getPlayersList():
@@ -77,7 +72,7 @@ def view_table():
     JOIN
         people p ON f.playerID = p.playerID
     JOIN
-        teamnames t ON f.team_id = t.id
+        teams t ON f.team_id = t.id
     JOIN
         leagues l ON f.lgID = l.lgID;
     """
@@ -149,6 +144,31 @@ def view_table():
     sort_encoded = urllib.parse.urlencode(sort_dict)
 
     return render_template('table_fielding/table_fielding.html', data_list=data.records, current_page=page, total_pages=total_pages, leagues_list = leagues_list, teams_list = teams_list, players_list = players_list, filter = filter_encoded, sort = sort_encoded)
+
+
+@table_fielding_blueprint.route('/fielding/details/<string:ID>', methods=['GET', 'POST'])
+def view_details(ID):
+    """
+    URL: /tables/fielding/details/<string:ID>
+    """
+    # Query building for table
+    query = Query().SELECT('p.nameFirst AS FirstName, p.nameLast AS LastName, t.name AS TeamName, f.yearID, f.stint, l.league AS LeagueName, f.POS, f.G, f.GS, f.InnOuts, f.PO, f.A, f.E, f.DP, f.ID'
+    ).FROM('fielding f ' 
+    ).JOIN('people p', 'f.playerID = p.playerID'
+    ).JOIN('teamnames t', 'f.team_id = t.id'
+    ).JOIN('leagues l', 'f.lgID = l.lgID'
+    ).WHERE('f.ID = %s' % ID
+    ).BUILD()
+    
+    print(query)
+    result = db.fetchall(query)
+
+    # Match column names with values
+    result = result[0]
+    result = dict(zip(['FirstName', 'LastName', 'TeamName', 'yearID', 'stint', 'LeagueName', 'POS', 'G', 'GS', 'InnOuts', 'PO', 'A', 'E', 'DP', 'ID'], result))
+
+
+    return render_template('table_fielding/fielding_details.html', data = result)
 
 
 
