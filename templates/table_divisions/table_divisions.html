@@ -16,7 +16,7 @@
 
 <p>Table that holds all the divisions held in the baseball database.</p>
 
-<div class="container-fluid mb-3 justify-content-start">
+<div class="container-fluid mb-3 justify-content">
     <!-- Filter Button -->
     {% include 'table_divisions/utils/filter_modal.html' %}
     <!-- Sort Button -->
@@ -52,10 +52,12 @@
             <td>{{ data.divActive }}</td>
             {% if current_user.is_admin %}
             <td>
+
                 <!-- Update Button -->
                 {% include 'table_divisions/utils/update_modal.html' %}
                 <!-- Delete Button -->
                 {% include 'table_divisions/utils/delete_modal.html' %}
+
             </td>
             {% endif %}
         </tr>
