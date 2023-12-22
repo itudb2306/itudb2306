@@ -4,7 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.parks.records import Records
 from models.tables.parks.forms import UpdateForm, FilterForm, SortForm, AddForm
-from utility import logQuery, exceptionPage
+from utility import exceptionPage
 import urllib.parse
 
 """
@@ -33,14 +33,14 @@ def view_table():
     filter_dict = dict(filter_dict)
     filter = FilterForm().from_dict(filter_dict)
     filter_dict = filter.to_dict()
-    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+    print(f"Filter request from previous page: {filter.to_dict()}")
 
     # Filter arguments from the new request:
     filter_request_from_form = FilterForm().from_dict(request_form)
     if not filter_request_from_form.is_empty():
         filter = filter_request_from_form
         filter_dict = filter.to_dict()
-        logQuery(f"Filter request from form: {filter.to_dict()}")
+        print(f"Filter request from form: {filter.to_dict()}")
 
     # Construct the filter string
     filter_string = filter.to_and_string()
@@ -58,14 +58,14 @@ def view_table():
     sort_dict = dict(sort_dict)
     sort = SortForm().from_dict(sort_dict)
     sort_dict = sort.to_dict()
-    logQuery(f"Sort request from previous page: {sort.to_dict()}")
+    print(f"Sort request from previous page: {sort.to_dict()}")
 
     # Sorting arguments from the new request:
     sort_request_from_form = SortForm().from_dict(request_form)
     if not sort_request_from_form.is_empty():
         sort = sort_request_from_form
         sort_dict = sort.to_dict()
-        logQuery(f"Sort request from form: {sort.to_dict()}")
+        print(f"Sort request from form: {sort.to_dict()}")
 
     # Construct the sort string
     sort_string = sort.to_and_string()
@@ -73,7 +73,6 @@ def view_table():
     # Query for table
     query = Query().SELECT('*').FROM('parks').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
                                                                                                RECORDS_PER_PAGE).BUILD()
-    logQuery(query)
     try:
         result = db.fetchall(query)
     except Exception as e:
@@ -88,11 +87,10 @@ def view_table():
         return exceptionPage(e)
 
     total_pages = total_pages // RECORDS_PER_PAGE + 1
-    logQuery(total_pages_query)
 
     data = Records()
     data.from_list(result)
-    logQuery(f"Records length: {len(data.records)}")
+    print(f"Records length: {len(data.records)}")
 
     # Encode filter and sort to pass to template as one string
     filter_encoded = urllib.parse.urlencode(filter_dict)
@@ -111,7 +109,7 @@ def update_record(ID=None):
     if request.method == 'POST' and ID is not None:
         # Get form data
         form = UpdateForm().from_dict(request.form)
-        logQuery(form.to_dict())
+        print(form.to_dict())
 
         # Get column-value pairs to use in SET clause
         col_val_pairs = form.to_dict()
@@ -121,8 +119,6 @@ def update_record(ID=None):
             'ID = %s' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
-        # None values are generating problems for logging
-        logQuery(query % vals_tuple)
 
         # Execute query
         try:
@@ -144,9 +140,6 @@ def delete_record(ID=None):
 
     # Query building
     query = Query().DELETE().FROM('parks').WHERE("ID = %s").BUILD()
-
-    # None values are generating problems for logging
-    logQuery(query % (ID,))
 
     # Execute query
     try:
