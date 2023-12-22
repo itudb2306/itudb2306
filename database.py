@@ -223,3 +223,20 @@ class Query:
         self._VALUES = self._VALUES[:-2]
         self._VALUES += ')'
         return self
+
+    def INSERT_INTO_MANUAL(self, table_name, col_val_pairs):
+        column_string = '('
+        values_string = ' VALUES ('
+
+        for col, val in col_val_pairs.items():
+            column_string += '%s, ' % col
+            values_string += '%s, '
+
+        column_string = column_string[:-2]
+        values_string = values_string[:-2]
+        column_string += ')'
+        values_string += ')'
+
+        self._INSERT_INTO = 'INSERT INTO %s %s' % (table_name, column_string)
+        self._VALUES = values_string
+        return self

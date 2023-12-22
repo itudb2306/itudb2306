@@ -1,30 +1,3 @@
-"""
-create view teams_easy as
-select 
-    t.ID as ID,
-    t.teamID as team_code,
-    tn.name as name,
-    t.yearID as year,
-    l.league as league,
-    d.division as division,
-    p.parkname as park,
-    t.teamRank as team_rank,
-    t.G as games,
-    t.Ghome as home_games,
-    t.W as wins,
-    t.L as losses,
-    t.DivWin as division_win,
-    t.WCWin as wild_card_win,
-    t.LgWin as league_win,
-    t.WSWin as world_series_win
-from teams t
-left join leagues l on t.lgID = l.lgID
-left join divisions d on t.div_ID = d.ID
-left join teamnames tn on t.team_ID = tn.ID
-left join parks p on t.park_ID = p.ID
-"""
-
-
 class TableRecord:
     def __init__(self, ID: int = None, team_code: str = None, name: str = None, year: int = None, league: str = None,
                  division: str = None, park: str = None, team_rank: int = None, games: int = None, home_games: int = None,

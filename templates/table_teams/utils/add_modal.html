@@ -1,22 +1,21 @@
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data.ID}}">{%
-    include 'svg_icons/pencil.html' %}</button>
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">{% include
+    'svg_icons/plus.html' %}</button>
 
-<!-- Update Modal -->
-<div class="modal fade" id="updateModal{{data.ID}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <h1 class="modal-title fs-5" id="addModalLabel">Add Record</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ url_for('teams.update_record', ID=data.ID) }}" method="POST">
-
-                    <input type="hidden" name="ID" value="{{data.ID}}">
+                <form action="{{ url_for('teams.add_record', p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
 
                     <div class="mb-3">
                         <label for="teamID" class="form-label">Team Code</label>
-                        <input type="text" class="form-control" id="teamID" name="teamID" value="{{ data.team_code }}">
+                        <input type="text" class="form-control" id="teamID" name="teamID">
                     </div>
 
                     <div class="mb-3">
@@ -24,19 +23,14 @@
                         <select class="form-control" id="team_ID" name="team_ID">
                             <option value="">None</option>
                             {% for team in teams_list %}
-                            {% if team['ID']==data.team_name_ID %}
-                            <option selected="selected" value="{{ team['ID'] }}">{{ team['name'] }}
-                            </option>
-                            {% else %}
                             <option value="{{ team['ID'] }}">{{ team['name'] }}</option>
-                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="yearID" class="form-label">Year</label>
-                        <input type="number" class="form-control" id="yearID" name="yearID" value="{{ data.year }}">
+                        <input type="number" class="form-control" id="yearID" name="yearID">
                     </div>
 
                     <div class="mb-3">
@@ -44,12 +38,7 @@
                         <select class="form-control" id="lgID" name="lgID">
                             <option value="">None</option>
                             {% for league in leagues_list %}
-                            {% if league['lgID']==data.league_ID %}
-                            <option selected="selected" value="{{ league['lgID'] }}">{{ league['league'] }}
-                            </option>
-                            {% else %}
                             <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
-                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -59,12 +48,7 @@
                         <select class="form-control" id="div_ID" name="div_ID">
                             <option value="">None</option>
                             {% for division in divisions_list %}
-                            {% if division['ID']==data.division_ID %}
-                            <option selected="selected" value="{{ division['ID'] }}">{{ division['division'] }}
-                            </option>
-                            {% else %}
                             <option value="{{ division['ID'] }}">{{ division['division'] }}</option>
-                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -74,254 +58,217 @@
                         <select class="form-control" id="park_ID" name="park_ID">
                             <option value="">None</option>
                             {% for park in parks_list %}
-                            {% if park['ID']==data.park_ID %}
-                            <option selected="selected" value="{{ park['ID'] }}">{{ park['parkname'] }}
-                            </option>
-                            {% else %}
                             <option value="{{ park['ID'] }}">{{ park['park'] }}</option>
-                            {% endif %}
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="teamRank" class="form-label">Team Rank</label>
-                        <input type="number" class="form-control" id="teamRank" name="teamRank"
-                            value="{{ data.team_rank }}">
+                        <input type="number" class="form-control" id="teamRank" name="teamRank">
                     </div>
 
                     <div class="mb-3">
                         <label for="G" class="form-label">Games</label>
-                        <input type="number" class="form-control" id="G" name="G" value="{{ data.games }}">
+                        <input type="number" class="form-control" id="G" name="G">
                     </div>
 
                     <div class="mb-3">
                         <label for="Ghome" class="form-label">Home Games</label>
-                        <input type="number" class="form-control" id="Ghome" name="Ghome" value="{{ data.home_games }}">
+                        <input type="number" class="form-control" id="Ghome" name="Ghome">
                     </div>
 
                     <div class="mb-3">
                         <label for="W" class="form-label">Wins</label>
-                        <input type="number" class="form-control" id="W" name="W" value="{{ data.wins }}">
+                        <input type="number" class="form-control" id="W" name="W">
                     </div>
 
                     <div class="mb-3">
                         <label for="L" class="form-label">Losses</label>
-                        <input type="number" class="form-control" id="L" name="L" value="{{ data.losses }}">
+                        <input type="number" class="form-control" id="L" name="L">
                     </div>
 
                     <div class="mb-3">
                         <label for="DivWin" class="form-label">Division Win?</label>
                         <select class="form-control" id="DivWin" name="DivWin">
-                            {% if data.division_win == 'Y' %}
-                            <option selected="selected" value='Y'>Yes</option>
-                            <option value='N'>No</option>
-                            {% else %}
                             <option value='Y'>Yes</option>
-                            <option selected="selected" value='N'>No</option>
-                            {% endif %}
+                            <option value='N'>No</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="WCWin" class="form-label">Wild Card Win?</label>
                         <select class="form-control" id="WCWin" name="WCWin">
-                            {% if data.wild_card_win == 'Y' %}
-                            <option selected="selected" value='Y'>Yes</option>
-                            <option value='N'>No</option>
-                            {% else %}
                             <option value='Y'>Yes</option>
-                            <option selected="selected" value='N'>No</option>
-                            {% endif %}
+                            <option value='N'>No</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="LgWin" class="form-label">League Win?</label>
                         <select class="form-control" id="LgWin" name="LgWin">
-                            {% if data.league_win == 'Y' %}
-                            <option selected="selected" value='Y'>Yes</option>
-                            <option value='N'>No</option>
-                            {% else %}
                             <option value='Y'>Yes</option>
-                            <option selected="selected" value='N'>No</option>
-                            {% endif %}
+                            <option value='N'>No</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="WSWin" class="form-label">World Series Win?</label>
                         <select class="form-control" id="WSWin" name="WSWin">
-                            {% if data.world_series_win == 'Y' %}
-                            <option selected="selected" value='Y'>Yes</option>
-                            <option value='N'>No</option>
-                            {% else %}
                             <option value='Y'>Yes</option>
-                            <option selected="selected" value='N'>No</option>
-                            {% endif %}
+                            <option value='N'>No</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="R" class="form-label">Runs Scored</label>
-                        <input type="number" class="form-control" id="R" name="R" value="{{ data.runs_scored }}">
+                        <input type="number" class="form-control" id="R" name="R">
                     </div>
 
                     <div class="mb-3">
                         <label for="AB" class="form-label">At Bats</label>
-                        <input type="number" class="form-control" id="AB" name="AB" value="{{ data.at_bats }}">
+                        <input type="number" class="form-control" id="AB" name="AB">
                     </div>
 
                     <div class="mb-3">
                         <label for="H" class="form-label">Hits</label>
-                        <input type="number" class="form-control" id="H" name="H" value="{{ data.hits }}">
+                        <input type="number" class="form-control" id="H" name="H">
                     </div>
 
                     <div class="mb-3">
                         <label for="2B" class="form-label">Doubles</label>
-                        <input type="number" class="form-control" id="2B" name="2B" value="{{ data.doubles }}">
+                        <input type="number" class="form-control" id="2B" name="2B>
                     </div>
 
-                    <div class="mb-3">
+                    <div class=" mb-3">
                         <label for="3B" class="form-label">Triples</label>
-                        <input type="number" class="form-control" id="3B" name="3B" value="{{ data.triples }}">
+                        <input type="number" class="form-control" id="3B" name="3B">
                     </div>
 
                     <div class="mb-3">
                         <label for="HR" class="form-label">Home Runs</label>
-                        <input type="number" class="form-control" id="HR" name="HR" value="{{ data.homeruns }}">
+                        <input type="number" class="form-control" id="HR" name="HR">
                     </div>
 
                     <div class="mb-3">
                         <label for="BB" class="form-label">Walks Batters</label>
-                        <input type="number" class="form-control" id="BB" name="BB" value="{{ data.walks_batters }}">
+                        <input type="number" class="form-control" id="BB" name="BB">
                     </div>
 
                     <div class="mb-3">
                         <label for="SO" class="form-label">Strikeouts Batters</label>
-                        <input type="number" class="form-control" id="SO" name="SO"
-                            value="{{ data.strikeouts_batters }}">
+                        <input type="number" class="form-control" id="SO" name="SO">
                     </div>
 
                     <div class="mb-3">
                         <label for="SB" class="form-label">Stolen Bases</label>
-                        <input type="number" class="form-control" id="SB" name="SB" value="{{ data.stolen_bases }}">
+                        <input type="number" class="form-control" id="SB" name="SB">
                     </div>
 
                     <div class="mb-3">
                         <label for="CS" class="form-label">Caught Stealing</label>
-                        <input type="number" class="form-control" id="CS" name="CS" value="{{ data.caught_stealing }}">
+                        <input type="number" class="form-control" id="CS" name="CS">
                     </div>
 
                     <div class="mb-3">
                         <label for="HBP" class="form-label">Hit By Pitch</label>
-                        <input type="number" class="form-control" id="HBP" name="HBP" value="{{ data.hit_by_pitch }}">
+                        <input type="number" class="form-control" id="HBP" name="HBP">
                     </div>
 
                     <div class="mb-3">
                         <label for="SF" class="form-label">Sacrifice Flies</label>
-                        <input type="number" class="form-control" id="SF" name="SF" value="{{ data.sacrifice_flies }}">
+                        <input type="number" class="form-control" id="SF" name="SF">
                     </div>
 
                     <div class="mb-3">
                         <label for="RA" class="form-label">Runs Allowed</label>
-                        <input type="number" class="form-control" id="RA" name="RA" value="{{ data.runs_allowed }}">
+                        <input type="number" class="form-control" id="RA" name="RA">
                     </div>
 
                     <div class="mb-3">
                         <label for="ER" class="form-label">Earned Runs Allowed</label>
-                        <input type="number" class="form-control" id="ER" name="ER"
-                            value="{{ data.earned_runs_allowed }}">
+                        <input type="number" class="form-control" id="ER" name="ER">
                     </div>
 
                     <div class="mb-3">
                         <label for="ERA" class="form-label">Earned Run Average</label>
-                        <input type="number" step="0.1" class="form-control" id="ERA" name="ERA"
-                            value="{{ data.earned_run_average }}">
+                        <input type="number" step="0.1" class="form-control" id="ERA" name="ERA">
                     </div>
 
                     <div class="mb-3">
                         <label for="CG" class="form-label">Complete Games</label>
-                        <input type="number" class="form-control" id="CG" name="CG" value="{{ data.complete_games }}">
+                        <input type="number" class="form-control" id="CG" name="CG">
                     </div>
 
                     <div class="mb-3">
                         <label for="SHO" class="form-label">Shutouts</label>
-                        <input type="number" class="form-control" id="SHO" name="SHO" value="{{ data.shutouts }}">
+                        <input type="number" class="form-control" id="SHO" name="SHO">
                     </div>
 
                     <div class="mb-3">
                         <label for="SV" class="form-label">Saves</label>
-                        <input type="number" class="form-control" id="SV" name="SV" value="{{ data.saves }}">
+                        <input type="number" class="form-control" id="SV" name="SV">
                     </div>
 
                     <div class="mb-3">
                         <label for="IPouts" class="form-label">Outs Pitched</label>
-                        <input type="number" class="form-control" id="IPouts" name="IPouts"
-                            value="{{ data.outs_pitched }}">
+                        <input type="number" class="form-control" id="IPouts" name="IPouts">
                     </div>
 
                     <div class="mb-3">
                         <label for="HA" class="form-label">Hits Allowed</label>
-                        <input type="number" class="form-control" id="HA" name="HA" value="{{ data.hits_allowed }}">
+                        <input type="number" class="form-control" id="HA" name="HA">
                     </div>
 
                     <div class="mb-3">
                         <label for="HRA" class="form-label">Homeruns Allowed</label>
-                        <input type="number" class="form-control" id="HRA" name="HRA"
-                            value="{{ data.homeruns_allowed }}">
+                        <input type="number" class="form-control" id="HRA" name="HRA">
                     </div>
 
                     <div class="mb-3">
                         <label for="BBA" class="form-label">Walks Allowed</label>
-                        <input type="number" class="form-control" id="BBA" name="BBA" value="{{ data.walks_allowed }}">
+                        <input type="number" class="form-control" id="BBA" name="BBA">
                     </div>
 
                     <div class="mb-3">
                         <label for="SOA" class="form-label">Strikeouts Pitchers</label>
-                        <input type="number" class="form-control" id="SOA" name="SOA"
-                            value="{{ data.strikeouts_pitchers }}">
+                        <input type="number" class="form-control" id="SOA" name="SOA">
                     </div>
 
                     <div class="mb-3">
                         <label for="E" class="form-label">Errors</label>
-                        <input type="number" class="form-control" id="E" name="E" value="{{ data.errors }}">
+                        <input type="number" class="form-control" id="E" name="E">
                     </div>
 
                     <div class="mb-3">
                         <label for="DP" class="form-label">Double Plays</label>
-                        <input type="number" class="form-control" id="DP" name="DP" value="{{ data.double_plays }}">
+                        <input type="number" class="form-control" id="DP" name="DP">
                     </div>
 
                     <div class="mb-3">
                         <label for="FP" class="form-label">Fielding Percentage</label>
-                        <input type="number" step="0.1" class="form-control" id="FP" name="FP"
-                            value="{{ data.fielding_percentage }}">
+                        <input type="number" step="0.1" class="form-control" id="FP" name="FP">
                     </div>
 
                     <div class="mb-3">
                         <label for="attendance" class="form-label">Total Home Attendance</label>
-                        <input type="number" class="form-control" id="attendance" name="attendance"
-                            value="{{ data.attendance }}">
+                        <input type="number" class="form-control" id="attendance" name="attendance">
                     </div>
 
                     <div class="mb-3">
                         <label for="BPF" class="form-label">Three-Year Batter Park Factor</label>
-                        <input type="number" class="form-control" id="BPF" name="BPF"
-                            value="{{ data.batter_park_factor }}">
+                        <input type="number" class="form-control" id="BPF" name="BPF">
                     </div>
 
                     <div class="mb-3">
                         <label for="PPF" class="form-label">Three-Year Pitcher Park Factor</label>
-                        <input type="number" class="form-control" id="PPF" name="PPF"
-                            value="{{ data.pitcher_park_factor }}">
+                        <input type="number" class="form-control" id="PPF" name="PPF">
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Add Park</button>
                     </div>
-
                 </form>
             </div>
         </div>
