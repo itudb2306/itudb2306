@@ -7,7 +7,7 @@ from models.tables.teams.table_forms import FilterForm, SortForm
 from models.tables.teams.details_records import DetailsRecord
 from models.tables.teams.details_forms import UpdateForm
 from models.tables.teams.team_names_records import NamesRecords
-from models.tables.teams.team_names_forms import NameUpdateForm, NameFilterForm, NameSortForm
+from models.tables.teams.team_names_forms import NameUpdateForm, NameFilterForm, NameSortForm, NameAddForm
 from utility import exceptionPage, checkTeamsDetailsViewExists, checkTeamsEasyViewExists, checkTeamsNamesViewExists
 from utility import getLeaguesList, getDivisionsList, getTeamNamesList, getParksList
 import urllib.parse
@@ -272,5 +272,51 @@ def names_update_record(ID=None):
             return exceptionPage(e)
 
         print('Record updated: ', ID)
+
+    return redirect(url_for('teams.view_team_names', **other_args))
+
+
+@table_teams_blueprint.route('/teamnames/delete/<string:ID>', methods=['GET', 'POST'])
+def names_delete_record(ID=None):
+    """
+    URL: /tables/teamnames/delete/<string:ID>
+    """
+    other_args = request.args.to_dict()
+
+    # Query building
+    query = Query().DELETE().FROM('teamnames').WHERE("ID = %s").BUILD()
+
+    # Execute query
+    try:
+        db.execute(query, (ID,))
+    except Exception as e:
+        return exceptionPage(e)
+
+    print('Record updated: ', ID)
+
+    return redirect(url_for('teams.view_team_names', **other_args))
+
+
+@table_teams_blueprint.route('/teamnames/add', methods=['GET', 'POST'])
+def names_add_record():
+    """
+    URL: /tables/teamnames/add
+    """
+    other_args = request.args.to_dict()
+
+    form = NameAddForm().from_dict(request.form)
+
+    if request.method == 'POST':
+        # Get form data in parametrized format
+        col_val_pairs = form.to_dict()
+
+        # Query building for table
+        query = Query().INSERT_INTO('teamnames').VALUES(col_val_pairs)
+
+        query_string = query.BUILD()
+        try:
+            db.execute(query_string, form.to_tuple())
+        except Exception as e:
+            return exceptionPage(e)
 
     return redirect(url_for('teams.view_team_names', **other_args))

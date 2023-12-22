@@ -15,8 +15,14 @@
 <h1>Team Names</h1>
 
 <div class="container-fluid mb-3 justify-content-start">
+    <!-- Filter Button -->
     {% include 'table_teams/team_names_utils/filter_modal.html' %}
+    <!-- Sort Button -->
     {% include 'table_teams/team_names_utils/sort_modal.html' %}
+    {% if current_user.is_admin %}
+    <!-- Add Button -->
+    {% include 'table_teams/team_names_utils/add_modal.html' %}
+    {% endif %}
 </div>
 
 <table class="table table-hover">
@@ -24,7 +30,9 @@
         <tr>
             <th scope="col">Team Name</th>
             <th scope="col">Number of Records</th>
+            {% if current_user.is_admin %}
             <th scope="col">Admin Actions</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -32,7 +40,16 @@
         <tr>
             <td>{{ data.name }}</td>
             <td>{{ data.count }}</td>
-            <td>{% include 'table_teams/team_names_utils/update_modal.html' %}</td>
+            {% if current_user.is_admin %}
+            <td>
+
+                <!-- Update Button -->
+                {% include 'table_teams/team_names_utils/update_modal.html' %}
+                <!-- Delete Button -->
+                {% include 'table_teams/team_names_utils/delete_modal.html' %}
+
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

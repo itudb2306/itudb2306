@@ -137,3 +137,26 @@ class NameSortForm:
             and_string = and_string[:-2]
 
         return and_string
+
+
+class NameAddForm:
+    def __init__(self, name: str = None):
+        self.ID = None
+        self.name = name
+
+    # Request args from form
+    def from_dict(self, dict):
+        self.name = dict.get('name', None)
+        return self
+
+    def to_dict(self):
+        return self.__dict__
+
+    def to_tuple(self):
+        empty = [None, '', 'None']
+        tupl = ()
+
+        if self.name not in empty:
+            tupl += (self.name,)
+
+        return tupl
