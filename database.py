@@ -1,6 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
-from utility import logQuery, exceptionPage
+from utility import logQuery
 
 
 class Database:
@@ -15,19 +15,28 @@ class Database:
 
     def fetchone(self, query, params=None):
         if params is not None:
+            logQuery(query % params)
             self.cursor.execute(query, params)
         else:
+            logQuery(query)
             self.cursor.execute(query)
         return self.cursor.fetchone()
 
-    def fetchall(self, query):
-        self.cursor.execute(query)
+    def fetchall(self, query, params=None):
+        if params is not None:
+            logQuery(query % params)
+            self.cursor.execute(query, params)
+        else:
+            logQuery(query)
+            self.cursor.execute(query)
         return self.cursor.fetchall()
 
     def execute(self, query, params=None):
         if params is not None:
+            logQuery(query % params)
             self.cursor.execute(query, params)
         else:
+            logQuery(query)
             self.cursor.execute(query)
         self.db.commit()
 
@@ -38,6 +47,7 @@ class Database:
         from information_schema.tables 
         where table_name = %s;
         """
+        logQuery(exists_query % table_name)
         self.cursor.execute(exists_query, (table_name, ))
         return_value = self.cursor.fetchone()[0]
         return bool(return_value)
