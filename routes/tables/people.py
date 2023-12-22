@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, flash, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
@@ -64,6 +64,7 @@ def view_table():
     # Query building for table
     query = Query().SELECT('*').FROM('people').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record, RECORDS_PER_PAGE).BUILD()
     print(query)
+    flash(query, 'admin') # display query on page
     result = db.fetchall(query)
 
     # Query building for total pages
@@ -71,6 +72,7 @@ def view_table():
     total_pages = db.fetchone(total_pages_query)[0]
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     print(total_pages_query)
+    flash(total_pages_query, 'admin') # display query on page
 
     data = Records()
     data.from_list(result)
@@ -102,6 +104,7 @@ def update_record(player_id = None):
         query = Query().UPDATE('people').SET(col_val_pairs).WHERE('playerID = \'%s\'' % player_id).BUILD()
         # UPDATE people SET nameFirst = 'John', nameLast = 'Doe' ... WHERE playerID = 'johndoe01'
         print(query)
+        flash(query, 'admin') # display query on page
         col_val_tuple = form.to_tuple()
         print(col_val_tuple)
         db.execute(query, col_val_tuple)

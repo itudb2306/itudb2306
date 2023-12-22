@@ -1,0 +1,32 @@
+<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+<script>
+  window.onload = (event)=> {
+    let myAlerts = document.querySelectorAll('.toast');
+    myAlerts.forEach((alert)=> {
+      let bsAlert = new  bootstrap.Toast(alert);
+      bsAlert.show();
+    });
+  }
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == 'info' %}
+        {% include 'components/toast/toast_info.html' %}
+      {% elif category == 'success' %}
+        {% include 'components/toast/toast_success.html' %}
+      {% elif category == 'warning' %}
+        {% include 'components/toast/toast_warning.html' %}
+      {% elif category == 'error' %}
+        {% include 'components/toast/toast_error.html' %}
+      {% endif %}
+
+      {% if category == 'admin' and current_user.is_admin %}
+        {% include 'components/toast/toast_warning.html' %}
+      {% endif %}
+
+    {% endfor %}
+  {% endif %}
+{% endwith %}
