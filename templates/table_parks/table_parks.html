@@ -31,6 +31,7 @@
       <th scope="col">Country</th>
       <th scope="col">State</th>
       <th scope="col">City</th>
+      <th scope="col">Admin Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -43,7 +44,8 @@
       <td>{{ data.state }}</td>
       <td>{{ data.city }}</td>
       <td>
-        {% include 'table_parks/utils/update_modal.html' %}
+        {% include 'table_parks/utils/update_modal.html' %}<br>
+        {% include 'table_parks/utils/delete_modal.html' %}
       </td>
     </tr>
     {% endfor %}

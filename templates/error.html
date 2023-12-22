@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>An Error Ocuured</title>
+</head>
+
+<body>
+    <h1>OPPS!</h1>
+    <p>Sorry, something went wrong while processing your request.</p>
+    <h2>Error Type:</h2>
+    <p>{{ error_type }}</p>
+    <h2>Error Message:</h2>
+    <p>{{ error_message }}</p>
+    <form>
+        <input type="button" value="Return" onclick="history.back()">
+    </form>
+</body>
+
+</html>

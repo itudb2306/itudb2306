@@ -23,6 +23,11 @@
         <li class="navbar_item"><a href="{{ url_for('leagues.view_table') }}">Leagues</a></li>
         <li class="navbar_item"><a href="{{ url_for('teams.view_team_names') }}">Team Names</a></li>
         <li class="navbar_item"><a href="{{ url_for('homegames.view_table') }}">Home Games</a></li>
+        {% if current_user.is_authenticated %}
+        <li class="navbar_item"><a href="{{ url_for('auth.logout') }}">Logout {{current_user.username }}</a></li>
+        {% else %}
+        <li class="navbar_item"><a href="{{ url_for('auth.login') }}">Login</a></li>
+        {% endif %}
 
     </ul>
 

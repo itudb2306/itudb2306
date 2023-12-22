@@ -75,7 +75,7 @@ def signup():
         form.hash_password()
 
         # Query building for table
-        query = "INSERT INTO users (username, email, password, is_admin) VALUES (%s, %s, %s, %s)"
+        query = "INSERT INTO users (username, email, password, is_admin) VALUES (%s, %s, %s, %s);"
         print("Query:", query)
         db.execute(query, params=(form.username.data,
                    form.email.data, form.password.data, 0))

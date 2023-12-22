@@ -4,7 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.parks.records import Records
 from models.tables.parks.forms import UpdateForm, FilterForm, SortForm
-from utility import logQuery
+from utility import logQuery, exceptionPage
 import urllib.parse
 
 """
@@ -74,11 +74,19 @@ def view_table():
     query = Query().SELECT('*').FROM('parks').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
                                                                                                RECORDS_PER_PAGE).BUILD()
     logQuery(query)
-    result = db.fetchall(query)
+    try:
+        result = db.fetchall(query)
+    except Exception as e:
+        return exceptionPage(e)
 
     total_pages_query = Query().SELECT(
         'COUNT(*)').FROM('parks').WHERE(filter_string).BUILD()
-    total_pages = db.fetchone(total_pages_query)[0]
+
+    try:
+        total_pages = db.fetchone(total_pages_query)[0]
+    except Exception as e:
+        return exceptionPage(e)
+
     total_pages = total_pages // RECORDS_PER_PAGE + 1
     logQuery(total_pages_query)
 
@@ -117,7 +125,35 @@ def update_record(ID=None):
         logQuery(query % vals_tuple)
 
         # Execute query
-        db.execute(query, vals_tuple)
+        try:
+            db.execute(query, vals_tuple)
+        except Exception as e:
+            return exceptionPage(e)
+
         print('Record updated: ', ID)
+
+    return redirect(url_for('parks.view_table', **other_args))
+
+
+@table_parks_blueprint.route('/parks/delete/<string:ID>', methods=['GET', 'POST'])
+def delete_record(ID=None):
+    """
+    URL: /tables/parks/delete/<string:ID>
+    """
+    other_args = request.args.to_dict()
+
+    # Query building
+    query = Query().DELETE().FROM('parks').WHERE("ID = %s").BUILD()
+
+    # None values are generating problems for logging
+    logQuery(query % (ID,))
+
+    # Execute query
+    try:
+        db.execute(query, (ID,))
+    except Exception as e:
+        return exceptionPage(e)
+
+    print('Record updated: ', ID)
 
     return redirect(url_for('parks.view_table', **other_args))
