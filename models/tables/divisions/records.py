@@ -1,19 +1,3 @@
-"""
-    create view divisions_leagues as 
-    select 
-        l.lgID as lgID,
-        l.league as league,
-        l.active as lgActive,
-        d.divID as divID,
-        d.division as division, 
-        d.active as divActive,
-        d.ID as ID
-    from divisions d, leagues l
-    where
-        d.lgID=l.lgID;
-"""
-
-
 class Record:
     def __init__(self, ID: int = None, divID: str = None, lgID: str = None, league: str = None,
                  division: str = None, divActive: str = None, lgActive: str = None):
@@ -24,11 +8,6 @@ class Record:
         self.division = division
         self.divActive = divActive
         self.ID = ID
-
-    # record.ID -> record[ID]
-    # No need for this, since we can use record.ID in jinja2 templates
-    # def __getitem__(self, key):
-    #    return getattr(self, key)
 
     def from_list(self, list):
         self.lgID = list[0]

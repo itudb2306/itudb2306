@@ -4,41 +4,10 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.divisions.records import Records
 from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm, AddForm
-from utility import exceptionPage
+from utility import exceptionPage, getLeaguesList, checkDivisionsViewExists
 import urllib.parse
 
 table_divisions_blueprint = Blueprint('divisions', __name__)
-
-
-def checkDivisionsViewExists():
-    # This view joins divisions with leagues.
-    if not db.checkTableExists('divisions_leagues'):
-        divisions_leagues_query = """
-        create view divisions_leagues as 
-        select 
-            l.lgID as lgID,
-            l.league as league,
-            l.active as lgActive,
-            d.divID as divID,
-            d.division as division, 
-            d.active as divActive,
-            d.ID as ID
-        from divisions d, leagues l
-        where
-            d.lgID=l.lgID;
-        """
-        db.execute(divisions_leagues_query, None)
-
-
-def getLeaguesList():
-    # Query for division league selection
-    leagues_list = []
-    leagues_query = Query().SELECT('lgID, league').FROM('leagues').BUILD()
-    leagues_result = db.fetchall(leagues_query)
-    for row in leagues_result:
-        leagues_list.append({'lgID': row[0],
-                             'league': row[1], })
-    return leagues_list
 
 
 @table_divisions_blueprint.route('/divisions', methods=['GET', 'POST'])

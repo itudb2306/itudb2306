@@ -56,22 +56,6 @@ class UpdateForm:
         return tupl
 
 
-"""
-    create view divisions_leagues as 
-    select 
-        l.lgID as lgID,
-        l.league as league,
-        l.active as lgActive,
-        d.divID as divID,
-        d.division as division, 
-        d.active as divActive,
-        d.ID as ID
-    from divisions d, leagues l
-    where
-        d.lgID=l.lgID;
-"""
-
-
 class FilterForm:
     def __init__(self, lgID: str = None, league: str = None, lgActive: str = None, divID: str = None, division: str = None, divActive: str = None):
         self.lgID = lgID

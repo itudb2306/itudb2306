@@ -1,16 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
-
 from config import RECORDS_PER_PAGE
 from models.tables.parks.records import Records
 from models.tables.parks.forms import UpdateForm, FilterForm, SortForm, AddForm
 from utility import exceptionPage
 import urllib.parse
-
-"""
-ATTENTION:
-    This route is not finished yet. It is just an initial template for the team to create the routes for the tables.
-"""
 
 table_parks_blueprint = Blueprint('parks', __name__)
 

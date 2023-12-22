@@ -1,7 +1,6 @@
 from datetime import datetime
 from flask import render_template
-
-# Writes timestamp and called query.
+from database import db, Query
 
 
 def logQuery(query: str):
@@ -19,3 +18,34 @@ def logQuery(query: str):
 
 def exceptionPage(e: Exception):
     return render_template('error.html', error_type=type(e).__name__, error_message=str(e))
+
+
+def getLeaguesList():
+    # Query for division league selection
+    leagues_list = []
+    leagues_query = Query().SELECT('lgID, league').FROM('leagues').BUILD()
+    leagues_result = db.fetchall(leagues_query)
+    for row in leagues_result:
+        leagues_list.append({'lgID': row[0],
+                             'league': row[1], })
+    return leagues_list
+
+
+def checkDivisionsViewExists():
+    # This view joins divisions with leagues.
+    if not db.checkTableExists('divisions_leagues'):
+        divisions_leagues_query = """
+        create view divisions_leagues as 
+        select 
+            l.lgID as lgID,
+            l.league as league,
+            l.active as lgActive,
+            d.divID as divID,
+            d.division as division, 
+            d.active as divActive,
+            d.ID as ID
+        from divisions d, leagues l
+        where
+            d.lgID=l.lgID;
+        """
+        db.execute(divisions_leagues_query, None)
