@@ -225,3 +225,52 @@ class SortForm:
             and_string = and_string[:-2]
 
         return and_string
+
+
+class AddForm:
+    def __init__(self, parkalias: str = None, parkkey: str = None,
+                 parkname: str = None, city: str = None, state: str = None, country: str = None):
+        # ID is not included because it is auto-incremented in the database
+        self.ID = None
+        self.parkalias = parkalias
+        self.parkkey = parkkey
+        self.parkname = parkname
+        self.city = city
+        self.state = state
+        self.country = country
+
+    def from_dict(self, dict):
+        self.parkalias = dict.get('parkalias', None)
+        self.parkkey = dict.get('parkkey', None)
+        self.parkname = dict.get('parkname', None)
+        self.city = dict.get('city', None)
+        self.state = dict.get('state', None)
+        self.country = dict.get('country', None)
+
+        return self
+
+    def to_dict(self):
+        return self.__dict__
+
+    def to_tuple(self):
+        tupl = ()
+
+        if self.parkalias is not None and self.parkalias != '':
+            tupl += (self.parkalias,)
+
+        if self.parkkey is not None and self.parkkey != '':
+            tupl += (self.parkkey,)
+
+        if self.parkname is not None and self.parkname != '':
+            tupl += (self.parkname,)
+
+        if self.city is not None and self.city != '':
+            tupl += (self.city,)
+
+        if self.state is not None and self.state != '':
+            tupl += (self.state,)
+
+        if self.country is not None and self.country != '':
+            tupl += (self.country,)
+
+        return tupl

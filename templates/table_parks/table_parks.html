@@ -20,6 +20,10 @@
   {% include 'table_parks/utils/filter_modal.html' %}
   <!-- Sort Button -->
   {% include 'table_parks/utils/sort_modal.html' %}
+  <!-- Add Button -->
+  {% if current_user.is_admin %}
+  {% include 'table_parks/utils/add_modal.html' %}
+  {% endif %}
 </div>
 
 <table class="table table-hover">
@@ -31,7 +35,9 @@
       <th scope="col">Country</th>
       <th scope="col">State</th>
       <th scope="col">City</th>
+      {% if current_user.is_admin %}
       <th scope="col">Admin Actions</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -43,10 +49,15 @@
       <td>{{ data.country }}</td>
       <td>{{ data.state }}</td>
       <td>{{ data.city }}</td>
+      {% if current_user.is_admin %}
       <td>
-        {% include 'table_parks/utils/update_modal.html' %}<br>
+        <!-- Update Button -->
+        {% include 'table_parks/utils/update_modal.html' %}
+        <br>
+        <!-- Delete Button -->
         {% include 'table_parks/utils/delete_modal.html' %}
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

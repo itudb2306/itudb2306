@@ -1,0 +1,47 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Park</button>
+
+<!-- Update Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('parks.add_record', p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+
+                    <div class="mb-3">
+                        <label for="parkname" class="form-label">Park Name</label>
+                        <input type="text" class="form-control" id="parkname" name="parkname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="parkalias" class="form-label">Park Alias</label>
+                        <input type="text" class="form-control" id="parkalias" name="parkalias">
+                    </div>
+                    <div class="mb-3">
+                        <label for="parkkey" class="form-label">Park Code</label>
+                        <input type="text" class="form-control" id="parkkey" name="parkkey">
+                    </div>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" name="country">
+                    </div>
+                    <div class="mb-3">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" class="form-control" id="state" name="state">
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" name="city">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Park</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
