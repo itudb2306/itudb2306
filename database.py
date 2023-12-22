@@ -1,5 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
+from utility import logQuery, exceptionPage
 
 
 class Database:
@@ -94,7 +95,7 @@ class Query:
         self._INSERT_INTO = self._INSERT_INTO[:-2]
         self._INSERT_INTO += ') '
         return self
-    
+
     def VALUES(self, *args):
         if not args or not isinstance(args, tuple):
             return self
@@ -185,15 +186,15 @@ class Query:
         self._create_statements()
         query = ' '.join(self.statements)
         return query
-    
+
     def DELETE(self):
         self._DELETE = 'DELETE '
         return self
-    
+
     def INSERT_INTO(self, table_name):
         self._INSERT_INTO = 'INSERT INTO %s ' % table_name
         return self
-    
+
     def VALUES(self, col_val_pairs={}):
         if not col_val_pairs or not isinstance(col_val_pairs, dict):
             return self
@@ -212,5 +213,3 @@ class Query:
         self._VALUES = self._VALUES[:-2]
         self._VALUES += ')'
         return self
-
-          

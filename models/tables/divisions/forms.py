@@ -244,3 +244,13 @@ class SortForm:
             and_string = and_string[:-2]
 
         return and_string
+
+
+class AddForm:
+    def __init__(self, divID: str = None, lgID: str = None,
+                 division: str = None, active: str = None):
+        self.ID = None
+        self.divID = divID
+        self.lgID = lgID
+        self.division = division
+        self.active = active

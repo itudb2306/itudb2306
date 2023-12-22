@@ -3,8 +3,8 @@ from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.divisions.records import Records
-from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm
-from utility import logQuery
+from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm, AddForm
+from utility import logQuery, exceptionPage
 import urllib.parse
 
 table_divisions_blueprint = Blueprint('divisions', __name__)
@@ -154,3 +154,47 @@ def update_record(ID=None):
         print('Record updated: ', ID)
 
     return redirect(url_for('divisions.view_table', **other_args))
+
+
+@table_divisions_blueprint.route('/divisions/delete/<string:ID>', methods=['GET', 'POST'])
+def delete_record(ID=None):
+    """
+    URL: /tables/divisions/delete/<string:ID>
+    """
+    other_args = request.args.to_dict()
+
+    # Query building
+    query = Query().DELETE().FROM('parks').WHERE("ID = %s").BUILD()
+
+    # None values are generating problems for logging
+    logQuery(query % (ID,))
+
+    # Execute query
+    db.execute(query, (ID,))
+
+    print('Record updated: ', ID)
+
+    return redirect(url_for('parks.view_table', **other_args))
+
+
+@table_divisions_blueprint.route('/parks/add', methods=['GET', 'POST'])
+def add_record():
+    """
+    URL: /tables/divisions/add
+    """
+    other_args = request.args.to_dict()
+
+    form = AddForm().from_dict(request.form)
+
+    if request.method == 'POST':
+        # Get form data in parametrized format
+        col_val_pairs = form.to_dict()
+
+        # Query building for table
+        query = Query().INSERT_INTO('parks').VALUES(col_val_pairs)
+
+        query_string = query.BUILD()
+
+        db.execute(query_string, form.to_tuple())
+
+    return redirect(url_for('parks.view_table', **other_args))
