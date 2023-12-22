@@ -8,165 +8,11 @@ from models.tables.teams.details_records import DetailsRecord
 from models.tables.teams.details_forms import UpdateForm
 from models.tables.teams.team_names_records import NamesRecords
 from models.tables.teams.team_names_forms import NameUpdateForm, NameFilterForm, NameSortForm
-from utility import logQuery
+from utility import exceptionPage, checkTeamsDetailsViewExists, checkTeamsEasyViewExists, checkTeamsNamesViewExists
+from utility import getLeaguesList, getDivisionsList, getTeamNamesList, getParksList
 import urllib.parse
 
 table_teams_blueprint = Blueprint('teams', __name__)
-
-
-def checkTeamsEasyViewExists():
-    if not db.checkTableExists('teams_easy'):
-        teams_easy_query = """
-        create view teams_easy as
-        select 
-            t.ID as ID,
-            t.teamID as team_code,
-            tn.name as name,
-            t.yearID as year,
-            l.league as league,
-            d.division as division,
-            p.parkname as park,
-            t.teamRank as team_rank,
-            t.G as games,
-            t.Ghome as home_games,
-            t.W as wins,
-            t.L as losses,
-            t.DivWin as division_win,
-            t.WCWin as wild_card_win,
-            t.LgWin as league_win,
-            t.WSWin as world_series_win
-        from teams t
-        left join leagues l on t.lgID = l.lgID
-        left join divisions d on t.div_ID = d.ID
-        left join teamnames tn on t.team_ID = tn.ID
-        left join parks p on t.park_ID = p.ID
-        """
-        db.execute(teams_easy_query, None)
-
-
-def checkTeamsDetailsViewExists():
-    if not db.checkTableExists('teams_details'):
-        teams_deatails_query = """
-        create view teams_details as
-        select 
-            t.ID as ID,
-            t.teamID as team_code,
-            tn.name as name,
-            tn.ID as team_name_ID,
-            t.yearID as year,
-            l.league as league,
-            l.lgID as league_ID,
-            d.division as division,
-            d.ID as division_ID,
-            p.parkname as park,
-            p.ID as park_ID,
-            t.teamRank as team_rank,
-            t.G as games,
-            t.Ghome as home_games,
-            t.W as wins,
-            t.L as losses,
-            t.DivWin as division_win,
-            t.WCWin as wild_card_win,
-            t.LgWin as league_win,
-            t.WSWin as world_series_win,
-            t.R as runs_scored,
-            t.AB as at_bats,
-            t.H as hits,
-            t.2B as doubles,
-            t.3B as triples,
-            t.HR as homeruns,
-            t.BB as walks_batters,
-            t.SO as strikeouts_batters,
-            t.SB as stolen_bases,
-            t.CS as caught_stealing,
-            t.HBP as hit_by_pitch,
-            t.SF as sacrifice_flies,
-            t.RA as runs_allowed,
-            t.ER as earned_runs_allowed,
-            t.ERA as earned_run_average,
-            t.CG as complete_games,
-            t.SHO as shutouts,
-            t.SV as saves,
-            t.IPOuts as outs_pitched,
-            t.HA as hits_allowed,
-            t.HRA as homeruns_allowed,
-            t.BBA as walks_allowed,
-            t.SOA as strikeouts_pitchers,
-            t.E as errors,
-            t.DP as double_plays,
-            t.FP as fielding_percentage,
-            t.attendance as attendance,
-            t.BPF as batter_park_factor,
-            t.PPF as pitcher_park_factor
-        from teams t
-        left join leagues l on t.lgID = l.lgID
-        left join divisions d on t.div_ID = d.ID
-        left join teamnames tn on t.team_ID = tn.ID
-        left join parks p on t.park_ID = p.ID
-        """
-        db.execute(teams_deatails_query, None)
-
-
-def checkTeamsNamesViewExists():
-    if not db.checkTableExists('team_names_count'):
-        teams_names_count_query = """
-        create view team_names_count as
-        select tn1.ID as ID,
-            tn1.name as name,
-            tn2.cnt as cnt
-        from teamnames tn1 join ( select
-                teamnames.ID as ID,
-                count(teamnames.ID) as cnt
-                from teamnames left join teams on
-                teams.team_ID = teamnames.ID
-                group by teamnames.ID
-        ) as tn2 on tn1.ID = tn2.ID;
-        """
-        db.execute(teams_names_count_query, None)
-
-
-def getLeaguesList():
-    # Query for division league selection
-    leagues_list = []
-    leagues_query = Query().SELECT('lgID, league').FROM('leagues').BUILD()
-    leagues_result = db.fetchall(leagues_query)
-    for row in leagues_result:
-        leagues_list.append({'lgID': row[0],
-                             'league': row[1], })
-    return leagues_list
-
-
-def getDivisionsList():
-    # Query for division league selection
-    divisions_list = []
-    divisions_query = Query().SELECT('ID, division').FROM('divisions').BUILD()
-    divisions_result = db.fetchall(divisions_query)
-    for row in divisions_result:
-        divisions_list.append({'ID': row[0],
-                               'division': row[1], })
-    return divisions_list
-
-
-def getTeamNamesList():
-    # Query for division league selection
-    teams_list = []
-    teams_query = Query().SELECT('ID, name').FROM('teamnames').BUILD()
-    teams_result = db.fetchall(teams_query)
-    for row in teams_result:
-        teams_list.append({'ID': row[0],
-                           'name': row[1], })
-    return teams_list
-
-
-def getParksList():
-    # Query for division league selection
-    parks_list = []
-    parks_query = Query().SELECT('ID, parkname').FROM('parks').BUILD()
-    parks_result = db.fetchall(parks_query)
-    for row in parks_result:
-        parks_list.append({'ID': row[0],
-                           'parkname': row[1], })
-    return parks_list
 
 
 @table_teams_blueprint.route('/teams', methods=['GET', 'POST'])
@@ -175,7 +21,10 @@ def view_table():
     URL: /tables/teams?p=
     """
     # Check if the view exists, if not so, create it.
-    checkTeamsEasyViewExists()
+    try:
+        checkTeamsEasyViewExists()
+    except Exception as e:
+        return exceptionPage(e)
 
    # Pagination
     page = request.args.get('p', 1, type=int)
@@ -190,14 +39,14 @@ def view_table():
     filter_dict = dict(filter_dict)
     filter = FilterForm().from_dict(filter_dict)
     filter_dict = filter.to_dict()
-    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+    print(f"Filter request from previous page: {filter.to_dict()}")
 
     # Filter arguments from the new request:
     filter_request_from_form = FilterForm().from_dict(request_form)
     if not filter_request_from_form.is_empty():
         filter = filter_request_from_form
         filter_dict = filter.to_dict()
-        logQuery(f"Filter request from form: {filter.to_dict()}")
+        print(f"Filter request from form: {filter.to_dict()}")
 
     # Construct the filter string
     filter_string = filter.to_and_string()
@@ -208,14 +57,14 @@ def view_table():
     sort_dict = dict(sort_dict)
     sort = SortForm().from_dict(sort_dict)
     sort_dict = sort.to_dict()
-    logQuery(f"Sort request from previous page: {sort.to_dict()}")
+    print(f"Sort request from previous page: {sort.to_dict()}")
 
     # Sorting arguments from the new request:
     sort_request_from_form = SortForm().from_dict(request_form)
     if not sort_request_from_form.is_empty():
         sort = sort_request_from_form
         sort_dict = sort.to_dict()
-        logQuery(f"Sort request from form: {sort.to_dict()}")
+        print(f"Sort request from form: {sort.to_dict()}")
 
     # Construct the sort string
     sort_string = sort.to_and_string()
@@ -223,22 +72,31 @@ def view_table():
     # Divisions and leagues query
     query = Query().SELECT('*').FROM('teams_easy').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
                                                                                                     RECORDS_PER_PAGE).BUILD()
-    result = db.fetchall(query)
+    try:
+        result = db.fetchall(query)
+    except Exception as e:
+        return exceptionPage(e)
 
     # Query building for total pages
     total_pages_query = Query().SELECT(
         'COUNT(*)').FROM('teams_easy').WHERE(filter_string).BUILD()
-    total_pages = db.fetchone(total_pages_query)[0]
-    total_pages = total_pages // RECORDS_PER_PAGE + 1
+    try:
+        total_pages = db.fetchone(total_pages_query)[0]
+    except Exception as e:
+        return exceptionPage(e)
 
-    leagues_list = getLeaguesList()
-    divisions_list = getDivisionsList()
-    teams_list = getTeamNamesList()
-    parks_list = getParksList()
+    total_pages = total_pages // RECORDS_PER_PAGE + 1
+    try:
+        leagues_list = getLeaguesList()
+        divisions_list = getDivisionsList()
+        teams_list = getTeamNamesList()
+        parks_list = getParksList()
+    except Exception as e:
+        return exceptionPage(e)
 
     data = TableRecords()
     data.from_list(result)
-    logQuery(f"Records length: {len(data.records)}")
+    print(f"Records length: {len(data.records)}")
 
     # Encode filter and sort to pass to template as one string
     filter_encoded = urllib.parse.urlencode(filter_dict)
@@ -258,15 +116,21 @@ def view_details(ID):
 
     # Divisions and leagues query
     query = Query().SELECT('*').FROM('teams_details').WHERE('ID = %s' % ID).BUILD()
-    result = db.fetchall(query)
+    try:
+        result = db.fetchall(query)
+    except Exception as e:
+        return exceptionPage(e)
 
     data = DetailsRecord()
     data.from_list(result[0])
 
-    leagues_list = getLeaguesList()
-    divisions_list = getDivisionsList()
-    teams_list = getTeamNamesList()
-    parks_list = getParksList()
+    try:
+        leagues_list = getLeaguesList()
+        divisions_list = getDivisionsList()
+        teams_list = getTeamNamesList()
+        parks_list = getParksList()
+    except Exception as e:
+        return exceptionPage(e)
 
     return render_template('table_teams/teams_details.html', data=data, leagues_list=leagues_list, divisions_list=divisions_list, teams_list=teams_list, parks_list=parks_list)
 
@@ -288,11 +152,13 @@ def update_record(ID=None):
             'ID = %s' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
-        # None values are generating problems for logging
-        logQuery(query % vals_tuple)
 
         # Execute query
-        db.execute(query, vals_tuple)
+        try:
+            db.execute(query, vals_tuple)
+        except Exception as e:
+            return exceptionPage(e)
+
         print('Record updated: ', ID)
 
     return redirect(url_for('teams.view_details', ID=ID))
@@ -319,14 +185,14 @@ def view_team_names():
     filter_dict = dict(filter_dict)
     filter = NameFilterForm().from_dict(filter_dict)
     filter_dict = filter.to_dict()
-    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+    print(f"Filter request from previous page: {filter.to_dict()}")
 
     # Filter arguments from the new request:
     filter_request_from_form = NameFilterForm().from_dict(request_form)
     if not filter_request_from_form.is_empty():
         filter = filter_request_from_form
         filter_dict = filter.to_dict()
-        logQuery(f"Filter request from form: {filter.to_dict()}")
+        print(f"Filter request from form: {filter.to_dict()}")
 
     # Construct the filter string
     filter_string = filter.to_and_string()
@@ -337,14 +203,14 @@ def view_team_names():
     sort_dict = dict(sort_dict)
     sort = NameSortForm().from_dict(sort_dict)
     sort_dict = sort.to_dict()
-    logQuery(f"Sort request from previous page: {sort.to_dict()}")
+    print(f"Sort request from previous page: {sort.to_dict()}")
 
     # Sorting arguments from the new request:
     sort_request_from_form = NameSortForm().from_dict(request_form)
     if not sort_request_from_form.is_empty():
         sort = sort_request_from_form
         sort_dict = sort.to_dict()
-        logQuery(f"Sort request from form: {sort.to_dict()}")
+        print(f"Sort request from form: {sort.to_dict()}")
 
     # Construct the sort string
     sort_string = sort.to_and_string()
@@ -352,17 +218,24 @@ def view_team_names():
     # Divisions and leagues query
     query = Query().SELECT('*').FROM('team_names_count').WHERE(filter_string).ORDER_BY(sort_string).LIMIT(first_record,
                                                                                                           RECORDS_PER_PAGE).BUILD()
-    result = db.fetchall(query)
+    try:
+        result = db.fetchall(query)
+    except Exception as e:
+        return exceptionPage(e)
 
     # Query building for total pages
     total_pages_query = Query().SELECT(
         'COUNT(*)').FROM('team_names_count').WHERE(filter_string).BUILD()
-    total_pages = db.fetchone(total_pages_query)[0]
+    try:
+        total_pages = db.fetchone(total_pages_query)[0]
+    except Exception as e:
+        return exceptionPage(e)
+
     total_pages = total_pages // RECORDS_PER_PAGE + 1
 
     data = NamesRecords()
     data.from_list(result)
-    logQuery(f"Records length: {len(data.records)}")
+    print(f"Records length: {len(data.records)}")
 
     # Encode filter and sort to pass to template as one string
     filter_encoded = urllib.parse.urlencode(filter_dict)
@@ -391,11 +264,13 @@ def names_update_record(ID=None):
             'ID = \'%s\'' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
-        # None values are generating problems for logging
-        logQuery(query % vals_tuple)
 
         # Execute query
-        db.execute(query, vals_tuple)
+        try:
+            db.execute(query, vals_tuple)
+        except Exception as e:
+            return exceptionPage(e)
+
         print('Record updated: ', ID)
 
     return redirect(url_for('teams.view_team_names', **other_args))
