@@ -1,0 +1,57 @@
+<!--Maybe photos here-->
+<script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="Scripts/jquery-2.1.1.min.js"></script>
+
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">BaseL</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="{{ url_for('index.index') }}">Homepage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#databankCollapse" aria-expanded="false" aria-controls="databankCollapse">
+                        Databank
+                    </a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center">
+                {% if current_user.is_authenticated %}
+                <h5 class="text-wrap my-0 mx-1">{{ current_user.username }}</h5>
+                {% if current_user.is_admin %}
+                <span class="badge bg-danger text-wrap" style="font-size: 0.5rem;">Admin</span>
+                {% endif %}
+                <a class="btn btn-outline-primary mx-3" href="{{ url_for('auth.logout') }}">Logout</a>
+                {% else %}
+                <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Login</a>
+                <a class="btn btn-outline-primary mx-2" href="{{ url_for('auth.signup') }}">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="collapse bg-light" id="databankCollapse">
+    <!-- Row of buttons-->
+    <div class="row justify-content-center">
+
+        <a href="{{ url_for('people.view_table') }}" class="col-sm-3">People</a>
+        <a href="{{ url_for('fielding.view_table') }}" class="col-sm-3">Fielding</a>
+        <a href="{{ url_for('divisions.view_table') }}" class="col-sm-3">Divisions</a>
+        <a href="{{ url_for('parks.view_table') }}" class="col-sm-3">Parks</a>
+        <a href="{{ url_for('teams.view_table') }}" class="col-sm-3">Teams</a>
+        <a href="{{ url_for('batting.view_table') }}" class="col-sm-3">Batting</a>
+        <a href="{{ url_for('leagues.view_table') }}" class="col-sm-3">Leagues</a>
+        <a href="{{ url_for('teams.view_team_names') }}" class="col-sm-3">Team Names</a>
+        <a href="{{ url_for('homegames.view_table') }}" class="col-sm-3">Home Games</a>
+        <a href="#" class="col-sm-3">Managers</a>
+        <a href="#" class="col-sm-3">Appearances</a>
+        <a href="#" class="col-sm-3">Hall of Fame</a>
+    </div>
+</div>
