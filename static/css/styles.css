@@ -45,14 +45,14 @@ body {
   background-color: rgba(0, 0, 0, 0) !important;
 }
 
-.btn.btn-outline-primary {
+.container-fluid .btn.btn-outline-secondary {
   background-color: rgba(0, 0, 0, 0) !important;
   border-color: rgba(0, 0, 0, 0) !important;
   border-radius: 0;
   color: white !important;
 }
 
-.btn.btn-outline-primary:hover {
+.container-fluid .btn.btn-outline-secondary:hover {
   background-color: rgba(0, 0, 0, 0.5) !important;
   border-color: rgba(0, 0, 0, 0.5) !important;
   color: white !important;
