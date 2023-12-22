@@ -1,24 +1,3 @@
-"""
-+----------------+--------------+------+-----+---------+-------+
-| Field          | Type         | Null | Key | Default | Extra |
-+----------------+--------------+------+-----+---------+-------+
-| ID             | int          | NO   |     | 0       |       |
-| year           | int          | YES  |     | NULL    |       |
-| league         | varchar(50)  | YES  |     | NULL    |       |
-| team_name      | varchar(50)  | YES  |     | NULL    |       |
-| park_name      | varchar(255) | YES  |     | NULL    |       |
-| games          | int          | YES  |     | NULL    |       |
-| openings       | int          | YES  |     | NULL    |       |
-| attendance     | int          | YES  |     | NULL    |       |
-| spanfirst_date | date         | YES  |     | NULL    |       |
-| spanlast_date  | date         | YES  |     | NULL    |       |
-| team_ID        | int          | YES  |     | 0       |       |
-| lgID           | char(2)      | YES  |     | NULL    |       |
-| park_ID        | int          | YES  |     | 0       |       |
-+----------------+--------------+------+-----+---------+-------+
-"""
-
-
 class Record:
     def __init__(self, ID: int = None, year: int = None, league: str = None, team_name: str = None,
                  park_name: str = None, games: int = None, openings: int = None, attendance: int = None,

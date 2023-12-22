@@ -1,6 +1,6 @@
 import mysql.connector
 from config import (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME)
-from utility import logQuery
+from logger import logQuery
 
 
 class Database:

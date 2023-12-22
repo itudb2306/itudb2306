@@ -3,7 +3,7 @@ from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.homegames.records import Records
-from models.tables.homegames.forms import UpdateForm, FilterForm, SortForm
+from models.tables.homegames.forms import UpdateForm, FilterForm, SortForm, AddForm
 from utility import exceptionPage, checkHomegamesViewExists, getLeaguesList, getParksList, getTeamNamesList
 import urllib.parse
 
@@ -13,7 +13,7 @@ table_homegames_blueprint = Blueprint('homegames', __name__)
 @table_homegames_blueprint.route('/homegames', methods=['GET', 'POST'])
 def view_table():
     """
-    URL: /tables/parks?p=
+    URL: /tables/homegames?p=
     """
     checkHomegamesViewExists()
 
@@ -106,7 +106,7 @@ def view_table():
 @table_homegames_blueprint.route('/homegames/update/<string:ID>', methods=['GET', 'POST'])
 def update_record(ID=None):
     """
-    URL: /tables/parks/update/<string:ID>
+    URL: /tables/homegames/update/<string:ID>
     """
     other_args = request.args.to_dict()
 
@@ -133,3 +133,49 @@ def update_record(ID=None):
         print('Record updated: ', ID)
 
     return redirect(url_for('homegames.view_table', **other_args))
+
+
+@table_homegames_blueprint.route('/homegames/delete/<string:ID>', methods=['GET', 'POST'])
+def delete_record(ID=None):
+    """
+    URL: /tables/homegames/delete/<string:ID>
+    """
+    other_args = request.args.to_dict()
+
+    # Query building
+    query = Query().DELETE().FROM('homegames').WHERE("ID = %s").BUILD()
+
+    # Execute query
+    try:
+        db.execute(query, (ID,))
+    except Exception as e:
+        return exceptionPage(e)
+
+    print('Record updated: ', ID)
+
+    return redirect(url_for('parks.view_table', **other_args))
+
+
+@table_homegames_blueprint.route('/homegames/add', methods=['GET', 'POST'])
+def add_record():
+    """
+    URL: /tables/homegames/add
+    """
+    other_args = request.args.to_dict()
+
+    form = AddForm().from_dict(request.form)
+
+    if request.method == 'POST':
+        # Get form data in parametrized format
+        col_val_pairs = form.to_dict()
+
+        # Query building for table
+        query = Query().INSERT_INTO('homegames').VALUES(col_val_pairs)
+
+        query_string = query.BUILD()
+        try:
+            db.execute(query_string, form.to_tuple())
+        except Exception as e:
+            return exceptionPage(e)
+
+    return redirect(url_for('parks.view_table', **other_args))

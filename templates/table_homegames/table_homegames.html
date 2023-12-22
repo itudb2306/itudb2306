@@ -18,7 +18,12 @@
 <div class="container-fluid mb-3 justify-content-start">
   <!-- Sort Button -->
   {% include 'table_homegames/utils/sort_modal.html' %}
+  <!-- Filter Button -->
   {% include 'table_homegames/utils/filter_modal.html' %}
+  <!-- Add Button -->
+  {% if current_user.is_admin %}
+  {% include 'table_homegames/utils/add_modal.html' %}
+  {% endif %}
 </div>
 
 <table class="table table-hover">
@@ -33,7 +38,9 @@
       <th scope="col">Attendance</th>
       <th scope="col">Span First Date</th>
       <th scope="col">Span Last Date</th>
+      {% if current_user.is_admin %}
       <th scope="col">Admin Actions</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -48,10 +55,14 @@
       <td>{{ data.attendance }}</td>
       <td>{{ data.spanfirst_date }}</td>
       <td>{{ data.spanlast_date }}</td>
+      {% if current_user.is_admin %}
       <td>
         {% include 'table_homegames/utils/update_modal.html' %}
+        <br>
+        {% include 'table_homegames/utils/delete_modal.html' %}
       </td>
     </tr>
+    {% endif %}
     {% endfor %}
   </tbody>
 </table>

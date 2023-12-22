@@ -1,21 +1,3 @@
-"""
-+----------------+---------+------+-----+---------+----------------+
-| Field          | Type    | Null | Key | Default | Extra          |
-+----------------+---------+------+-----+---------+----------------+
-| ID             | int     | NO   | PRI | NULL    | auto_increment |
-| yearkey        | int     | YES  |     | NULL    |                |
-| leaguekey      | char(2) | YES  | MUL | NULL    |                |
-| team_ID        | int     | YES  | MUL | NULL    |                |
-| park_ID        | int     | YES  | MUL | NULL    |                |
-| games          | int     | YES  |     | NULL    |                |
-| openings       | int     | YES  |     | NULL    |                |
-| attendance     | int     | YES  |     | NULL    |                |
-| spanfirst_date | date    | YES  |     | NULL    |                |
-| spanlast_date  | date    | YES  |     | NULL    |                |
-+----------------+---------+------+-----+---------+----------------+
-"""
-
-
 class UpdateForm:
     def __init__(self, ID: int = None, yearkey: int = None, leaguekey: str = None, team_ID: int = None,
                  park_ID: int = None, games: int = None, openings: int = None, attendance: int = None,
@@ -113,24 +95,6 @@ class UpdateForm:
             tupl += (self.spanlast_date,)
 
         return tupl
-
-
-"""
-+----------------+--------------+------+-----+---------+-------+
-| Field          | Type         | Null | Key | Default | Extra |
-+----------------+--------------+------+-----+---------+-------+
-| ID             | int          | NO   |     | 0       |       |
-| year           | int          | YES  |     | NULL    |       |
-| league         | varchar(50)  | YES  |     | NULL    |       |
-| team_name      | varchar(50)  | YES  |     | NULL    |       |
-| park_name      | varchar(255) | YES  |     | NULL    |       |
-| games          | int          | YES  |     | NULL    |       |
-| openings       | int          | YES  |     | NULL    |       |
-| attendance     | int          | YES  |     | NULL    |       |
-| spanfirst_date | date         | YES  |     | NULL    |       |
-| spanlast_date  | date         | YES  |     | NULL    |       |
-+----------------+--------------+------+-----+---------+-------+
-"""
 
 
 class FilterForm:
@@ -427,3 +391,95 @@ class SortForm:
             and_string = and_string[:-2]
 
         return and_string
+
+
+class AddForm:
+    def __init__(self, yearkey: int = None, leaguekey: str = None, team_ID: int = None,
+                 park_ID: int = None, games: int = None, openings: int = None, attendance: int = None,
+                 spanfirst_date: str = None, spanlast_date: str = None):
+        self.ID = None
+        self.yearkey = yearkey
+        self.leaguekey = leaguekey
+        self.team_ID = team_ID
+        self.park_ID = park_ID
+        self.games = games
+        self.openings = openings
+        self.attendance = attendance
+        self.spanfirst_date = spanfirst_date
+        self.spanlast_date = spanlast_date
+
+    # Request args from form
+    def from_dict(self, dict):
+        self.yearkey = dict.get('yearkey', None)
+        if self.yearkey == "":
+            self.yearkey = None
+
+        self.leaguekey = dict.get('leaguekey', None)
+        if self.leaguekey == "":
+            self.leaguekey = None
+
+        self.team_ID = dict.get('team_ID', None)
+        if self.team_ID == "":
+            self.team_ID = None
+
+        self.park_ID = dict.get('park_ID', None)
+        if self.park_ID == "":
+            self.park_ID = None
+
+        self.games = dict.get('games', None)
+        if self.games == "":
+            self.games = None
+
+        self.openings = dict.get('openings', None)
+        if self.openings == "":
+            self.openings = None
+
+        self.attendance = dict.get('attendance', None)
+        if self.attendance == "":
+            self.attendance = None
+
+        self.spanfirst_date = dict.get('spanfirst_date', None)
+        if self.spanfirst_date == "":
+            self.spanfirst_date = None
+
+        self.spanlast_date = dict.get('spanlast_date', None)
+        if self.spanlast_date == "":
+            self.spanlast_date = None
+
+        return self
+
+    def to_dict(self):
+        return self.__dict__
+
+    def to_tuple(self):
+        tupl = ()
+        empty = [None, '', 'None']
+
+        if self.yearkey not in empty:
+            tupl += (self.yearkey,)
+
+        if self.leaguekey not in empty:
+            tupl += (self.leaguekey,)
+
+        if self.team_ID not in empty:
+            tupl += (self.team_ID,)
+
+        if self.park_ID not in empty:
+            tupl += (self.park_ID,)
+
+        if self.games not in empty:
+            tupl += (self.games,)
+
+        if self.openings not in empty:
+            tupl += (self.openings,)
+
+        if self.attendance not in empty:
+            tupl += (self.attendance,)
+
+        if self.spanfirst_date not in empty:
+            tupl += (self.spanfirst_date,)
+
+        if self.spanlast_date not in empty:
+            tupl += (self.spanlast_date,)
+
+        return tupl
