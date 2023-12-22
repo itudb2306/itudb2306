@@ -254,3 +254,44 @@ class AddForm:
         self.lgID = lgID
         self.division = division
         self.active = active
+
+    # Request args from form
+    def from_dict(self, dict):
+        self.divID = dict.get('divID', None)
+        if self.divID == "":
+            self.divID = None
+
+        self.lgID = dict.get('lgID', None)
+        if self.lgID == "":
+            self.lgID = None
+
+        self.division = dict.get('division', None)
+        if self.division == "":
+            self.division = None
+
+        self.active = dict.get('active', None)
+        if self.active == "":
+            self.active = None
+
+        return self
+
+    def to_dict(self):
+        return self.__dict__
+
+    def to_tuple(self):
+        tupl = ()
+        empty = [None, '', 'None']
+
+        if self.divID not in empty:
+            tupl += (self.divID,)
+
+        if self.lgID not in empty:
+            tupl += (self.lgID,)
+
+        if self.division not in empty:
+            tupl += (self.division,)
+
+        if self.active not in empty:
+            tupl += (self.active,)
+
+        return tupl

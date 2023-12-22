@@ -4,7 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.divisions.records import Records
 from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm, AddForm
-from utility import logQuery, exceptionPage
+from utility import exceptionPage
 import urllib.parse
 
 table_divisions_blueprint = Blueprint('divisions', __name__)
@@ -62,14 +62,14 @@ def view_table():
     filter_dict = dict(filter_dict)
     filter = FilterForm().from_dict(filter_dict)
     filter_dict = filter.to_dict()
-    logQuery(f"Filter request from previous page: {filter.to_dict()}")
+    print(f"Filter request from previous page: {filter.to_dict()}")
 
     # Filter arguments from the new request:
     filter_request_from_form = FilterForm().from_dict(request_form)
     if not filter_request_from_form.is_empty():
         filter = filter_request_from_form
         filter_dict = filter.to_dict()
-        logQuery(f"Filter request from form: {filter.to_dict()}")
+        print(f"Filter request from form: {filter.to_dict()}")
 
     # Construct the filter string
     filter_string = filter.to_and_string()
@@ -87,14 +87,14 @@ def view_table():
     sort_dict = dict(sort_dict)
     sort = SortForm().from_dict(sort_dict)
     sort_dict = sort.to_dict()
-    logQuery(f"Sort request from previous page: {sort.to_dict()}")
+    print(f"Sort request from previous page: {sort.to_dict()}")
 
     # Sorting arguments from the new request:
     sort_request_from_form = SortForm().from_dict(request_form)
     if not sort_request_from_form.is_empty():
         sort = sort_request_from_form
         sort_dict = sort.to_dict()
-        logQuery(f"Sort request from form: {sort.to_dict()}")
+        print(f"Sort request from form: {sort.to_dict()}")
 
     # Construct the sort string
     sort_string = sort.to_and_string()
@@ -114,7 +114,7 @@ def view_table():
 
     data = Records()
     data.from_list(result)
-    logQuery(f"Records length: {len(data.records)}")
+    print(f"Records length: {len(data.records)}")
 
     # Encode filter and sort to pass to template as one string
     filter_encoded = urllib.parse.urlencode(filter_dict)
@@ -133,7 +133,7 @@ def update_record(ID=None):
     if request.method == 'POST' and ID is not None:
         # Get form data
         form = UpdateForm().from_dict(request.form)
-        logQuery(form.to_dict())
+        print(form.to_dict())
 
         # Get column-value pairs to use in SET clause
         col_val_pairs = form.to_dict()
@@ -143,13 +143,11 @@ def update_record(ID=None):
             'ID = %s' % ID).BUILD()
 
         vals_tuple = form.to_tuple()
-        # None values are generating problems for logging
-        logQuery(query % vals_tuple)
 
         try:
             db.execute(query, vals_tuple)
-        except:
-            return "<p> There is already a league %s and division %s </p>" % (col_val_pairs['lgID'], col_val_pairs['divID'])
+        except Exception as e:
+            return exceptionPage(e)
 
         print('Record updated: ', ID)
 
@@ -164,20 +162,17 @@ def delete_record(ID=None):
     other_args = request.args.to_dict()
 
     # Query building
-    query = Query().DELETE().FROM('parks').WHERE("ID = %s").BUILD()
-
-    # None values are generating problems for logging
-    logQuery(query % (ID,))
+    query = Query().DELETE().FROM('divisions').WHERE("ID = %s").BUILD()
 
     # Execute query
     db.execute(query, (ID,))
 
     print('Record updated: ', ID)
 
-    return redirect(url_for('parks.view_table', **other_args))
+    return redirect(url_for('divisions.view_table', **other_args))
 
 
-@table_divisions_blueprint.route('/parks/add', methods=['GET', 'POST'])
+@table_divisions_blueprint.route('/divisions/add', methods=['GET', 'POST'])
 def add_record():
     """
     URL: /tables/divisions/add
@@ -191,7 +186,7 @@ def add_record():
         col_val_pairs = form.to_dict()
 
         # Query building for table
-        query = Query().INSERT_INTO('parks').VALUES(col_val_pairs)
+        query = Query().INSERT_INTO('divisions').VALUES(col_val_pairs)
 
         query_string = query.BUILD()
 
