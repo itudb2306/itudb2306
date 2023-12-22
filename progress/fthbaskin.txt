@@ -15,4 +15,6 @@ Teams table stores team name and year in row, so each team has an entry for each
 - Week 11: Updated parks table with filtering and sorting
 - Week 11: Added sorting, filtering, update to divisions table
 - Week 11: Added sorting, filtering to teams table
-- Week 11: 
+
+- Week 12: Completed CRUD on teams, teamnames, homegames, divisions, parks
+- Week 12: Completed teams_details page.
