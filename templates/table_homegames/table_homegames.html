@@ -57,8 +57,9 @@
       <td>{{ data.spanlast_date }}</td>
       {% if current_user.is_admin %}
       <td>
+        <!-- Update Button -->
         {% include 'table_homegames/utils/update_modal.html' %}
-        <br>
+        <!-- Delete Button -->
         {% include 'table_homegames/utils/delete_modal.html' %}
       </td>
     </tr>

@@ -153,7 +153,7 @@ def delete_record(ID=None):
 
     print('Record updated: ', ID)
 
-    return redirect(url_for('parks.view_table', **other_args))
+    return redirect(url_for('homegames.view_table', **other_args))
 
 
 @table_homegames_blueprint.route('/homegames/add', methods=['GET', 'POST'])
@@ -178,4 +178,4 @@ def add_record():
         except Exception as e:
             return exceptionPage(e)
 
-    return redirect(url_for('parks.view_table', **other_args))
+    return redirect(url_for('homegames.view_table', **other_args))
