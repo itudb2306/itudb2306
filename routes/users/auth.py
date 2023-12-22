@@ -16,6 +16,7 @@ def login():
     print("Login:")
     if current_user.is_authenticated:
         print("User already logged in")
+        flash('You are already logged in', 'info')
         return redirect(url_for('index.index'))
 
     form = LoginForm()
@@ -29,7 +30,7 @@ def login():
         if result:
             if not hasher.verify(form.password.data, result[3]):
                 print("Invalid username or password")
-                flash('Invalid username or password')
+                flash('Invalid username or password', 'error')
                 return redirect(url_for('auth.login'))
 
             user = User(result[0], result[1], result[2], result[3], result[4])
@@ -37,14 +38,21 @@ def login():
             login_user(user, remember=remember)
             print(current_user)
 
-            flash('Welcome back, %s!' % result[1])
+            flash('Welcome back, %s!' % result[1], 'success')
             return redirect(url_for('index.index'))
         else:
             print("Invalid username or password")
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
             return redirect(url_for('auth.login'))
 
-    print("Form is not validated")
+    errors_string = ""
+    for field, errors in form.errors.items():
+        for error in errors:
+            errors_string += field + ": " + error + "\n"
+    if errors_string:
+        flash(errors_string, 'error')
+    print("Form is not validated", errors_string)
+
     return render_template('users/auth/login.html', form=form)
 
 
@@ -55,6 +63,7 @@ def logout():
     URL: /users/logout
     """
     logout_user()
+    flash('You have been logged out', 'info')
     return redirect(url_for('index.index'))
 
 
@@ -66,6 +75,7 @@ def signup():
     print("Signup:")
     if current_user.is_authenticated:
         print("User already logged in")
+        flash('You are already logged in', 'info')
         return redirect(url_for('index.index'))
 
     form = SignUpForm()
@@ -79,7 +89,15 @@ def signup():
         print("Query:", query)
         db.execute(query, params=(form.username.data,
                    form.email.data, form.password.data, 0))
-        flash('Account created for %s!' % form.username.data)
+        flash('Account created for %s!' % form.username.data, 'info')
         return redirect(url_for('auth.login'))
-    print("Form is not validated")
+    
+    errors_string = ""
+    for field, errors in form.errors.items():
+        for error in errors:
+             errors_string += field + ": " + error + "\n"
+    if errors_string:
+        flash(errors_string, 'error')
+    print("Form is not validated", errors_string)
+
     return render_template('users/auth/signup.html', form=form)
