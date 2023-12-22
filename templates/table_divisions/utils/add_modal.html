@@ -1,0 +1,50 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Park</button>
+
+<!-- Update Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('divisions.add_record', p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+
+                    <div class="mb-3">
+                        <label for="division" class="form-label">Division Name</label>
+                        <input type="text" class="form-control" id="division" name="division">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="active" class="form-label">Is active?</label>
+                        <select class="form-control" id="active" name="active">
+                            <option value='Y'>Yes</option>
+                            <option value='N'>No</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="divID" class="form-label">Division Code</label>
+                        <input type="text" class="form-control" id="divID" name="divID" maxlength="1">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lgID" class="form-label">League</label>
+                        <select class="form-control" id="lgID" name="lgID">
+                            {% for league in leagues_list %}
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Division</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,6 +21,10 @@
     {% include 'table_divisions/utils/filter_modal.html' %}
     <!-- Sort Button -->
     {% include 'table_divisions/utils/sort_modal.html' %}
+    <!-- Add Button -->
+    {% if current_user.is_admin %}
+    {% include 'table_divisions/utils/add_modal.html' %}
+    {% endif %}
 </div>
 
 <table class="table table-hover">
@@ -32,7 +36,9 @@
             <th scope="col">Division Code</th>
             <th scope="col">Division Name</th>
             <th scope="col">Is division active?</th>
+            {% if current_user.is_admin %}
             <th scope="col">Admin Actions</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -44,9 +50,13 @@
             <td>{{ data.divID }}</td>
             <td>{{ data.division }}</td>
             <td>{{ data.divActive }}</td>
+            {% if current_user.is_admin %}
             <td>
                 {% include 'table_divisions/utils/update_modal.html' %}
+                <br>
+                {% include 'table_divisions/utils/delete_modal.html' %}
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>

@@ -165,7 +165,10 @@ def delete_record(ID=None):
     query = Query().DELETE().FROM('divisions').WHERE("ID = %s").BUILD()
 
     # Execute query
-    db.execute(query, (ID,))
+    try:
+        db.execute(query, (ID,))
+    except Exception as e:
+        return exceptionPage(e)
 
     print('Record updated: ', ID)
 
@@ -190,6 +193,9 @@ def add_record():
 
         query_string = query.BUILD()
 
-        db.execute(query_string, form.to_tuple())
+        try:
+            db.execute(query_string, form.to_tuple())
+        except Exception as e:
+            return exceptionPage(e)
 
-    return redirect(url_for('parks.view_table', **other_args))
+    return redirect(url_for('divisions.view_table', **other_args))

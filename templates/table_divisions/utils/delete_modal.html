@@ -1,0 +1,23 @@
+<button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal"
+    data-bs-target="#deleteModal{{data.ID}}">Delete</button>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal{{data.ID}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form
+                    action="{{ url_for('divisions.delete_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+                    <input type="hidden" name="ID" value="{{data.ID}}">
+                    <p>Are you sure you want to delete this record?</p>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
