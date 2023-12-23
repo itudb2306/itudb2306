@@ -72,7 +72,7 @@ def view_table():
     JOIN
         people p ON f.playerID = p.playerID
     JOIN
-        teams t ON f.team_id = t.id
+        teamnames t ON f.team_id = t.id
     JOIN
         leagues l ON f.lgID = l.lgID;
     """
