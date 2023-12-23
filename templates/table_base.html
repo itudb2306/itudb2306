@@ -21,12 +21,11 @@
 <body>
   {% include 'navbar.html' %}
 
-  <!-- Space between navbar and content-->
-  <div class="container-fluid" style="height: 1vh;"></div>
-
   <div class="table-body-outlier">
     {% block table %}{% endblock %}
   </div>
+
+  {%block index %}{% endblock %}
 
 </body>
 
