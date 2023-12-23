@@ -1,4 +1,3 @@
--- create view teams_easy to show the teams table with all the foreign keys replaced with their names
 -- this is a view that is used in the web app to display the teams table
 create view teams_easy as
 select 
@@ -81,3 +80,52 @@ left join leagues l on t.lgID = l.lgID
 left join divisions d on t.div_ID = d.ID
 left join teamnames tn on t.team_ID = tn.ID
 left join parks p on t.park_ID = p.ID
+
+-- this is used to show homegames table easily with joins
+create view homegames_easy as 
+select 
+	h.ID as ID,
+	h.yearkey as year,
+    l.league as league,
+    tn.name as team_name,
+    p.parkname as park_name,
+    h.games as games,
+    h.openings as openings,
+    h.attendance as attendance,
+    h.spanfirst_date as spanfirst_date,
+    h.spanlast_date as spanlast_date,
+    tn.ID as team_ID,
+    l.lgID as lgID,
+    p.ID as park_ID
+from homegames h
+left join teamnames tn on tn.ID = h.team_ID
+left join parks p on p.ID = h.park_ID
+left join leagues l on h.leaguekey = l.lgID;
+
+-- this is used to show team names easily
+create view team_names_count as
+select tn1.ID as ID,
+    tn1.name as name,
+    tn2.cnt as cnt
+from teamnames tn1 
+left join 
+( select
+        teamnames.ID as ID,
+        count(teamnames.ID) as cnt
+        from teamnames left join teams on
+        teams.team_ID = teamnames.ID
+        group by teamnames.ID
+) as tn2 on tn1.ID = tn2.ID;
+
+-- this is used to show the divisions table easily
+create view divisions_leagues as 
+select 
+    l.lgID as lgID,
+    l.league as league,
+    l.active as lgActive,
+    d.divID as divID,
+    d.division as division, 
+    d.active as divActive,
+    d.ID as ID
+from divisions d 
+left join leagues l on d.lgID=l.lgID;

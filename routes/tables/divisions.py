@@ -4,7 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.divisions.records import Records
 from models.tables.divisions.forms import UpdateForm, FilterForm, SortForm, AddForm
-from utility import exceptionPage, getLeaguesList, checkDivisionsViewExists
+from utility import exceptionPage, getLeaguesList
 import urllib.parse
 
 table_divisions_blueprint = Blueprint('divisions', __name__)
@@ -15,8 +15,6 @@ def view_table():
     """
     URL: /tables/divisions?p=
     """
-    # Check if the view exists, if not so, create it.
-    checkDivisionsViewExists()
 
    # Pagination
     page = request.args.get('p', 1, type=int)

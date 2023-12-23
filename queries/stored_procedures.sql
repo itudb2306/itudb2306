@@ -7,6 +7,7 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE GetDivisionsList()
+BEGIN
 SELECT ID, division FROM divisions;
 END$$
 DELIMITER ;

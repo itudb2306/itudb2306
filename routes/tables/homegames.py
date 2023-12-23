@@ -4,7 +4,7 @@ from database import db, Query
 from config import RECORDS_PER_PAGE
 from models.tables.homegames.records import Records
 from models.tables.homegames.forms import UpdateForm, FilterForm, SortForm, AddForm
-from utility import exceptionPage, checkHomegamesViewExists, getLeaguesList, getParksList, getTeamNamesList
+from utility import exceptionPage, getLeaguesList, getParksList, getTeamNamesList
 import urllib.parse
 
 table_homegames_blueprint = Blueprint('homegames', __name__)
@@ -15,7 +15,6 @@ def view_table():
     """
     URL: /tables/homegames?p=
     """
-    checkHomegamesViewExists()
 
     # Pagination
     page = request.args.get('p', 1, type=int)

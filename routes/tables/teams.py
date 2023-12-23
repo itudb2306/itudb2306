@@ -8,7 +8,7 @@ from models.tables.teams.details_records import DetailsRecord
 from models.tables.teams.details_forms import UpdateForm, AddForm
 from models.tables.teams.team_names_records import NamesRecords
 from models.tables.teams.team_names_forms import NameUpdateForm, NameFilterForm, NameSortForm, NameAddForm
-from utility import exceptionPage, checkTeamsDetailsViewExists, checkTeamsEasyViewExists, checkTeamsNamesViewExists
+from utility import exceptionPage
 from utility import getLeaguesList, getDivisionsList, getTeamNamesList, getParksList
 import urllib.parse
 
@@ -20,11 +20,6 @@ def view_table():
     """
     URL: /tables/teams?p=
     """
-    # Check if the view exists, if not so, create it.
-    try:
-        checkTeamsEasyViewExists()
-    except Exception as e:
-        return exceptionPage(e)
 
    # Pagination
     page = request.args.get('p', 1, type=int)
@@ -111,8 +106,6 @@ def view_details(ID):
     """
     URL: /tables/teams/details/<int:ID>
     """
-    # Check if the view exists, if not so, create it.
-    checkTeamsDetailsViewExists()
 
     # Divisions and leagues query
     query = Query().SELECT('*').FROM('teams_details').WHERE('ID = %s' % ID).BUILD()
@@ -215,8 +208,6 @@ def view_team_names():
     """
     URL: /tables/teamnames?p=
     """
-
-    checkTeamsNamesViewExists()
 
    # Pagination
     page = request.args.get('p', 1, type=int)
