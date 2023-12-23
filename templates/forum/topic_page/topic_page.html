@@ -1,0 +1,59 @@
+{% extends "table_base.html" %}
+{% block header %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<title>Forum: {{ topic_title }}</title>
+{% endblock %}
+
+
+{% block table %}
+<!-- Script is for modals to work. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..."
+    crossorigin="anonymous"></script>
+
+{% include 'components/toast/toast.html' %}
+
+<h1>Forum</h1>
+<h5>{{ topic_title }}</h5>
+<br>
+
+<div class="container-fluid mb-3 justify-content-start">
+    {% include 'forum/topic_page/utils/add_modal.html' %}
+    {% if current_user.user_name == topic_author or current_user.is_admin %}
+        {% include 'forum/forum_page/utils/update_modal.html' %}
+        {% include 'forum/forum_page/utils/delete_modal.html' %}
+    {% endif %}
+</div>
+
+<!--List of cards-->
+<div class="container-fluid">
+    <div class="col">
+        {% for data in data_list %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-1 text-center align-self-center mt-2">
+                        {% include 'svg_icons/avatar.html' %}
+                    </div>
+
+                    <div class="col">
+                        <div class="card-header">
+                            <b> {{ data.author }} </b> {{ data.create_time }}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ data.content }}</p>
+                        </div>
+                        {% if current_user.username == data.author or current_user.is_admin %}
+                            {% include 'forum/topic_page/utils/update_modal.html' %}
+                            {% include 'forum/topic_page/utils/delete_modal.html' %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include 'forum/topic_page/utils/pagination.html' %}
+
+{% endblock %}

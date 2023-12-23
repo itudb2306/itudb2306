@@ -1,0 +1,45 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">Filter</button>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('forum.view_table', p=current_page, sort=sort, filter=filter) }}"
+                    method="POST">
+                    <div class="mb-3">
+                        <label for="filterTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="filterTitle" name="filterTitle"
+                            placeholder="Title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterAuthor" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="filterAuthor" name="filterAuthor"
+                            placeholder="Author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterTimeCreated" class="form-label">Time Created</label>
+                        <input type="date" class="form-control" id="filterTimeCreated"
+                            name="filterTimeCreated" placeholder="Time Created">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterLastPostAuthor" class="form-label">Last Post Author</label>
+                        <input type="text" class="form-control" id="filterLastPostAuthor"
+                            name="filterLastPostAuthor" placeholder="Last Post Author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="filterLastPostTime" class="form-label">Last Post Time</label>
+                        <input type="date" class="form-control" id="filterLastPostTime"
+                            name="filterLastPostTime" placeholder="Last Post Time">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

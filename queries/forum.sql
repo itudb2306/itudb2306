@@ -48,3 +48,17 @@ JOIN posts p1 ON t1.topicID = p1.topicID
 GROUP BY t1.topicID) as t
 JOIN posts p ON t.last_post_time = p.create_time
 JOIN users u ON p.userID = u.userID;
+
+DROP VIEW IF EXISTS post_view;
+
+CREATE VIEW post_view AS
+SELECT
+    p.postID as postID,
+    p.topicID as topicID,
+    p.userID as userID,
+    p.create_time as create_time,
+    p.content as content,
+    u.username as username
+FROM posts p
+JOIN users u ON p.userID = u.userID;
+
