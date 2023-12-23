@@ -1,3 +1,5 @@
+-- Views used by Fatih
+
 -- this is a view that is used in the web app to display the teams table
 create view teams_easy as
 select 
@@ -21,7 +23,7 @@ from teams t
 left join leagues l on t.lgID = l.lgID
 left join divisions d on t.div_ID = d.ID
 left join teamnames tn on t.team_ID = tn.ID
-left join parks p on t.park_ID = p.ID
+left join parks p on t.park_ID = p.ID;
 
 -- This is for holding the details of the teams
 create view teams_details as
@@ -79,7 +81,7 @@ from teams t
 left join leagues l on t.lgID = l.lgID
 left join divisions d on t.div_ID = d.ID
 left join teamnames tn on t.team_ID = tn.ID
-left join parks p on t.park_ID = p.ID
+left join parks p on t.park_ID = p.ID;
 
 -- this is used to show homegames table easily with joins
 create view homegames_easy as 
