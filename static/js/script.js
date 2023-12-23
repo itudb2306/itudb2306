@@ -34,3 +34,8 @@ document.getElementById('playerSearch').addEventListener('input', function () {
         }
     }
 } );
+
+// tooltip for hovering the admin buttons
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
