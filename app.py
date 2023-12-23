@@ -14,6 +14,7 @@ from routes.tables.teams import table_teams_blueprint
 from routes.tables.leagues import table_leagues_blueprint
 from routes.users.auth import auth_blueprint
 from routes.tables.homegames import table_homegames_blueprint
+from routes.discussions.discussions import discussions_blueprint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -40,6 +41,7 @@ app.register_blueprint(table_teams_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(table_leagues_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(auth_blueprint, url_prefix=AUTH_PREFIX)
 app.register_blueprint(table_homegames_blueprint, url_prefix=TABLES_PREFIX)
+app.register_blueprint(discussions_blueprint, url_prefix='/discussions')
 
 """
 @app.route("/")

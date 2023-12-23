@@ -20,6 +20,9 @@
                         Databank
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-secondary" href="{{ url_for('discussions.view_table') }}">Discussions</a>
+                </li>
             </ul>
             <div class="d-flex align-items-center">
                 {% if current_user.is_authenticated %}
