@@ -13,6 +13,24 @@ class Database:
         )
         self.cursor = self.db.cursor()
 
+    def fetchoneProc(self, query, params=None):
+        if params is not None:
+            logQuery(query % params)
+            self.cursor.callproc(query, params)
+        else:
+            logQuery(query)
+            self.cursor.callproc(query)
+        return self.cursor.fetchone()
+
+    def fetchallProc(self, query, params=None):
+        if params is not None:
+            logQuery(query % params)
+            self.cursor.callproc(query, params)
+        else:
+            logQuery(query)
+            self.cursor.callproc(query)
+        return self.cursor.fetchall()
+
     def fetchone(self, query, params=None):
         if params is not None:
             logQuery(query % params)

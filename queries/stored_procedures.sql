@@ -1,0 +1,26 @@
+DELIMITER $$
+CREATE PROCEDURE GetLeaguesList()
+BEGIN
+SELECT lgID, league FROM leagues;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE GetDivisionsList()
+SELECT ID, division FROM divisions;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE GetTeamNamesList()
+BEGIN
+SELECT ID, name FROM teamnames;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE GetParksList()
+BEGIN
+SELECT ID, parkname FROM parks;
+END$$
+DELIMITER ;

@@ -9,8 +9,8 @@ def exceptionPage(e: Exception):
 def getLeaguesList():
     # Query for division league selection
     leagues_list = []
-    leagues_query = Query().SELECT('lgID, league').FROM('leagues').BUILD()
-    leagues_result = db.fetchall(leagues_query)
+    leagues_proc = "GetLeaguesList"
+    leagues_result = db.fetchallProc(leagues_proc)
     for row in leagues_result:
         leagues_list.append({'lgID': row[0],
                              'league': row[1], })
@@ -20,8 +20,8 @@ def getLeaguesList():
 def getDivisionsList():
     # Query for division league selection
     divisions_list = []
-    divisions_query = Query().SELECT('ID, division').FROM('divisions').BUILD()
-    divisions_result = db.fetchall(divisions_query)
+    divisions_proc = "GetDivisionsList"
+    divisions_result = db.fetchallProc(divisions_proc)
     for row in divisions_result:
         divisions_list.append({'ID': row[0],
                                'division': row[1], })
@@ -31,8 +31,8 @@ def getDivisionsList():
 def getTeamNamesList():
     # Query for division league selection
     teams_list = []
-    teams_query = Query().SELECT('ID, name').FROM('teamnames').BUILD()
-    teams_result = db.fetchall(teams_query)
+    teams_proc = "GetTeamNamesList"
+    teams_result = db.fetchallProc(teams_proc)
     for row in teams_result:
         teams_list.append({'ID': row[0],
                            'name': row[1], })
@@ -42,8 +42,8 @@ def getTeamNamesList():
 def getParksList():
     # Query for division league selection
     parks_list = []
-    parks_query = Query().SELECT('ID, parkname').FROM('parks').BUILD()
-    parks_result = db.fetchall(parks_query)
+    parks_proc = "GetParksList"
+    parks_result = db.fetchallProc(parks_proc)
     for row in parks_result:
         parks_list.append({'ID': row[0],
                            'parkname': row[1], })
