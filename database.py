@@ -15,19 +15,25 @@ class Database:
 
     def fetchoneProc(self, query, params=None):
         if params is not None:
-            logQuery(query % params)
+            logged_procedure = f"CALL {
+                query}({', '.join(['%s'] * len(params))})"
+            logQuery(logged_procedure % params)
             self.cursor.callproc(query, params)
         else:
-            logQuery(query)
+            logged_procedure = f"CALL {query}()"
+            logQuery(logged_procedure)
             self.cursor.callproc(query)
         return self.cursor.fetchone()
 
     def fetchallProc(self, query, params=None):
         if params is not None:
-            logQuery(query % params)
+            logged_procedure = f"CALL {
+                query}({', '.join(['%s'] * len(params))})"
+            logQuery(logged_procedure % params)
             self.cursor.callproc(query, params)
         else:
-            logQuery(query)
+            logged_procedure = f"CALL {query}()"
+            logQuery(logged_procedure)
             self.cursor.callproc(query)
         return self.cursor.fetchall()
 
