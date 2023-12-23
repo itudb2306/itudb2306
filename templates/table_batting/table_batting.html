@@ -18,9 +18,12 @@
         <!-- Sort Button -->
         {% include 'table_batting/sort_modal.html' %}
 
+        {% if current_user.is_admin %}
         <!-- Add Button -->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Record</button>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip" title="Add a new record">{% include
+            'svg_icons/plus.html' %}</button>
         {% include 'table_batting/add_modal.html' %}
+        {% endif %}
     </div>
     <table class="table table-hover">
         <thead>
@@ -38,7 +41,9 @@
                 <th scope="col">Hits</th>
                 <th scope="col">Home Runs</th>
                 <th scope="col">Runs Batted In</th>
+                {% if current_user.is_admin %}
                 <th scope="col">Admin Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -57,14 +62,17 @@
                 <td>{{ data['H'] }}</td>
                 <td>{{ data['HR'] }}</td>
                 <td>{{ data['RBI'] }}</td>
+                {% if current_user.is_admin %}
                 <td>
-                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}">Update</button>
-                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['ID']}}">Delete</button>
+                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}" data-toggle="tooltip" title="Update the record">{% include 'svg_icons/pencil.html' %}</button>
+                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['ID']}}" data-toggle="tooltip" title="Delete the record">{% include
+                        'svg_icons/trash.html' %} </button>
                 </td>
-                
+                {% include 'table_batting/update_modal.html' %}
+                {% include 'table_batting/delete_modal.html' %}
+                {% endif %}
             </tr>
-            {% include 'table_batting/update_modal.html' %}
-            {% include 'table_batting/delete_modal.html' %}
+            
             {% endfor %}
         </tbody>
     </table>

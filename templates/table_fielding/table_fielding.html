@@ -3,6 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Fielding Table</title>
+
 {% endblock %}
 
 {% block table %}
@@ -19,8 +20,9 @@
         {% include 'table_fielding/sort_modal.html' %}
 
         <!-- Add Button -->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Record</button>
+        {% if current_user.is_admin %}
         {% include 'table_fielding/add_modal.html' %}
+        {% endif %}
     </div>
     <table class="table table-hover">
         <thead>
@@ -40,7 +42,9 @@
                 <th scope="col">Assists (A)</th>
                 <th scope="col">Errors (E)</th>
                 <th scope="col">Double Plays (DP)</th>
+                {% if current_user.is_admin %}
                 <th scope="col">Admin Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -61,14 +65,19 @@
                 <td>{{ data['A'] }}</td>
                 <td>{{ data['E'] }}</td>
                 <td>{{ data['DP'] }}</td>
+                {% if current_user.is_admin %}
                 <td>
-                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}">Update</button>
-                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['ID']}}">Delete</button>
+                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['ID']}}" data-toggle="tooltip" title="Update the record">{% include 'svg_icons/pencil.html' %}</button>
+                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['ID']}}" data-toggle="tooltip" title="Delete the record">{% include
+                        'svg_icons/trash.html' %} </button>
                 </td>
+                {% include 'table_fielding/update_modal.html' %}
+                {% include 'table_fielding/delete_modal.html' %}
+                
+                {% endif %}
                 
             </tr>
-            {% include 'table_fielding/update_modal.html' %}
-            {% include 'table_fielding/delete_modal.html' %}
+            
             {% endfor %}
         </tbody>
     </table>
