@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import flash
 
 
 def logQuery(query: str):
@@ -12,3 +13,5 @@ def logQuery(query: str):
 
     with open("query_log.txt", "a") as log_file:
         log_file.write("[%s] %s\n" % (date_time, formatted_string))
+
+    flash(formatted_string, 'admin')  # display query on page
