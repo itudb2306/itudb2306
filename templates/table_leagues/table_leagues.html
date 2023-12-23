@@ -13,15 +13,18 @@
 
     <div class="container-fluid mb-3 justify-content-start">
         <!-- Add Button -->
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add a Record</button>
+        {% if current_user.is_admin %}
         {% include 'table_leagues/add_modal.html' %}
+        {% endif %}
     </div>
     <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">League Name</th>
                 <th scope="col">Is League Still Active?</th>
+                {% if current_user.is_admin %}
                 <th scope="col">Admin Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -29,14 +32,18 @@
             <tr>
                 <td><a href= "{{ url_for('leagues.view_details', ID=data['lgID']) }}">{{ data['league'] }}</a></td>
                 <td>{{ data['active'] }}</td>
+                {% if current_user.is_admin %}
                 <td>
-                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['lgID']}}">Update</button>
-                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['lgID']}}">Delete</button>
+                    <button type="button" class="btn btn-primary admin-actions" data-bs-toggle="modal" data-bs-target="#updateModal{{data['lgID']}}" data-toggle="tooltip" title="Update the record">{% include 'svg_icons/pencil.html' %}</button>
+                    <button type="button" class="btn btn-danger admin-actions" data-bs-toggle="modal" data-bs-target="#deleteModal{{data['lgID']}}" data-toggle="tooltip" title="Delete the record">{% include
+                        'svg_icons/trash.html' %} </button>
                 </td>
+                {% include 'table_leagues/update_modal.html' %}
+                    {% include 'table_leagues/delete_modal.html' %}
+                {% endif %}
                 
             </tr>
-            {% include 'table_leagues/update_modal.html' %}
-            {% include 'table_leagues/delete_modal.html' %}
+            
             {% endfor %}
         </tbody>
     </table>
