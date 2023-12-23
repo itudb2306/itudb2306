@@ -20,9 +20,9 @@
 
 <div class="container-fluid mb-3 justify-content-start">
     {% include 'forum/topic_page/utils/add_modal.html' %}
-    {% if current_user.user_name == topic_author or current_user.is_admin %}
-        {% include 'forum/forum_page/utils/update_modal.html' %}
-        {% include 'forum/forum_page/utils/delete_modal.html' %}
+    {% if current_user.username == topic_author or current_user.is_admin %}
+    {% include 'forum/forum_page/utils/update_modal.html' %}
+    {% include 'forum/forum_page/utils/delete_modal.html' %}
     {% endif %}
 </div>
 
@@ -30,26 +30,26 @@
 <div class="container-fluid">
     <div class="col">
         {% for data in data_list %}
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-1 text-center align-self-center mt-2">
-                        {% include 'svg_icons/avatar.html' %}
-                    </div>
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-1 text-center align-self-center mt-2">
+                    {% include 'svg_icons/avatar.html' %}
+                </div>
 
-                    <div class="col">
-                        <div class="card-header">
-                            <b> {{ data.author }} </b> {{ data.create_time }}
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">{{ data.content }}</p>
-                        </div>
-                        {% if current_user.username == data.author or current_user.is_admin %}
-                            {% include 'forum/topic_page/utils/update_modal.html' %}
-                            {% include 'forum/topic_page/utils/delete_modal.html' %}
-                        {% endif %}
+                <div class="col">
+                    <div class="card-header">
+                        <b> {{ data.author }} </b> {{ data.create_time }}
                     </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ data.content }}</p>
+                    </div>
+                    {% if current_user.username == data.author or current_user.is_admin %}
+                    {% include 'forum/topic_page/utils/update_modal.html' %}
+                    {% include 'forum/topic_page/utils/delete_modal.html' %}
+                    {% endif %}
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>
