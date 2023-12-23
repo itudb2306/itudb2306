@@ -1,0 +1,29 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">{% include
+    'svg_icons/plus.html' %}</button>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addModalLabel">Create a new post</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('forum.create_post', p=current_page) }}"
+                    method="POST">
+                    
+                    <input type="hidden" name="topicID" value="{{topicID}}">
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" name="content" id="content" rows="3" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
