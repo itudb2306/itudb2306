@@ -15,7 +15,7 @@
 
                     <div class="mb-3">
                         <label for="teamID" class="form-label">Team Code</label>
-                        <input type="text" class="form-control" id="teamID" name="teamID">
+                        <input type="text" class="form-control" id="teamID" name="teamID" maxlength="3">
                     </div>
 
                     <div class="mb-3">
@@ -58,7 +58,7 @@
                         <select class="form-control" id="park_ID" name="park_ID">
                             <option value="">None</option>
                             {% for park in parks_list %}
-                            <option value="{{ park['ID'] }}">{{ park['park'] }}</option>
+                            <option value="{{ park['ID'] }}">{{ park['parkname'] }}</option>
                             {% endfor %}
                         </select>
                     </div>

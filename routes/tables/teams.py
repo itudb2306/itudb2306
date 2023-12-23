@@ -199,11 +199,11 @@ def add_record():
         col_val_pairs = form.to_dict()
 
         # Query building for table
-        query = Query().INSERT_INTO('teams').VALUES(col_val_pairs)
-
+        query = Query().INSERT_INTO_MANUAL('teams', col_val_pairs)
         query_string = query.BUILD()
+
         try:
-            db.execute(query_string, form.to_tuple())
+            db.execute(query_string, tuple(query._PARAMS))
         except Exception as e:
             return exceptionPage(e)
 

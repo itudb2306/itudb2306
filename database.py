@@ -225,12 +225,21 @@ class Query:
         return self
 
     def INSERT_INTO_MANUAL(self, table_name, col_val_pairs):
+        if not col_val_pairs or not isinstance(col_val_pairs, dict):
+            return self
+
+        if not table_name or not isinstance(table_name, str):
+            return self
+
         column_string = '('
         values_string = ' VALUES ('
 
+        empty = [None, 'None', '', ' ']
         for col, val in col_val_pairs.items():
-            column_string += '%s, ' % col
-            values_string += '%s, '
+            if val not in empty:
+                column_string += '%s, ' % col
+                values_string += '%s, '
+                self._PARAMS.append(val)
 
         column_string = column_string[:-2]
         values_string = values_string[:-2]
