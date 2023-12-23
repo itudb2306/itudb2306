@@ -1,5 +1,6 @@
 <!-- Add Modal -->
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip" title="Add a new record">{% include
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip"
+    title="Add a new record">{% include
     'svg_icons/plus.html' %}</button>
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -19,9 +20,9 @@
             <div class="modal-body">
 
                 <form action="{{ url_for('fielding.add_record') }}" method="POST">
-                    
+
                     <!-- selection of players with a search box -->
-                    
+
                     <div class="mb-3">
 
                         <label for="playerSearch" class="form-label">Player</label>
@@ -32,7 +33,7 @@
 
                             {% for player in players_list %}
 
-                            <option value={{ player['playerID'] }}>{{ player['nameGiven'] }}</option>
+                            <option value="{{ player['playerID'] }}">{{ player['nameGiven'] }}</option>
 
                             {% endfor %}
 
@@ -52,7 +53,7 @@
 
                             {% for team in teams_list %}
 
-                            <option value={{ team['team_id'] }}>{{ team['name'] }}</option>
+                            <option value="{{ team['team_id'] }}">{{ team['name'] }}</option>
 
                             {% endfor %}
 
@@ -88,7 +89,7 @@
 
                             {% for league in leagues_list %}
 
-                            <option value={{ league['lgID'] }}>{{ league['league'] }}</option>
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
 
                             {% endfor %}
 
@@ -141,7 +142,7 @@
                         <label for="A" class="form-label">Assists (A)</label>
 
                         <input type="text" class="form-control" id="A" name="A">
-                    
+
                     </div>
 
                     <div class="mb-3">
@@ -171,4 +172,3 @@
     </div>
 
 </div>
-
