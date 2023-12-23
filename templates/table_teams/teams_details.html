@@ -355,4 +355,75 @@
     </tbody>
 </table>
 
+<h2>Some Statistics About Players</h2>
+
+<h3>Best Pitchers</h3>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col"> First Name </th>
+            <th scope="col"> Last Name </th>
+            <th scope="col"> Also Known as </th>
+            <th scope="col"> Win Ratio </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in best_pitchers %}
+        <tr>
+            <td>{{ player['nameFirst'] }}</td>
+            <td>{{ player['nameLast'] }}</td>
+            <td>{{ player['nameGiven'] }}</td>
+            <td>{{ player['ratio'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Best Batters</h3>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col"> First Name </th>
+            <th scope="col"> Last Name </th>
+            <th scope="col"> Also Known as </th>
+            <th scope="col"> Runs Score Ratio </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in best_batters %}
+        <tr>
+            <td>{{ player['nameFirst'] }}</td>
+            <td>{{ player['nameLast'] }}</td>
+            <td>{{ player['nameGiven'] }}</td>
+            <td>{{ player['ratio'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Best Fielders</h3>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col"> First Name </th>
+            <th scope="col"> Last Name </th>
+            <th scope="col"> Also Known as </th>
+            <th scope="col"> Fielding Ratio </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in best_fielders %}
+        <tr>
+            <td>{{ player['nameFirst'] }}</td>
+            <td>{{ player['nameLast'] }}</td>
+            <td>{{ player['nameGiven'] }}</td>
+            <td>{{ player['ratio'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

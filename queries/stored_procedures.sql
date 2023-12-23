@@ -47,3 +47,61 @@ BEGIN
 SELECT COUNT(*) FROM posts WHERE topicID = tID;
 END$$
 DELIMITER ;
+
+-- Stored Procedure for teams details
+-- Best Batters
+DELIMITER $$
+CREATE PROCEDURE GetBestBatters(IN tID INT, IN yID INT)
+BEGIN
+SELECT 	
+    p.nameFirst as nameFirst,
+    p.nameLast as nameLast,
+    p.nameGiven as nameGiven,
+    b.RBI/b.AB AS ratio
+FROM batting b
+JOIN people p USING(playerID)
+WHERE 
+    team_ID = tID AND
+    yearID = yID
+ORDER BY ratio DESC 
+LIMIT 3;
+END$$
+DELIMITER ;
+
+-- Best Pitchers
+DELIMITER $$
+CREATE PROCEDURE GetBestPitchers(IN tID INT, IN yID INT)
+BEGIN
+SELECT 	
+    p.nameFirst as nameFirst,
+    p.nameLast as nameLast,
+    p.nameGiven as nameGiven,
+    pi.w/pi.g AS ratio
+FROM pitching pi
+JOIN people p USING(playerID)
+WHERE 
+    team_ID = tID AND
+    yearID = yID
+ORDER BY ratio DESC 
+LIMIT 3;
+END$$
+DELIMITER ;
+
+-- Best Fielders
+DELIMITER $$
+CREATE PROCEDURE GetBestFielders(IN tID INT, IN yID INT)
+BEGIN
+SELECT 	
+    p.nameFirst as nameFirst,
+    p.nameLast as nameLast,
+    p.nameGiven as nameGiven,
+    f.PO/f.InnOuts AS ratio
+FROM fielding f
+JOIN people p USING(playerID)
+WHERE 
+    team_ID = tID AND
+    yearID = yID
+ORDER BY ratio DESC 
+LIMIT 3;
+END$$
+DELIMITER ;

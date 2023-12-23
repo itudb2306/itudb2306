@@ -9,7 +9,7 @@ from models.tables.teams.details_forms import UpdateForm, AddForm
 from models.tables.teams.team_names_records import NamesRecords
 from models.tables.teams.team_names_forms import NameUpdateForm, NameFilterForm, NameSortForm, NameAddForm
 from utility import exceptionPage
-from utility import getLeaguesList, getDivisionsList, getTeamNamesList, getParksList
+from utility import getLeaguesList, getDivisionsList, getTeamNamesList, getParksList, getBestFielders, getBestPitchers, getBestBatters
 import urllib.parse
 
 table_teams_blueprint = Blueprint('teams', __name__)
@@ -122,10 +122,14 @@ def view_details(ID):
         divisions_list = getDivisionsList()
         teams_list = getTeamNamesList()
         parks_list = getParksList()
+        best_fielders = getBestFielders(data.team_name_ID, data.year)
+        best_pitchers = getBestPitchers(data.team_name_ID, data.year)
+        best_batters = getBestBatters(data.team_name_ID, data.year)
     except Exception as e:
         return exceptionPage(e)
 
-    return render_template('table_teams/teams_details.html', data=data, leagues_list=leagues_list, divisions_list=divisions_list, teams_list=teams_list, parks_list=parks_list)
+    return render_template('table_teams/teams_details.html', data=data, leagues_list=leagues_list, divisions_list=divisions_list, teams_list=teams_list,
+                           parks_list=parks_list, best_fielders=best_fielders, best_pitchers=best_pitchers, best_batters=best_batters)
 
 
 @table_teams_blueprint.route('/teams/update/<string:ID>', methods=['GET', 'POST'])

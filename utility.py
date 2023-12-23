@@ -48,3 +48,42 @@ def getParksList():
         parks_list.append({'ID': row[0],
                            'parkname': row[1], })
     return parks_list
+
+
+def getBestFielders(teamID, year):
+    # Query for division league selection
+    list = []
+    proc = "GetBestFielders"
+    result = db.fetchallProc(proc, (teamID, year))
+    for row in result:
+        list.append({'nameFirst': row[0],
+                     'nameLast': row[1],
+                     'nameGiven': row[2],
+                     'ratio': row[3]})
+    return list
+
+
+def getBestPitchers(teamID, year):
+    # Query for division league selection
+    list = []
+    proc = "GetBestPitchers"
+    result = db.fetchallProc(proc, (teamID, year))
+    for row in result:
+        list.append({'nameFirst': row[0],
+                     'nameLast': row[1],
+                     'nameGiven': row[2],
+                     'ratio': row[3]})
+    return list
+
+
+def getBestBatters(teamID, year):
+    # Query for division league selection
+    list = []
+    proc = "GetBestBatters"
+    result = db.fetchallProc(proc, (teamID, year))
+    for row in result:
+        list.append({'nameFirst': row[0],
+                     'nameLast': row[1],
+                     'nameGiven': row[2],
+                     'ratio': row[3]})
+    return list
