@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from database import db, Query
-
+from utility import exceptionPage
 from models.tables.fielding.records import Records
 from models.tables.fielding.forms import FilterForm, SortForm
 from config import RECORDS_PER_PAGE
@@ -194,8 +194,8 @@ def delete_record(ID=None):
             db.execute(queryString)
             print('Record deleted successfully')
 
-        except:
-            print('Record delete failed')
+        except Exception as e:
+            return exceptionPage(e)
 
     return redirect(url_for('fielding.view_table'))
 
@@ -238,8 +238,8 @@ def update_record(ID=None):
             db.execute(queryString, tuple(query._PARAMS))
             print('Record updated successfully')
 
-        except:
-            print('Record update failed')
+        except Exception as e:
+            return exceptionPage(e)
 
     return redirect(url_for('fielding.view_table'))
 
@@ -250,35 +250,39 @@ def add_record():
     URL: /tables/fielding/insert
     """
     if request.method == 'POST':
-        # Get form data in parametrized format
-        print("Entered insert_record")
-        print(request.form)
-        col_val_pairs = {
-            # ID is auto-incremented but we need to add it column name to the query
-            'ID': None,
-            'playerID': request.form['playerID'],
-            'yearID': request.form['yearID'],
-            'stint': request.form['stint'],
-            'team_id': request.form['team_id'],
-            'lgID': request.form['lgID'],
-            'POS': request.form['POS'],
-            'G': request.form['G'],
-            'GS': request.form['GS'],
-            'InnOuts': request.form['InnOuts'],
-            'PO': request.form['PO'],
-            'A': request.form['A'],
-            'E': request.form['E'],
-            'DP': request.form['DP']
-        }
+        try:
+                # Get form data in parametrized format
+            print("Entered insert_record")
+            print(request.form)
+            col_val_pairs = {
+                # ID is auto-incremented but we need to add it column name to the query
+                'ID': None,
+                'playerID': request.form['playerID'],
+                'yearID': request.form['yearID'],
+                'stint': request.form['stint'],
+                'team_id': request.form['team_id'],
+                'lgID': request.form['lgID'],
+                'POS': request.form['POS'],
+                'G': request.form['G'],
+                'GS': request.form['GS'],
+                'InnOuts': request.form['InnOuts'],
+                'PO': request.form['PO'],
+                'A': request.form['A'],
+                'E': request.form['E'],
+                'DP': request.form['DP']
+            }
 
-        print(col_val_pairs)
+            print(col_val_pairs)
 
-        # Query building for table
-        query = Query().INSERT_INTO('fielding').VALUES(col_val_pairs)
-        queryString = query.BUILD()
-        print(query._PARAMS)
-        print(queryString)
-        db.execute(queryString, tuple(query._PARAMS))
-        print('Record added successfully')
+            # Query building for table
+            query = Query().INSERT_INTO('fielding').VALUES(col_val_pairs)
+            queryString = query.BUILD()
+            print(query._PARAMS)
+            print(queryString)
+            db.execute(queryString, tuple(query._PARAMS))
+            print('Record added successfully')
+        
+        except Exception as e:
+            return exceptionPage(e)
 
     return redirect(url_for('fielding.view_table'))
