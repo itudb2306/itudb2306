@@ -50,7 +50,7 @@
         <tbody>
             {% for data in data_list %}
             <tr>
-                <td><a href= "{{ url_for('fielding.view_details', ID=data['ID']) }}">{{ data['FirstName'] }} {{ data['LastName'] }}</a></td>
+                <td><a class="link-opacity-75-hover" href= "{{ url_for('fielding.view_details', ID=data['ID']) }}">{{ data['FirstName'] }} {{ data['LastName'] }}</a></td>
                 <td>{{ data['FirstName'] }}</td>
                 <td>{{ data['LastName'] }}</td>
                 <td>{{ data['TeamName'] }}</td>
