@@ -1,0 +1,67 @@
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">Filter</button>
+
+<!-- Filter Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="filterModalLabel">Filter</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('halloffame.view_table', p=current_page, sort=sort, filter=filter) }}" method="POST">
+
+          <div class="mb-3">
+            <label for="filterNameFirst" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="filterNameFirst" name="filterNameFirst">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterNameLast" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="filterNameLast" name="filterNameLast">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterYearID" class="form-label">Year</label>
+            <input type="text" class="form-control" id="filterYearID" name="filterYearID">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterVotedBy" class="form-label">Voted By</label>
+            <input type="text" class="form-control" id="filterVotedBy" name="filterVotedBy">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterBallots" class="form-label">Ballots</label>
+            <input type="text" class="form-control" id="filterBallots" name="filterBallots">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterNeeded" class="form-label">Needed</label>
+            <input type="text" class="form-control" id="filterNeeded" name="filterNeeded">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterVotes" class="form-label">Votes</label>
+            <input type="text" class="form-control" id="filterVotes" name="filterVotes">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterInducted" class="form-label">Inducted</label>
+            <input type="text" class="form-control" id="filterInducted" name="filterInducted">
+          </div>
+
+          <div class="mb-3">
+            <label for="filterCategory" class="form-label">Category</label>
+            <input type="text" class="form-control" id="filterCategory" name="filterCategory">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

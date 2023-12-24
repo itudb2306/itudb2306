@@ -18,3 +18,9 @@ Student Number: 150200047
 - Week 9(8): Create data classes for records and request forms (delayed, completed in Week 9)
 
 - Week 9: Add filtering to the people table
+
+- Week 10: Add sorting to the people table
+
+- Week 11: Add user authentication
+
+- Week 12: Add login, Add forum, Add the tables Hall of Fame, Managers, and Appearances

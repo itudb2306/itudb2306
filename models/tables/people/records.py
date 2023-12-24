@@ -21,15 +21,15 @@ class Record:
 
     def from_list(self, list):
         self.player_id = list[0]
-        self.name_first = list[13]
-        self.name_last = list[14]
-        self.name_given = list[15]
-        self.birth_date = list[25]
-        self.birth_country = list[4]
-        self.weight = list[16]
-        self.height = list[17]
-        self.bats = list[18]
-        self.throws = list[19]
+        self.name_first = list[2]
+        self.name_last = list[3]
+        self.name_given = list[4]
+        self.birth_date = list[9]
+        self.birth_country = list[1]
+        self.weight = list[5]
+        self.height = list[6]
+        self.bats = list[7]
+        self.throws = list[8]
         return self
 
     def from_dict(self, dict):

@@ -1,0 +1,107 @@
+{% extends "table_base.html" %}
+{% block header %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <title>Appearances Table</title>
+{% endblock %}
+
+{% block table %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
+
+    {% include 'components/toast/toast.html' %}
+    
+    <h1>Appearances Table</h1>
+    <p class="lead">This table contains information about the appearances of players in baseball.</p>
+
+    <div class="container-fluid mb-3 justify-content-start">
+        <!-- Filter Button -->
+        {% include 'table_appearances/utils/filter_modal.html' %}
+        
+        <!-- Sort Button -->
+        {% include 'table_appearances/utils/sort_modal.html' %}
+        <!-- Add Button -->
+        {% if current_user.is_admin %}
+            {% include 'table_appearances/utils/add_modal.html' %}
+        {% endif %}
+    </div>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Year</th>
+                <th scope="col">Team Name</th>
+                <th scope="col">League</th>
+                <th scope="col">Games</th>
+                <th scope="col">GS</th>
+                <th scope="col">GS Batting</th>
+                <th scope="col">GS Defense</th>
+                <th scope="col">G_p</th>
+                <th scope="col">G_c</th>
+                <th scope="col">G_1b</th>
+                <th scope="col">G_2b</th>
+                <th scope="col">G_3b</th>
+                <th scope="col">G_ss</th>
+                <th scope="col">G_lf</th>
+                <th scope="col">G_cf</th>
+                <th scope="col">G_rf</th>
+                <th scope="col">G_of</th>
+                <th scope="col">G_dh</th>
+                <th scope="col">G_ph</th>
+                <th scope="col">G_pr</th>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <th scope="col">Admin Actions</th>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.nameFirst }}</td>
+                <td>{{ data.nameLast }}</td>
+                <td>{{ data.yearID }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.league }}</td>
+                <td>{{ data.G_all }}</td>
+                <td>{{ data.GS }}</td>
+                <td>{{ data.GS_batting }}</td>
+                <td>{{ data.GS_defense }}</td>
+                <td>{{ data.G_p }}</td>
+                <td>{{ data.G_c }}</td>
+                <td>{{ data.G_1b }}</td>
+                <td>{{ data.G_2b }}</td>
+                <td>{{ data.G_3b }}</td>
+                <td>{{ data.G_ss }}</td>
+                <td>{{ data.G_lf }}</td>
+                <td>{{ data.G_cf }}</td>
+                <td>{{ data.G_rf }}</td>
+                <td>{{ data.G_of }}</td>
+                <td>{{ data.G_dh }}</td>
+                <td>{{ data.G_ph }}</td>
+                <td>{{ data.G_pr }}</td>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <td>
+                            <!-- Update Button -->
+                            {% include 'table_appearances/utils/update_modal.html' %}
+                            <!-- Delete Button -->
+                            {% include 'table_appearances/utils/delete_modal.html' %}
+                        </td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="container-fluid mb-3 justify-content-center">
+      <!-- Pagination -->
+      {% include 'table_appearances/utils/pagination.html' %}
+    </div>
+
+{% endblock %}

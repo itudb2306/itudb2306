@@ -1,4 +1,8 @@
 <!-- Update Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#updateModal{{data.player_id}}" data-toggle="tooltip" title="Update the record">{% include
+    'svg_icons/pencil.html' %}</button>
+
 <div class="modal fade" id="updateModal{{data['player_id']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -23,7 +27,7 @@
             </div>
             <div class="mb-3">
               <label for="birth_date" class="form-label">Birth Date</label>
-              <input type="text" class="form-control" id="birth_date" name="birth_date" value="{{ data['birth_date'] }}">
+              <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ data['birth_date'] }}">
             </div>
             <div class="mb-3">
               <label for="birth_country" class="form-label">Birth Country</label>

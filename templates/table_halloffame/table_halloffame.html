@@ -1,0 +1,81 @@
+{% extends "table_base.html" %}
+{% block header %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <title>Hall of Fame Table</title>
+{% endblock %}
+
+{% block table %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="..." crossorigin="anonymous"></script>
+
+    {% include 'components/toast/toast.html' %}
+    
+    <h1>Hall of Fame Table</h1>
+    <p class="lead">This table contains all the players in the Hall of Fame.</p>
+
+    <div class="container-fluid mb-3 justify-content-start">
+        <!-- Filter Button -->
+        {% include 'table_halloffame/utils/filter_modal.html' %}
+        
+        <!-- Sort Button -->
+        {% include 'table_halloffame/utils/sort_modal.html' %}
+        <!-- Add Button -->
+        {% if current_user.is_admin %}
+            {% include 'table_halloffame/utils/add_modal.html' %}
+        {% endif %}
+    </div>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Year</th>
+                <th scope="col">Voted By</th>
+                <th scope="col">Ballots</th>
+                <th scope="col">Needed</th>
+                <th scope="col">Votes</th>
+                <th scope="col">Inducted</th>
+                <th scope="col">Category</th>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <th scope="col">Admin Actions</th>
+                    {% endif %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in data_list %}
+            <tr>
+                <td>{{ data.nameFirst }}</td>
+                <td>{{ data.nameLast }}</td>
+                <td>{{ data.yearID }}</td>
+                <td>{{ data.votedBy }}</td>
+                <td>{{ data.ballots }}</td>
+                <td>{{ data.needed }}</td>
+                <td>{{ data.votes }}</td>
+                <td>{{ data.inducted }}</td>
+                <td>{{ data.category }}</td>
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <td>
+                            <!-- Update Button -->
+                            {% include 'table_halloffame/utils/update_modal.html' %}
+                            <!-- Delete Button -->
+                            {% include 'table_halloffame/utils/delete_modal.html' %}
+                        </td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="container-fluid mb-3 justify-content-center">
+      <!-- Pagination -->
+      {% include 'table_halloffame/utils/pagination.html' %}
+    </div>
+
+{% endblock %}

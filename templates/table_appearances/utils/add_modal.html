@@ -1,0 +1,148 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip"
+    title="Add a new record">{% include
+    'svg_icons/plus.html' %}</button>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addeModalLabel">Add Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('appearances.add_record', p=current_page, filter=filter, sort=sort, players_list = players_list) }}"
+                    method="POST">
+                
+
+                    <div class="mb-3">
+                        <label for="playerID" class="form-label">Manager</label>
+                        <select class="form-control" id="playerID" name="playerID">
+                            <option value="">None</option>
+                            {% for player in players_list %}
+                              <option value="{{ player['playerID'] }}">{{ player['nameFirst'] }} {{ player['nameLast'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="yearID" class="form-label">Year</label>
+                        <input type="text" class="form-control" id="yearID" name="yearID">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="team_ID" class="form-label">Team</label>
+                        <select class="form-control" id="team_ID" name="team_ID">
+                            <option value="">None</option>
+                            {% for team in teams_list %}
+                              <option value="{{ team['ID'] }}">{{ team['name']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lgID" class="form-label">League</label>
+                        <select class="form-control" id="lgID" name="lgID">
+                            <option value="">None</option>
+                            {% for league in leagues_list %}
+                              <option value="{{ league['lgID'] }}">{{ league['league']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_all" class="form-label">Games</label>
+                        <input type="text" class="form-control" id="G_all" name="G_all">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="GS" class="form-label">GS</label>
+                        <input type="text" class="form-control" id="GS" name="GS">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="GS_batting" class="form-label">GS Batting</label>
+                        <input type="text" class="form-control" id="GS_batting" name="GS_batting">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="GS_defense" class="form-label">GS Defense</label>
+                        <input type="text" class="form-control" id="GS_defense" name="GS_defense">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_p" class="form-label">G_p</label>
+                        <input type="text" class="form-control" id="G_p" name="G_p">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_c" class="form-label">G_c</label>
+                        <input type="text" class="form-control" id="G_c" name="G_c">
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_1b" class="form-label">G_1b</label>
+                        <input type="text" class="form-control" id="G_1b" name="G_1b">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_2b" class="form-label">G_2b</label>
+                        <input type="text" class="form-control" id="G_2b" name="G_2b">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_3b" class="form-label">G_3b</label>
+                        <input type="text" class="form-control" id="G_3b" name="G_3b">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_ss" class="form-label">G_ss</label>
+                        <input type="text" class="form-control" id="G_ss" name="G_ss">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_lf" class="form-label">G_lf</label>
+                        <input type="text" class="form-control" id="G_lf" name="G_lf">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_cf" class="form-label">G_cf</label>
+                        <input type="text" class="form-control" id="G_cf" name="G_cf">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_rf" class="form-label">G_rf</label>
+                        <input type="text" class="form-control" id="G_rf" name="G_rf">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_of" class="form-label">G_of</label>
+                        <input type="text" class="form-control" id="G_of" name="G_of">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_dh" class="form-label">G_dh</label>
+                        <input type="text" class="form-control" id="G_dh" name="G_dh">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_ph" class="form-label">G_ph</label>
+                        <input type="text" class="form-control" id="G_ph" name="G_ph">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="G_pr" class="form-label">G_pr</label>
+                        <input type="text" class="form-control" id="G_pr" name="G_pr">
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

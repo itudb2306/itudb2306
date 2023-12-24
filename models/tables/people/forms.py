@@ -248,3 +248,68 @@ class SortForm:
             sort_string = sort_string[:-2]
 
         return sort_string
+
+
+class AddForm:
+    def __init__(self, nameFirst : str = None, nameLast : str = None, nameGiven : str = None, birth_date : str = None, birthCountry : str = None, weight : str = None, height : str = None, bats : str = None, throws : str = None):
+        self.playerID = None
+        self.nameFirst = nameFirst
+        self.nameLast = nameLast
+        self.nameGiven = nameGiven
+        self.birth_date = birth_date
+        self.birthCountry = birthCountry
+        self.weight = weight
+        self.height = height
+        self.bats = bats
+        self.throws = throws
+    
+    def from_dict(self, dict):
+        self.nameFirst = dict.get('name_first', None)
+        self.nameLast = dict.get('name_last', None)
+        self.nameGiven = dict.get('name_given', None)
+        self.birth_date = dict.get('birth_date', None)
+        self.birthCountry = dict.get('birth_country', None)
+        self.weight = dict.get('weight', None)
+        self.height = dict.get('height', None)
+        self.bats = dict.get('bats', None)
+        self.throws = dict.get('throws', None)
+
+        return self
+    
+    def to_dict(self):
+        return self.__dict__
+    
+    def to_tuple(self):
+        tuple = ()
+
+        if self.playerID is not None and self.playerID != '':
+            tuple += (self.playerID,)
+
+        if self.nameFirst is not None and self.nameFirst != '':
+            tuple += (self.nameFirst,)
+
+        if self.nameLast is not None and self.nameLast != '':
+            tuple += (self.nameLast,)
+
+        if self.nameGiven is not None and self.nameGiven != '':
+            tuple += (self.nameGiven,)
+
+        if self.birth_date is not None and self.birth_date != '':
+            tuple += (self.birth_date,)
+
+        if self.birthCountry is not None and self.birthCountry != '':
+            tuple += (self.birthCountry,)
+
+        if self.weight is not None and self.weight != '':
+            tuple += (self.weight,)
+
+        if self.height is not None and self.height != '':
+            tuple += (self.height,)
+
+        if self.bats is not None and self.bats != '':
+            tuple += (self.bats,)
+
+        if self.throws is not None and self.throws != '':
+            tuple += (self.throws,)
+
+        return tuple

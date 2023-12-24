@@ -87,3 +87,12 @@ def getBestBatters(teamID, year):
                      'nameGiven': row[2],
                      'ratio': row[3]})
     return list
+
+def getPlayersList(db_result):
+    # playerID, nameFirst, nameLast
+    players_list = []
+    for row in db_result:
+        players_list.append({'playerID': row[0],
+                             'nameFirst': row[1],
+                             'nameLast': row[2], })
+    return players_list

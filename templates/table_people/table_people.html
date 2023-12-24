@@ -13,14 +13,18 @@
     {% include 'components/toast/toast.html' %}
     
     <h1>People Table</h1>
-    <p><a href="{{ url_for('index.index') }}">Homepage</a></p>
+    <p>Table that holds all the people held in the baseball database.</p>
 
     <div class="container-fluid mb-3 justify-content-start">
-      <!-- Filter Button -->
-      {% include 'table_people/utils/filter_modal.html' %}
-      
-      <!-- Sort Button -->
-      {% include 'table_people/utils/sort_modal.html' %}
+        <!-- Filter Button -->
+        {% include 'table_people/utils/filter_modal.html' %}
+        
+        <!-- Sort Button -->
+        {% include 'table_people/utils/sort_modal.html' %}
+        <!-- Add Button -->
+        {% if current_user.is_admin %}
+            {% include 'table_people/utils/add_modal.html' %}
+        {% endif %}
     </div>
     
     <table class="table table-hover">
@@ -57,12 +61,14 @@
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin %}
                         <td>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal{{data['player_id']}}">Update</button>
+                            <!-- Update Button -->
+                            {% include 'table_people/utils/update_modal.html' %}
+                            <!-- Delete Button -->
+                            {% include 'table_people/utils/delete_modal.html' %}
                         </td>
                     {% endif %}
                 {% endif %}
             </tr>
-            {% include 'table_people/utils/update_modal.html' %}
             {% endfor %}
         </tbody>
     </table>
