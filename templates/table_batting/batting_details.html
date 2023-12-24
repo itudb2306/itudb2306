@@ -10,17 +10,14 @@
 {% block table %}
   <div class="container mt-4">
     <h1 class="text-center">Batting Details about {{ data['FirstName'] }} {{ data['LastName'] }} </h1>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="detail">
-          <span class="label">First Name:</span>
-          <span class="value">{{ data['FirstName'] }}</span>
+    <div class="card-box">
+      <div class="card-body-box">
+        <div>
+          <img class="person-image" src="https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/621566/headshot/67/current" class="card-img-top" alt="...">
         </div>
-
         <div class="detail">
-          <span class="label">Last Name:</span>
-          <span class="value">{{ data['LastName'] }}</span>
+          <span class="label">Name:</span>
+          <span class="value">{{ data['FirstName'] }} {{ data['LastName'] }}</span>
         </div>
 
         <div class="detail">
@@ -29,7 +26,7 @@
         </div>
 
         <div class="detail">
-          <span class="label">Year:</span>
+          <span class="label">Season:</span>
           <span class="value">{{ data['yearID'] }}</span>
         </div>
 
