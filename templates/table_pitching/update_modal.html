@@ -1,0 +1,104 @@
+<!-- Update Modal -->
+
+<div class="modal fade" id="updateModal{{data['ID']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('pitching.update_record', ID=data['ID']) }}" method="POST">
+
+                    <input type="hidden" name="ID" value="{{data['ID']}}">
+
+                    <!-- selection of teams with a search box -->
+                    <div class="mb-3">
+                        <label for="teamSearch" class="form-label">Team</label>
+                        <input type="text" class="form-control" id="teamSearch" placeholder="Search for a team...">
+                        <select class="form-control" id="team_id" name="team_id">
+                            {% for team in teams_list %}
+                                {% if team['name']==data['TeamName'] %}
+                                    <option selected="selected" value={{ team['team_id'] }}>{{ team['name'] }}</option>
+                                {% else %}
+                                    <option value={{ team['team_id'] }}>{{ team['name'] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- script's source -->
+                    <script src="/static/js/script.js"></script>
+
+                    <div class="mb-3">
+                        <label for="yearID" class="form-label">Year ID</label>
+                        <input type="text" class="form-control" id="yearID" name="yearID" value="{{ data['yearID'] }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="stint" class="form-label">Stint</label>
+                        <input type="text" class="form-control" id="stint" name="stint" value="{{ data['stint'] }}">
+                    </div>
+                    
+
+                    <div class="mb-3">
+                        <label for="lgID" class="form-label">League</label>
+                        <select class="form-control" id="lgID" name="lgID">
+                            {% for league in leagues_list %}
+                            {% if league['league']==data['LeagueName'] %}
+                            <option selected="selected" value={{ league['lgID'] }}>{{ league['league'] }}
+                            </option>
+                            {% else %}
+                            <option value={{ league['lgID'] }}>{{ league['league'] }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="W" class="form-label">Wins</label>
+                        <input type="text" class="form-control" id="W" name="W" value="{{ data['W'] }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="L" class="form-label">Losses</label>
+                        <input type="text" class="form-control" id="L" name="L" value="{{ data['L'] }}">
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="G" class="form-label">Games</label>
+                        <input type="text" class="form-control" id="G" name="G" value="{{ data['G'] }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="GS" class="form-label">Games Started</label>
+                        <input type="text" class="form-control" id="GS" name="GS" value="{{ data['GS'] }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="CG" class="form-label">Complete Games</label>
+                        <input type="text" class="form-control" id="CG" name="CG" value="{{ data['CG'] }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="SHO" class="form-label">Shutouts</label>
+                        <input type="text" class="form-control" id="SHO" name="SHO" value="{{ data['SHO'] }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="SV" class="form-label">Saves</label>
+                        <input type="text" class="form-control" id="SV" name="SV" value="{{ data['SV'] }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="IPouts" class="form-label">Innings Pitched</label>
+                        <input type="text" class="form-control" id="IPouts" name="IPouts" value="{{ data['IPouts'] }}">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
