@@ -16,6 +16,9 @@ from routes.tables.pitching import table_pitching_blueprint
 from routes.users.auth import auth_blueprint
 from routes.tables.homegames import table_homegames_blueprint
 from routes.forum.forum import forum_blueprint
+from routes.tables.halloffame import table_halloffame_blueprint
+from routes.tables.managers import table_managers_blueprint
+from routes.tables.appearances import table_appearances_blueprint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -44,6 +47,9 @@ app.register_blueprint(table_pitching_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(auth_blueprint, url_prefix=AUTH_PREFIX)
 app.register_blueprint(table_homegames_blueprint, url_prefix=TABLES_PREFIX)
 app.register_blueprint(forum_blueprint, url_prefix='/forum')
+app.register_blueprint(table_halloffame_blueprint, url_prefix=TABLES_PREFIX)
+app.register_blueprint(table_managers_blueprint, url_prefix=TABLES_PREFIX)
+app.register_blueprint(table_appearances_blueprint, url_prefix=TABLES_PREFIX)
 
 """
 @app.route("/")

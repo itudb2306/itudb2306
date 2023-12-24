@@ -1,0 +1,71 @@
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip"
+    title="Add a new record">{% include
+    'svg_icons/plus.html' %}</button>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addeModalLabel">Add Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('halloffame.add_record', p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+                
+
+                    <div class="mb-3">
+                        <label for="playerID" class="form-label">Player</label>
+                        <select class="form-control" id="playerID" name="playerID">
+                            <option value="">None</option>
+                            {% for player in players_list %}
+                              <option value="{{ player['playerID'] }}">{{ player['nameFirst'] }} {{ player['nameLast'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="yearID" class="form-label">Year</label>
+                        <input type="text" class="form-control" id="yearID" name="yearID">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="votedBy" class="form-label">Voted By</label>
+                        <input type="text" class="form-control" id="votedBy" name="votedBy">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ballots" class="form-label">Ballots</label>
+                        <input type="text" class="form-control" id="ballots" name="ballots">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="needed" class="form-label">Needed</label>
+                        <input type="text" class="form-control" id="needed" name="needed">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="votes" class="form-label">Votes</label>
+                        <input type="text" class="form-control" id="votes" name="votes">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inducted" class="form-label">Inducted</label>
+                        <input type="text" class="form-control" id="inducted" name="inducted">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="category" name="category">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

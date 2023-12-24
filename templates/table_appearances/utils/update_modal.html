@@ -1,0 +1,130 @@
+<!-- Update Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#updateModal{{data.ID}}" data-toggle="tooltip" title="Update the record">{% include
+    'svg_icons/pencil.html' %}</button>
+
+<div class="modal fade" id="updateModal{{data['ID']}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateModalLabel">Update Record</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('appearances.update_record', ID=data['ID'], p=current_page, sort=sort, filter=filter) }}" method="POST">
+            <input type="hidden" name="ID" value="{{data['ID']}}">
+            <div class="mb-3">
+              <label for="name_first" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="nameFirst" name="nameFirst" value="{{ data['nameFirst'] }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="name_last" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="nameLast" name="nameLast" value="{{ data['nameLast'] }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="yearID" class="form-label">Year</label>
+              <input type="text" class="form-control" id="yearID" name="yearID" value="{{ data['yearID'] }}">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Team Name</label>
+              <input type="text" class="form-control" id="name" name="name" value="{{ data['name'] }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="league" class="form-label">League</label>
+              <input type="text" class="form-control" id="league" name="league" value="{{ data['league'] }}" disabled>
+            </div>
+            <div class="mb-3">
+              <label for="G_all" class="form-label">Games</label>
+              <input type="text" class="form-control" id="G_all" name="G_all" value="{{ data['G_all'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="GS" class="form-label">GS</label>
+              <input type="text" class="form-control" id="GS" name="GS" value="{{ data['GS'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_batting" class="form-label">G_batting</label>
+              <input type="text" class="form-control" id="G_batting" name="G_batting" value="{{ data['G_batting'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_defense" class="form-label">G_defense</label>
+              <input type="text" class="form-control" id="G_defense" name="G_defense" value="{{ data['G_defense'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_p" class="form-label">G_p</label>
+              <input type="text" class="form-control" id="G_p" name="G_p" value="{{ data['G_p'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_c" class="form-label">G_c</label>
+              <input type="text" class="form-control" id="G_c" name="G_c" value="{{ data['G_c'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_1b" class="form-label">G_1b</label>
+              <input type="text" class="form-control" id="G_1b" name="G_1b" value="{{ data['G_1b'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_2b" class="form-label">G_2b</label>
+              <input type="text" class="form-control" id="G_2b" name="G_2b" value="{{ data['G_2b'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_3b" class="form-label">G_3b</label>
+              <input type="text" class="form-control" id="G_3b" name="G_3b" value="{{ data['G_3b'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_ss" class="form-label">G_ss</label>
+              <input type="text" class="form-control" id="G_ss" name="G_ss" value="{{ data['G_ss'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_lf" class="form-label">G_lf</label>
+              <input type="text" class="form-control" id="G_lf" name="G_lf" value="{{ data['G_lf'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_cf" class="form-label">G_cf</label>
+              <input type="text" class="form-control" id="G_cf" name="G_cf" value="{{ data['G_cf'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_rf" class="form-label">G_rf</label>
+              <input type="text" class="form-control" id="G_rf" name="G_rf" value="{{ data['G_rf'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_of" class="form-label">G_of</label>
+              <input type="text" class="form-control" id="G_of" name="G_of" value="{{ data['G_of'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_dh" class="form-label">G_dh</label>
+              <input type="text" class="form-control" id="G_dh" name="G_dh" value="{{ data['G_dh'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_ph" class="form-label">G_ph</label>
+              <input type="text" class="form-control" id="G_ph" name="G_ph" value="{{ data['G_ph'] }}">
+            </div>
+
+            <div class="mb-3">
+              <label for="G_pr" class="form-label">G_pr</label>
+              <input type="text" class="form-control" id="G_pr" name="G_pr" value="{{ data['G_pr'] }}">
+
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>

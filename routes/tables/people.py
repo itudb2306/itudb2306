@@ -1,10 +1,14 @@
+import random
+import string
 from flask import Blueprint, flash, render_template, request, redirect, url_for
 from database import db, Query
 
 from config import RECORDS_PER_PAGE
 from models.tables.people.records import Records
-from models.tables.people.forms import UpdateForm, FilterForm, SortForm
+from models.tables.people.forms import UpdateForm, FilterForm, SortForm, AddForm
 import urllib.parse
+
+from utility import exceptionPage
 
 """
 ATTENTION:
@@ -110,5 +114,61 @@ def update_record(player_id = None):
         db.execute(query, col_val_tuple)
 
         print('Record updated: ', player_id)
+
+    return redirect(url_for('people.view_table', **other_args))
+
+
+@table_people_blueprint.route('/people/delete/<string:playerID>', methods=['GET', 'POST'])
+def delete_record(playerID=None):
+    """
+    URL: /tables/people/delete/<string:playerID>
+    """
+    other_args = request.args.to_dict()
+
+    # Query building
+    query = Query().DELETE().FROM('people').WHERE("playerID = %s").BUILD()
+
+    # Execute query
+    try:
+        db.execute(query, (playerID,))
+    except Exception as e:
+        return exceptionPage(e)
+
+    print('Record updated: ', playerID)
+
+    return redirect(url_for('people.view_table', **other_args))
+
+
+@table_people_blueprint.route('/people/add', methods=['GET', 'POST'])
+def add_record():
+    """
+    URL: /tables/people/add
+    """
+    other_args = request.args.to_dict()
+    request_form = request.form.to_dict()
+
+    # Create a varchar(9) primary key random number
+    playerID = ''.join(random.choices(string.ascii_lowercase + string.digits, k=9))
+    print("playerID generated: ", playerID)
+    
+    form = AddForm().from_dict(request.form)
+
+    if request.method == 'POST':
+        # Get form data in parametrized format
+        col_val_pairs = form.to_dict()
+        col_val_pairs['playerID'] = playerID
+        col_val_tuple = form.to_tuple()
+        print(col_val_pairs)
+        print(col_val_tuple)
+
+        # Query building for table
+        query = Query().INSERT_INTO('people (playerID, nameFirst, nameLast, nameGiven, birth_date, birthCountry, weight, height, bats, throws)').VALUES(col_val_pairs)
+
+        query_string = query.BUILD()
+
+        try:
+            db.execute(query_string, col_val_tuple)
+        except Exception as e:
+            return exceptionPage(e)
 
     return redirect(url_for('people.view_table', **other_args))

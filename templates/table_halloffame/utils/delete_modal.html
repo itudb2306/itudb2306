@@ -1,0 +1,33 @@
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{data.ID}}"
+    data-toggle="tooltip" title="Delete the record">{% include
+    'svg_icons/trash.html' %}</button>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal{{data.ID}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form
+                    action="{{ url_for('halloffame.delete_record', ID=data.ID, p=current_page, filter=filter, sort=sort) }}"
+                    method="POST">
+
+                    <input type="hidden" name="ID" value="{{data.ID}}">
+                    <p>Are you sure you want to delete this record?</p>
+
+                    <div class="modalfooter">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
