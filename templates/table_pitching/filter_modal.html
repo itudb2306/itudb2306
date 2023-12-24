@@ -1,0 +1,98 @@
+<button type = "button" class = "btn btn-secondary" data-bs-toggle = "modal" data-bs-target = "#filterModal">Filter</button>
+
+<!-- Filter Modal -->
+<div class = "modal fade" id = "filterModal" tabindex = "-1" aria-labelledby = "filterModalLabel" aria-hidden = "true">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h1 class = "modal-title fs-5" id = "filterModalLabel">Filter</h1>
+                <button type = "button" class = "btn-close" data-bs-dismiss = "modal" aria-label = "Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form action="{{ url_for('pitching.view_table', p=current_page, sort=sort, filter=filter) }}" method="POST">
+                    <div class="mb-3">
+                        <label for="filterFirstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="filterFirstName" name="filterFirstName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="filterLastName" name="filterLastName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterTeamName" class="form-label">Team Name</label>
+                        <input type="text" class="form-control" id="filterTeamName" name="filterTeamName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterYearID" class="form-label">Year ID</label>
+                        <input type="text" class="form-control" id="filterYearID" name="filterYearID">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterStint" class="form-label">Stint</label>
+                        <input type="text" class="form-control" id="filterStint" name="filterStint">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterLeagueName" class="form-label">League Name</label>
+                        <input type="text" class="form-control" id="filterLeagueName" name="filterLeagueName">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterW" class="form-label">Wins</label>
+                        <input type="text" class="form-control" id="filterW" name="filterW">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="filterL" class="form-label">Losses</label>
+                        <input type="text" class="form-control" id="filterL" name="filterL">
+                    </div>
+                
+                    <div class="mb-3">
+                        <label for="filterG" class="form-label">Games</label>
+                        <input type="text" class="form-control" id="filterG" name="filterG">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterGS" class="form-label">Games Started</label>
+                        <input type="text" class="form-control" id="filterGS" name="filterGS">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterCG" class="form-label">Complete Games</label>
+                        <input type="text" class="form-control" id="filterCG" name="filterCG">
+                    </div>
+
+                    <!--SHO, SV, IPouts -->
+                    <!-- SHO -->
+
+                    <div class="mb-3">
+                        <label for="filterSHO" class="form-label">Shutouts</label>
+                        <input type="text" class="form-control" id="filterSHO" name="filterSHO">
+                    </div>  
+
+                    <div class="mb-3">
+                        <label for="filterSV" class="form-label">Saves</label>
+                        <input type="text" class="form-control" id="filterSV" name="filterSV">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filterIPouts" class="form-label">Innings Pitched</label>
+                        <input type="text" class="form-control" id="filterIPouts" name="filterIPouts">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type = "submit" class = "btn btn-primary">Filter</button>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+            

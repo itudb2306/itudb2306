@@ -1,0 +1,174 @@
+<!-- Add Modal -->
+<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal" data-toggle="tooltip"
+    title="Add a new record">{% include
+    'svg_icons/plus.html' %}</button>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h1 class="modal-title fs-5" id="addModalLabel">Add a New Record</h1>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <form action="{{ url_for('pitching.add_record') }}" method="POST">
+
+                    <!-- selection of players with a search box -->
+
+                    <div class="mb-3">
+
+                        <label for="playerSearch" class="form-label">Player</label>
+
+                        <input type="text" class="form-control" id="playerSearch" placeholder="Search for a player...">
+
+                        <select class="form-control" id="playerID" name="playerID">
+
+                            {% for player in players_list %}
+
+                            <option value="{{ player['playerID'] }}">{{ player['nameGiven'] }}</option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- selection of teams with a search box -->
+
+                    <div class="mb-3">
+
+                        <label for="teamSearch" class="form-label">Team</label>
+
+                        <input type="text" class="form-control" id="teamSearch" placeholder="Search for a team...">
+
+                        <select class="form-control" id="team_id" name="team_id">
+
+                            {% for team in teams_list %}
+
+                            <option value="{{ team['team_id'] }}">{{ team['name'] }}</option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- script's source -->
+
+                    <script src="/static/js/script.js"></script>
+
+                    <div class="mb-3">
+
+                        <label for="yearID" class="form-label">Year ID</label>
+
+                        <input type="text" class="form-control" id="yearID" name="yearID">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="stint" class="form-label">Stint</label>
+
+                        <input type="text" class="form-control" id="stint" name="stint">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="lgID" class="form-label">League</label>
+
+                        <select class="form-control" id="lgID" name="lgID">
+
+                            {% for league in leagues_list %}
+
+                            <option value="{{ league['lgID'] }}">{{ league['league'] }}</option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="W" class="form-label">Wins</label>
+
+                        <input type="text" class="form-control" id="W" name="W">
+                    
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="L" class="form-label">Losses</label>
+
+                        <input type="text" class="form-control" id="L" name="L">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="G" class="form-label">Games</label>
+
+                        <input type="text" class="form-control" id="G" name="G">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="GS" class="form-label">Games Started</label>
+
+                        <input type="text" class="form-control" id="GS" name="GS">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="CG" class="form-label">Complete Games</label>
+
+                        <input type="text" class="form-control" id="CG" name="CG">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="SHO" class="form-label">Shutouts</label>
+
+                        <input type="text" class="form-control" id="SHO" name="SHO">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="SV" class="form-label">Saves</label>
+
+                        <input type="text" class="form-control" id="SV" name="SV">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label for="IPouts" class="form-label">Innings Pitched</label>
+
+                        <input type="text" class="form-control" id="IPouts" name="IPouts">
+
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
